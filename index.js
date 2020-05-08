@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
-const { prefix, token } = require('./config.json');
+const { prefix } = require('./config.json');
+const token = process.env.TOKEN
 const client = new Discord.Client();
 const { c, MessageEmbed } = require("discord.js")
 client.once('ready', () => {
