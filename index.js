@@ -43,17 +43,16 @@ client.on('message', message => {
             }
         }
         if(command === 'kick') {
-            if (!args.length) {
+            if (!args) {
                 const helpEmbed1 = new MessageEmbed
                 helpEmbed1
-                    .setColor(`#ff0000`)
-                    .setTimestamp(message.createdTimestamp)
-                    .setTitle("INVALID USAGE")
-                    .setDescription(
-                        `\:warning: ***Invalid usage of __kick__ command***`
-                    )
-                    message.channel.send(helpEmbed1);
-                    message.channel.send(`${message.author}, noob!`)  
+                .setColor(`#ff0000`)
+                .setTimestamp(message.createdTimestamp)
+                .setTitle("INVALID USAGE")
+                .setDescription(
+                    `\:warning: ***Invalid usage of __kick__ command***`
+                )
+                message.channel.send(helpEmbed1);
             }
             let member1 = message.guild.members.first()
             member1.kick().then((member1) => {
