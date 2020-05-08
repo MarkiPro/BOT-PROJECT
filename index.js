@@ -43,22 +43,11 @@ client.on('message', message => {
             }
         }
         if(command === 'kick') {
-            if (!args) {
-                const helpEmbed1 = new MessageEmbed
-                helpEmbed1
-                .setColor(`#ff0000`)
-                .setTimestamp(message.createdTimestamp)
-                .setTitle("INVALID USAGE")
-                .setDescription(
-                    `\:warning: ***Invalid usage of __kick__ command***`
-                )
-                message.channel.send(helpEmbed1);
-            }
-            let member1 = message.guild.members.first()
-            member1.kick().then((member1) => {
-            
-            const helpEmbed2 = new MessageEmbed
-            helpEmbed2
+            if (args.length) {
+                let member1 = message.guild.members.first()
+                member1.kick().then((member1) => {
+                const helpEmbed2 = new MessageEmbed
+                helpEmbed2
                 .setColor(`#07ff00`)
                 .setTimestamp(message.createdTimestamp)
                 .setTitle("SUCCESS")
@@ -66,7 +55,17 @@ client.on('message', message => {
                     `\:white_check_mark: ***${member1.user} has been kicked!***`
                 )
                 message.channel.send(helpEmbed2);
-            })  
+            })
+            const helpEmbed1 = new MessageEmbed
+            helpEmbed1
+            .setColor(`#ff0000`)
+            .setTimestamp(message.createdTimestamp)
+            .setTitle("INVALID USAGE")
+            .setDescription(
+                `\:warning: ***Invalid usage of __kick__ command***`
+            )
+            message.channel.send(helpEmbed1);
+            }
         }
         if(command === 'ban') {
             if (!args.length, !args) {
