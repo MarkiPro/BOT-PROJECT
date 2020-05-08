@@ -37,7 +37,7 @@ client.on('message', message => {
             helpEmbed1
                 .setColor(`#ff0000`)
                 .setTimestamp(message.createdTimestamp)
-                .setTitle("ERROR")
+                .setTitle("INVALID USAGE")
                 .setDescription(
                     `\:warning: ***Invalid usage of __kick__ command***`
                 )
