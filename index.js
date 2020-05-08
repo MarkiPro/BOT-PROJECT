@@ -31,7 +31,18 @@ client.on('message', message => {
     if(message.member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "ADMINISTRATOR"])) {
         if(command === 'kick') {
             if (!args.length) {
-
+                let member1 = args(user)
+                let member2 = message.mentions.members.first()
+                let member3 = args(user.tag)
+                const helpEmbed2 = new MessageEmbed
+                helpEmbed2
+                    .setColor(`#07ff00`)
+                    .setTimestamp(message.createdTimestamp)
+                    .setTitle("SUCCESS")
+                    .setDescription(
+                        `\:white_check_mark: ***${member.user} has been banned!***`
+                    )
+                    message.channel.send(helpEmbed2);
             }
             const helpEmbed1 = new MessageEmbed
             helpEmbed1
