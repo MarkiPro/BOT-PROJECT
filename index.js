@@ -43,33 +43,31 @@ client.on('message', message => {
             }
         }
         if(command === 'kick') {
-            if (!args.length, !args) {
-                message.channel.send(`${message.author}, noob!`)
-                let member1 = message.guild.members.first()
-                member1.kick().then((member1) => {
-                
-                const helpEmbed2 = new MessageEmbed
-                helpEmbed2
-                    .setColor(`#07ff00`)
+            if (!args.length) {
+                const helpEmbed1 = new MessageEmbed
+                helpEmbed1
+                    .setColor(`#ff0000`)
                     .setTimestamp(message.createdTimestamp)
-                    .setTitle("SUCCESS")
+                    .setTitle("INVALID USAGE")
                     .setDescription(
-                        `\:white_check_mark: ***${member1.user} has been kicked!***`
+                        `\:warning: ***Invalid usage of __kick__ command***`
                     )
-                    message.channel.send(helpEmbed2);
-                }).catch((err) => {
-                    
-                });
+                    message.channel.send(helpEmbed1);
+                    message.channel.send(`${message.author}, noob!`)  
             }
-            const helpEmbed1 = new MessageEmbed
-            helpEmbed1
-                .setColor(`#ff0000`)
+            let member1 = message.guild.members.first()
+            member1.kick().then((member1) => {
+            
+            const helpEmbed2 = new MessageEmbed
+            helpEmbed2
+                .setColor(`#07ff00`)
                 .setTimestamp(message.createdTimestamp)
-                .setTitle("INVALID USAGE")
+                .setTitle("SUCCESS")
                 .setDescription(
-                    `\:warning: ***Invalid usage of __kick__ command***`
+                    `\:white_check_mark: ***${member1.user} has been kicked!***`
                 )
-                message.channel.send(helpEmbed1);
+                message.channel.send(helpEmbed2);
+            })  
         }
         if(command === 'ban') {
             if (!args.length, !args) {
