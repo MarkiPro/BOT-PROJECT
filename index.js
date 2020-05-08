@@ -25,7 +25,7 @@ client.on('message', message => {
                     `${prefix}ban  - \`{${prefix}ban [MentionUser]}\``
                 )
         }
-        return message.channel.send(`NOOB, ${message.author}!`);
+        return
     }
     if(message.member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "ADMINISTRATOR"])) {
         if(command === 'kick') {
@@ -34,12 +34,11 @@ client.on('message', message => {
             }
             const helpEmbed = new MessageEmbed
             helpEmbed
-                .setColor(`#006fff`)
+                .setColor(`#ff0000`)
                 .setTimestamp(message.createdTimestamp)
-                .setTitle("COMMANDS:")
+                .setTitle("ERROR")
                 .setDescription(
-                    `${prefix}kick - \`{${prefix}kick [MentionUser]}\``,
-                    `${prefix}ban  - \`{${prefix}ban [MentionUser]}\``
+                    `\:warning: ***Invalid usage of __kick__ command***`
                 )
                 message.channel.send(helpEmbed);
         }
