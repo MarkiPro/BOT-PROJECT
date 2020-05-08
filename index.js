@@ -24,6 +24,7 @@ client.on('message', message => {
                     `${prefix}kick - \`{${prefix}kick [MentionUser]}\``,
                     `${prefix}ban  - \`{${prefix}ban [MentionUser]}\``
                 )
+                message.channel.send(helpEmbed)
         }
         return
     }
@@ -32,15 +33,15 @@ client.on('message', message => {
             if (!args.length) {
 
             }
-            const helpEmbed = new MessageEmbed
-            helpEmbed
+            const helpEmbed1 = new MessageEmbed
+            helpEmbed1
                 .setColor(`#ff0000`)
                 .setTimestamp(message.createdTimestamp)
                 .setTitle("ERROR")
                 .setDescription(
                     `\:warning: ***Invalid usage of __kick__ command***`
                 )
-                message.channel.send(helpEmbed);
+                message.channel.send(helpEmbed1);
         }
     }
 })
