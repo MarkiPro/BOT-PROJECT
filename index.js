@@ -21,9 +21,9 @@ client.on('message', message => {
                 .setTimestamp(message.createdTimestamp)
                 .setTitle("COMMANDS:")
                 .setDescription(
-                    `${prefix}kick - \`{${prefix}kick [MentionUser]}\``,
-                    `${prefix}ban  - \`{${prefix}ban [MentionUser]}\``
-                )
+                    `${prefix}kick - \`{${prefix}kick [MentionUser]}\`
+                    ${prefix}ban  - \`{${prefix}ban [MentionUser]}\``,
+                );
                 message.channel.send(helpEmbed)
         }
         return
