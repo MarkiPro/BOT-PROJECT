@@ -29,12 +29,24 @@ client.on('message', message => {
         return
     }
     if(message.member.hasPermission(["KICK_MEMBERS", "BAN_MEMBERS", "ADMINISTRATOR"])) {
+        if(command === `prefix`) {
+            if(!args.length) {
+                const helpEmbed2 = new MessageEmbed
+                helpEmbed2
+                    .setColor(`#07ff00`)
+                    .setTimestamp(message.createdTimestamp)
+                    .setTitle("SUCCESS")
+                    .setDescription(
+                        `\:white_check_mark: ***${args} has been changed to...***`
+                    )
+                    message.channel.send(helpEmbed2);
+            }
+        }
         if(command === 'kick') {
-            if (!args.length) {
-                let member1 = args(user)
-                let member2 = message.mentions.members.first()
-                let member3 = args(user.tag)
-                [member1, member2, member3].kick().then((message) => {
+            if (!args.length, !args) {
+                let member1 = message.guild.members.first()
+                member.kick().then((member) => {
+                
                 const helpEmbed2 = new MessageEmbed
                 helpEmbed2
                     .setColor(`#07ff00`)
