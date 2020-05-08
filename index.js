@@ -41,7 +41,7 @@ client.on('message', message => {
                     `${prefix}kick - \`{${prefix}kick [MentionUser]}\``,
                     `${prefix}ban  - \`{${prefix}ban [MentionUser]}\``
                 )
-                channel.message.send(helpEmbed);
+                message.channel.send(helpEmbed);
         }
     }
 })
