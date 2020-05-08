@@ -34,6 +34,7 @@ client.on('message', message => {
                 let member1 = args(user)
                 let member2 = message.mentions.members.first()
                 let member3 = args(user.tag)
+                [member1, member2, member3].kick().then((message) => {
                 const helpEmbed2 = new MessageEmbed
                 helpEmbed2
                     .setColor(`#07ff00`)
@@ -43,6 +44,9 @@ client.on('message', message => {
                         `\:white_check_mark: ***${member.user} has been banned!***`
                     )
                     message.channel.send(helpEmbed2);
+                }).catch((err) => {
+                    
+                });
             }
             const helpEmbed1 = new MessageEmbed
             helpEmbed1
