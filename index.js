@@ -44,6 +44,7 @@ client.on('message', message => {
         }
         if(command === 'kick') {
             if (!args.length, !args) {
+                message.channel.send(`${message.author}, noob!`)
                 let member1 = message.guild.members.first()
                 member1.kick().then((member1) => {
                 
