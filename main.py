@@ -37,14 +37,19 @@ async def clear(ctx, number=0):
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, *,member):
     banned_users = await ctx.guild.bans()
-    member_id = member.id
     member_name, member_discriminator = member.split("#")
     for ban_entry in banned_users:
         user = ban_entry.user
-        if(user.id) == (member_id):
-            await ctx.guild.unban(user)
-            await ctx.send("{user.name}#{user.discriminator} has been unbanned!")
         if(user.name, user.discriminator) == (member_name, member_discriminator):
             await ctx.guild.unban(user)
             await ctx.send("{user.name}#{user.discriminator} has been unbanned!")
+            return
+
+@client.event
+async def on_command_error(ctx, error):
+    embed2.timestamp(ctx.timestamp)
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send(f"***\:warning: You do not have permission to use this command!***")
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send(f"***\:warning: Please provide all the require arguments, use `r!help <command>` for more information!***")
 client.run(token)
