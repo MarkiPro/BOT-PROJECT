@@ -23,8 +23,6 @@ async def on_command_error(ctx, error):
         await ctx.send("You are missing permissions to perform this command")
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send("Please provide all the required arguments. Please run r!help.")
-    if isinstance(error, commands.CommandInvokeError):
-        await ctx.send("Something went wrong.")
 
 
 client.run(token)
