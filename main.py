@@ -11,9 +11,11 @@ async def on_ready():
 
 @client.command()
 @commands.has_permissions(kick_members=True)
-async def kick(ctx, member: discord.Member, *, reason):
+async def kick(ctx, member: discord.Member, *, reason=None):
+    async with ctx.typing():
+        await member.send(f"You have been kicked in {ctx.guild} for {reason}")
     await member.kick(reason=reason)
-    await ctx.send(f"{member.mention} has been banned for {reason}")
+    await ctx.send(f"{member.mention} has been kicked for {reason}")
 
 @client.event
 async def on_command_error(ctx, error):
