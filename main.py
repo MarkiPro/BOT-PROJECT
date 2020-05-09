@@ -43,9 +43,9 @@ async def unban(self,ctx, *, user):
 
     for ban_entry in ban_list:
         user = ban_entry.user
-        if(user.name, user_discriminator) == (user_name,user_discriminator):
+        if(user.name, user.discriminator) == (user_name,user_discriminator):
             await ctx.guild.unban(user)
-            await ctx.send(f"{user.name}#{user_discriminator} has been unbanned!")
+            await ctx.send(f"{user.name}#{user.discriminator} has been unbanned!")
             return
 
 @client.event
