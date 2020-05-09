@@ -10,7 +10,7 @@ async def on_ready():
     print(f"Logged in as {client.user.tag}")
 
 @client.command()
-@commands.has_permissions(KICK_MEMBERS=True)
+@commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason):
     await member.kick(reason=reason)
     await ctx.send(f"{member.mention} has been banned for {reason}")
