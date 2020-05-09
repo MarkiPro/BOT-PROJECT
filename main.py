@@ -4,6 +4,7 @@ import os
 
 token = os.environ['TOKEN']
 client = commands.Bot(command_prefix='r!')
+client.remove_command('help')
 
 @client.event
 async def on_ready():
