@@ -13,6 +13,7 @@ async def on_ready():
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
     if member.has_permissions(ban_members=True, kick_members=True):
+        ctx.send(f"I do not have permission to kick {member.display_name}!")
         return
     else:
         pass
@@ -25,6 +26,7 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
     if member.has_permissions(ban_members=True, kick_members=True):
+        ctx.send(f"I do not have permission to ban {member.display_name}!")
         return
     else:
         pass
@@ -32,6 +34,17 @@ async def ban(ctx, member: discord.Member, *, reason=None):
             await member.send(f"You have been banned in **{ctx.guild}** for `{reason}`")
         await member.ban(reason=reason)
         await ctx.send(f"{member.mention} has been banned for: `{reason}`")
+
+@client.command()
+@commands.has_permissions(ban_members=True)
+async def unban(ctx, *, user):
+    user_name, user_discriminator = user.split('#')
+    ban_list = await ctx.guild.bans()
+    for ban_entry in ban_list:
+        user = ban_entry.user
+        if(user_name, user_discriminator) == (user_name,user_discriminator):
+            await ctx.guild.unban(user)
+            await ctx.send(f"**{user.name}#{user_discriminator}***** has been unbanned!***")
 
 @client.event
 async def on_command_error(ctx, error):
