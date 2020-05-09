@@ -17,13 +17,6 @@ async def kick(ctx, member: discord.Member, *, reason=None):
     await member.kick(reason=reason)
     await ctx.send(f"{member.mention} has been kicked for: `{reason}`")
 
-@client.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send("You are missing permissions to perform this command")
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Please provide all the required arguments. Please run r!help.")
-
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
