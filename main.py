@@ -1,5 +1,5 @@
-import discord.py
-from discord.py import commands
+import discord
+from discord.ext import commands
 import os
 
 token = os.environ['TOKEN']
