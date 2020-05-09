@@ -13,9 +13,9 @@ async def on_ready():
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
     async with ctx.typing():
-        await member.send(f"You have been kicked in {ctx.guild} for {reason}")
+        await member.send(f"You have been kicked in **{ctx.guild}** for \`{reason}\`")
     await member.kick(reason=reason)
-    await ctx.send("This is test to prove Marki works")
+    await ctx.send("{member.mention} has been kicked for: \`{reason}\`")
 
 @client.event
 async def on_command_error(ctx, error):
