@@ -15,7 +15,7 @@ async def on_ready():
 client.remove_command('help')
 
 @client.command()
-async def help(ctx):
+async def help(ctx, commandName):
     embed = discord.Embed(
         title="**COMMANDS:**", 
         description="""
@@ -32,6 +32,31 @@ async def help(ctx):
         `{prefix}unban` - unbans a member;""",
         color=0x0064ff)
     await ctx.send(embed=embed)
+    if ctx and commandName == "ban":
+        embed1 = discord.Embed(
+        title="**BAN COMMAND**", 
+        description="`{prefix}ban <user> [reason]` - **correct usage, reason is by default set to `None`**",
+        color=0x0064ff)
+        await ctx.send(embed1=embed1)
+    if ctx and commandName == "kick":
+        embed2 = discord.Embed(
+        title="**KICK COMMAND**", 
+        description="`{prefix}kick <user> [reason]` - **correct usage, reason is by default set to `None`**",
+        color=0x0064ff)
+        await ctx.send(embed2=embed2)
+    if ctx and commandName == "unban":
+        embed3 = discord.Embed(
+        title="**UNBAN COMMAND**", 
+        description="`{prefix}unban <user> [reason]` - **correct usage, reason is by default set to `None`**",
+        color=0x0064ff)
+        await ctx.send(embed3=embed3)
+    if ctx and commandName == "clear":
+        embed4 = discord.Embed(
+        title="**CLEAR COMMAND**", 
+        description="`{prefix}clear <amount>` - correct usage, amount is by default set to `0`",
+        color=0x0064ff)
+        await ctx.send(embed4=embed4)
+
 
 @client.command()
 @commands.has_permissions(kick_members=True)
