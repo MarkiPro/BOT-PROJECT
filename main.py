@@ -35,7 +35,7 @@ async def clear(ctx, amount):
 
 @client.command()
 @commands.has_permissions(ban_members=True)
-async def unban(self, ctx, member, *, reason=None):
+async def unban(ctx, member, *, reason=None):
     ban_list = await ctx.guild.bans()
     for ban_entry in ban_list:
         user = ban_entry.user
