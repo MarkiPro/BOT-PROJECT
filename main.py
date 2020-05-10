@@ -17,19 +17,19 @@ client.remove_command('help')
 @client.command()
 async def help(ctx):
     embed = discord.Embed(
-        title="COMMANDS:", 
+        title="**COMMANDS:**", 
         description="""
 
         --EVERYONE--
 
-        {prefix}help - shows this message;
+        `{prefix}help` - shows this message;
 
         --STAFF--
         
-        {prefix}clear - clears messages above;
-        {prefix}kick - kicks a member;
-        {prefix}ban - bans a member;
-        {prefix}unban - unbans a member;""",
+        `{prefix}clear` - clears messages above;
+        `{prefix}kick` - kicks a member;
+        `{prefix}ban` - bans a member;
+        `{prefix}unban` - unbans a member;""",
         color=0x0064ff)
     await ctx.send(embed=embed)
 
@@ -39,7 +39,7 @@ async def kick(ctx, member: discord.Member, *, reason=None):
     embed1 = discord.Embed(
         title="**SUCCESS**", 
         description=f"{member.display_name} has been kicked for: `{reason}`",
-        color=0x0064ff)
+        color=0x00fa00)
     embed2 = discord.Embed(
         title="**NOTIFICATION**", 
         description=f"You have been kicked in **{ctx.guild}** for `{reason}`",
@@ -55,7 +55,7 @@ async def ban(ctx, member: discord.Member, *, reason=None):
     embed1 = discord.Embed(
         title="**SUCCESS**", 
         description=f"{member.display_name} has been kicked for: `{reason}`",
-        color=0x0064ff)
+        color=0x00fa00)
     embed2 = discord.Embed(
         title="**NOTIFICATION**", 
         description=f"You have been kicked in **{ctx.guild}** for `{reason}`",
@@ -76,7 +76,7 @@ async def unban(ctx, member, *, reason=None):
     embed1 = discord.Embed(
         title="**SUCCESS**", 
         description=f"{member.display_name} has been kicked for: `{reason}`",
-        color=0x0064ff)
+        color=0x00fa00)
     ban_list = await ctx.guild.bans()
     for ban_entry in ban_list:
         user = ban_entry.user
@@ -92,13 +92,13 @@ async def unban(ctx, member, *, reason=None):
 @client.event
 async def on_command_error(ctx, error):
     embed1 = discord.Embed(
-        title="**SUCCESS**", 
+        title="**ERROR**", 
         description=f"***:warning: Please provide all the require arguments, use `r!help <command>` for more information!***",
-        color=0x0064ff)
+        color=0xff0000)
     embed2 = discord.Embed(
-        title="**SUCCESS**", 
+        title="**ERROR**", 
         description=f"***:warning: You do not have permission to use this command!***",
-        color=0x0064ff)
+        color=0xff0000)
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(embed=embed2)
     if isinstance(error, commands.MissingRequiredArgument):
