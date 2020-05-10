@@ -39,7 +39,7 @@ async def help(ctx, *, commandArg):
             description=f"`{prefix}unban <user> [reason]` - correct usage of unban command, reason is by default set to `None`.",
             color=0x00fa00)
         await ctx.send(embed1=embed1)
-    if(not str(commandArg)):
+    else:
         embed1 = discord.Embed(
             title="**COMMANDS:**", 
             description=f"""
