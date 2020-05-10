@@ -37,7 +37,7 @@ async def clear(ctx, amount):
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, *,member):
     banned_users = await ctx.guild.bans()
-    member_id = member.id
+    member_id = member
     member_name, member_discriminator = member.split("#")
     for ban_entry in banned_users:
         user = ban_entry.user
