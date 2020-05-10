@@ -15,7 +15,7 @@ async def on_ready():
 client.remove_command('help')
 
 @client.command()
-async def help(ctx, commandName):
+async def help(ctx, *, commandName):
     embed = discord.Embed(
         title="**COMMANDS:**", 
         description="""
