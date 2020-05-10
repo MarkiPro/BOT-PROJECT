@@ -43,10 +43,10 @@ async def unban(ctx, *,member):
         if(user.name, user.discriminator) == (member_name, member_discriminator):
             await ctx.guild.unban(user)
             await ctx.send("{user.name}#{user.discriminator} has been unbanned!")
-@client.event
+"""@client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(f"***\:warning: You do not have permission to use this command!***")
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send(f"***\:warning: Please provide all the require arguments, use `r!help <command>` for more information!***")
+        await ctx.send(f"***\:warning: Please provide all the require arguments, use `r!help <command>` for more information!***")"""
 client.run(token)
