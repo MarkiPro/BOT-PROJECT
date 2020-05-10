@@ -16,21 +16,22 @@ client.remove_command('help')
 
 @client.command()
 async def help(ctx, commandName):
-    embed = discord.Embed(
-        title="**COMMANDS:**", 
-        description="""
+    if(ctx and not commandName):
+        embed = discord.Embed(
+            title="**COMMANDS:**", 
+            description="""
 
-        --EVERYONE--
+            --EVERYONE--
 
-        `{prefix}help` - shows this message;
+            `{prefix}help` - shows this message;
 
-        --STAFF--
-        
-        `{prefix}clear` - clears messages above;
-        `{prefix}kick` - kicks a member;
-        `{prefix}ban` - bans a member;
-        `{prefix}unban` - unbans a member;""",
-        color=0x0064ff)
+            --STAFF--
+            
+            `{prefix}clear` - clears messages above;
+            `{prefix}kick` - kicks a member;
+            `{prefix}ban` - bans a member;
+            `{prefix}unban` - unbans a member;""",
+            color=0x0064ff)
     await ctx.send(embed=embed)
     if ctx and commandName == "ban":
         embed1 = discord.Embed(
