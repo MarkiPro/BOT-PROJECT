@@ -15,11 +15,11 @@ async def on_ready():
 async def kick(ctx, member: discord.Member, *, reason=None):
     embed1 = discord.Embed(
         title="**SUCCESS**", 
-        description=f"{member.display_name} has been kicked for: `{reason}`",
+        description=f"***:white_check_mark: *** {member.display_name} *** has been kicked for: `{reason}`***",
         color=0x00fa00)
     embed2 = discord.Embed(
         title="**NOTIFICATION**", 
-        description=f"You have been kicked in **{ctx.guild}** for `{reason}`",
+        description=f":bell: *You have been kicked in **{ctx.guild}** for:* `{reason}`",
         color=0x0064ff)
     async with ctx.typing():
         await member.send(embed=embed2)
@@ -31,11 +31,11 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 async def ban(ctx, member: discord.Member, *, reason=None):
     embed1 = discord.Embed(
         title="**SUCCESS**", 
-        description=f"{member.display_name} has been kicked for: `{reason}`",
+        description=f"***:white_check_mark: *** {member.display_name} *** has been banned for: `{reason}`***",
         color=0x00fa00)
     embed2 = discord.Embed(
         title="**NOTIFICATION**", 
-        description=f"You have been kicked in **{ctx.guild}** for `{reason}`",
+        description=f":bell: *You have been kicked in **{ctx.guild}** for:* `{reason}`",
         color=0x0064ff)
     async with ctx.typing():
         await member.ban(reason=reason)
@@ -52,7 +52,7 @@ async def clear(ctx, amount=0):
 async def unban(ctx, member, *, reason=None):
     embed1 = discord.Embed(
         title="**SUCCESS**", 
-        description=f"{member.display_name} has been kicked for: `{reason}`",
+        description=f"***:white_check_mark: *** {member.display_name} *** has been unbanned for: `{reason}`***",
         color=0x00fa00)
     ban_list = await ctx.guild.bans()
     for ban_entry in ban_list:
