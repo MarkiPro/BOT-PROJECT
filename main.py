@@ -3,8 +3,6 @@ from discord.ext import commands
 import os
 from discord import user
 
-embed = discord.Embed
-embed2 = discord.Embed
 token = os.environ['TOKEN']
 client = commands.Bot(command_prefix='rm!')
 
@@ -27,8 +25,8 @@ async def kick(ctx, member: discord.Member, *, reason=None):
         timestamp=(ctx.timestamp))
     async with ctx.typing():
         await member.send(embed=embed2)
-    await member.kick(reason=reason)
-    await ctx.send(embed=embed1)
+        await member.kick(reason=reason)
+        await ctx.send(embed=embed1)
 
 @client.command()
 @commands.has_permissions(ban_members=True)
@@ -44,9 +42,9 @@ async def ban(ctx, member: discord.Member, *, reason=None):
         color=0x0064ff,
         timestamp=(ctx.timestamp))
     async with ctx.typing():
+        await member.ban(reason=reason)
+        await ctx.send(embed=embed1)
         await member.send(embed=embed2)
-    await member.ban(reason=reason)
-    await ctx.send(embed=embed1)
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
@@ -85,8 +83,8 @@ async def on_command_error(ctx, error):
         description=f"***:warning: You do not have permission to use this command!***",
         color=0xff0000,
         timestamp=(ctx.timestamp))
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send(embed=embed2)
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(embed=embed1)
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send(embed=embed2)
 client.run(token)
