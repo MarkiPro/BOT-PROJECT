@@ -16,7 +16,7 @@ client.remove_command('help')
 
 @client.command()
 async def help(ctx, commandName):
-    if(ctx and not commandName):
+    if(ctx):
         embed = discord.Embed(
             title="**COMMANDS:**", 
             description="""
