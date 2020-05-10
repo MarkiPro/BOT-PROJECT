@@ -25,7 +25,7 @@ async def help(ctx):
         {prefix}ban - bans a member;
         {prefix}unban - unbans a member;""",
         color="#0076ff")
-    await ctx.channel.send(embed=embed)
+    await ctx.send(embed=embed)
 
 @client.command()
 @commands.has_permissions(kick_members=True)
@@ -45,8 +45,7 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
-async def clear(ctx, amount):
-    amount=0
+async def clear(ctx, amount=0):
     await ctx.channel.purge(limit=amount+1)
 
 @client.command()
