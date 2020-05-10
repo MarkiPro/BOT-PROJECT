@@ -35,22 +35,19 @@ async def clear(ctx, amount):
 
 @client.command()
 @commands.has_permissions(ban_members=True)
-async def unban(ctx, *,member):
-    banned_users = await ctx.guild.bans()
-    member_id = member
-    member_name, member_discriminator = member.split("#")
-    for ban_entry in banned_users:
+async def unban(self, ctx, member, *, reason=None):
+    ban_list = await ctx.guild.bans()
+    for ban_entry in ban_list:
         user = ban_entry.user
-        if(user.id) == (member_id):
-            await ctx.guild.unban(user)
+        id = member
+        try:
+            user_name, user_discriminator = member.split('#')
+        except ValueError:
+            user_name = ''
+            user_discriminator = ''
+        if (user.name, user.discriminator) == (user_name, user_discriminator) or int(id) == user.id:
+            await ctx.guild.unban(user, reason=reason)
             await ctx.send(f"{user.name}#{user.discriminator} has been unbanned")
-            return
-        if(user.name, user.discriminator) == (member_name, member_discriminator):
-            await ctx.guild.unban(user)
-            await ctx.send(f"{user.name}#{user.discriminator} has been unbanned!")
-            return
-        else:
-            return
 """@client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
