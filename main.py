@@ -24,7 +24,7 @@ async def help(ctx):
         {prefix}kick - kicks a member;
         {prefix}ban - bans a member;
         {prefix}unban - unbans a member;""",
-        color="#0076ff")
+        color=0xd10a07)
     await ctx.send(embed=embed)
 
 @client.command()
