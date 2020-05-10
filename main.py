@@ -43,10 +43,14 @@ async def unban(ctx, *,member):
         user = ban_entry.user
         if(user.id) == (member_id):
             await ctx.guild.unban(user)
-            await ctx.send(f"{user.name}#{user.discriminator} has been unbanned!")
+            await ctx.send(f"{user.name}#{user.discriminator} has been unbanned")
+            return
         if(user.name, user.discriminator) == (member_name, member_discriminator):
             await ctx.guild.unban(user)
             await ctx.send(f"{user.name}#{user.discriminator} has been unbanned!")
+            return
+        else:
+            return
 """@client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
