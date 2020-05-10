@@ -6,7 +6,7 @@ from discord import user
 embed = discord.Embed
 embed2 = discord.Embed
 token = os.environ['TOKEN']
-client = commands.Bot(command_prefix='r!')
+client = commands.Bot(command_prefix='rm!')
 
 @client.event
 async def on_ready():
