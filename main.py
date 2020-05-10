@@ -12,58 +12,6 @@ client = commands.Bot(command_prefix='rm!')
 async def on_ready():
     print(f"Logged in as {client.user.tag}")
 
-client.remove_command('help')
-
-@client.command()
-async def help(ctx, *, commandName):
-    if ctx and commandName == "ban":
-        embed1 = discord.Embed(
-        title="**BAN COMMAND**", 
-        description="`{prefix}ban <user> [reason]` - **correct usage, reason is by default set to `None`**",
-        color=0x0064ff,
-        timestamp=(ctx.timestamp))
-        await ctx.send(embed1=embed1)
-    if ctx and commandName == "kick":
-        embed2 = discord.Embed(
-            title="**KICK COMMAND**", 
-            description="`{prefix}kick <user> [reason]` - **correct usage, reason is by default set to `None`**",
-            color=0x0064ff,
-            timestamp=(ctx.timestamp))
-        await ctx.send(embed2=embed2)
-    if ctx and commandName == "unban":
-        embed3 = discord.Embed(
-            title="**UNBAN COMMAND**", 
-            description="`{prefix}unban <user> [reason]` - **correct usage, reason is by default set to `None`**",
-            color=0x0064ff,
-            timestamp=(ctx.timestamp))
-        await ctx.send(embed3=embed3)
-    if ctx and commandName == "clear":
-        embed4 = discord.Embed(
-            title="**CLEAR COMMAND**", 
-            description="`{prefix}clear <amount>` - correct usage, amount is by default set to `0`",
-            color=0x0064ff,
-            timestamp=(ctx.timestamp))
-        await ctx.send(embed4=embed4)
-    else:
-        embed = discord.Embed(
-            title="**COMMANDS:**", 
-            description="""
-
-            --EVERYONE--
-
-            `{prefix}help` - shows this message;
-
-            --STAFF--
-            
-            `{prefix}clear` - clears messages above;
-            `{prefix}kick` - kicks a member;
-            `{prefix}ban` - bans a member;
-            `{prefix}unban` - unbans a member;""",
-            color=0x0064ff,
-            timestamp=(ctx.timestamp))
-        await ctx.send(embed=embed)
-
-
 @client.command()
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
