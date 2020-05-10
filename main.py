@@ -19,29 +19,51 @@ async def help(ctx):
     embed = discord.Embed(
         title="COMMANDS:", 
         description="""
+
+        --EVERYONE--
+
         {prefix}help - shows this message;
+
+        --STAFF--
+        
         {prefix}clear - clears messages above;
         {prefix}kick - kicks a member;
         {prefix}ban - bans a member;
         {prefix}unban - unbans a member;""",
-        color=0xd10a07)
+        color=0x0064ff)
     await ctx.send(embed=embed)
 
 @client.command()
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
+    embed1 = discord.Embed(
+        title="**SUCCESS**", 
+        description=f"{member.display_name} has been kicked for: `{reason}`",
+        color=0x0064ff)
+    embed2 = discord.Embed(
+        title="**NOTIFICATION**", 
+        description=f"You have been kicked in **{ctx.guild}** for `{reason}`",
+        color=0x0064ff)
     async with ctx.typing():
-        await member.send(f"You have been kicked in **{ctx.guild}** for `{reason}`")
-    await member.ban(reason=reason)
-    await ctx.send(f"{member.mention} has been kicked for: `{reason}`")
+        await member.send(embed=embed2)
+    await member.kick(reason=reason)
+    await ctx.send(embed=embed1)
 
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
+    embed1 = discord.Embed(
+        title="**SUCCESS**", 
+        description=f"{member.display_name} has been kicked for: `{reason}`",
+        color=0x0064ff)
+    embed2 = discord.Embed(
+        title="**NOTIFICATION**", 
+        description=f"You have been kicked in **{ctx.guild}** for `{reason}`",
+        color=0x0064ff)
     async with ctx.typing():
-        await member.send(f"You have been banned in **{ctx.guild}** for `{reason}`")
+        await member.send(embed=embed2)
     await member.ban(reason=reason)
-    await ctx.send(f"{member.mention} has been banned for: `{reason}`")
+    await ctx.send(embed=embed1)
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
@@ -51,6 +73,10 @@ async def clear(ctx, amount=0):
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, member, *, reason=None):
+    embed1 = discord.Embed(
+        title="**SUCCESS**", 
+        description=f"{member.display_name} has been kicked for: `{reason}`",
+        color=0x0064ff)
     ban_list = await ctx.guild.bans()
     for ban_entry in ban_list:
         user = ban_entry.user
@@ -62,11 +88,19 @@ async def unban(ctx, member, *, reason=None):
             user_discriminator = ''
         if (user.name, user.discriminator) == (user_name, user_discriminator) or int(id) == user.id:
             await ctx.guild.unban(user, reason=reason)
-            await ctx.send(f"{user.name}#{user.discriminator} has been unbanned")
+            await ctx.send(embed=embed1)
 @client.event
 async def on_command_error(ctx, error):
+    embed1 = discord.Embed(
+        title="**SUCCESS**", 
+        description=f"***:warning: Please provide all the require arguments, use `r!help <command>` for more information!***",
+        color=0x0064ff)
+    embed2 = discord.Embed(
+        title="**SUCCESS**", 
+        description=f"***:warning: You do not have permission to use this command!***",
+        color=0x0064ff)
     if isinstance(error, commands.MissingPermissions):
-        await ctx.send(f"***\:warning: You do not have permission to use this command!***")
+        await ctx.send(embed=embed2)
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send(f"***\:warning: Please provide all the require arguments, use `r!help <command>` for more information!***")
+        await ctx.send(embed=embed1)
 client.run(token)
