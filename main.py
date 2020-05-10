@@ -14,15 +14,15 @@ async def on_ready():
 
 @client.command()
 @commands.has_permissions(kick_members=True)
-async def kick(ctx, member: discord.Member, *, reason:None):
+async def kick(ctx, member: discord.Member, *, reason=None):
     async with ctx.typing():
         await member.send(f"You have been kicked in **{ctx.guild}** for `{reason}`")
-    await member.kick(reason=reason)
+    await member.ban(reason=reason)
     await ctx.send(f"{member.mention} has been kicked for: `{reason}`")
 
 @client.command()
 @commands.has_permissions(ban_members=True)
-async def ban(ctx, member: discord.Member, *, reason:None):
+async def ban(ctx, member: discord.Member, *, reason=None):
     async with ctx.typing():
         await member.send(f"You have been banned in **{ctx.guild}** for `{reason}`")
     await member.ban(reason=reason)
