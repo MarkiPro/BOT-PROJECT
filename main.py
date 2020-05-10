@@ -65,7 +65,7 @@ async def unban(ctx, member, *, reason=None):
             user_discriminator = ''
         if (user.name, user.discriminator) == (user_name, user_discriminator) or int(id) == user.id:
             await ctx.guild.unban(user, reason=reason)
-            await ctx.send(embed=embed1)
+            await ctx.send(embed1=embed1)
 @client.event
 async def on_command_error(ctx, error):
     embed1 = discord.Embed(
