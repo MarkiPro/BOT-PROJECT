@@ -30,16 +30,20 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
-async def clear(ctx, number=0):
-    await ctx.channel.purge(limit=number+1)
+async def clear(ctx, amount):
+    await ctx.channel.purge(limit=amount+1)
 
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, *,member):
     banned_users = await ctx.guild.bans()
+    member_id = member.id
     member_name, member_discriminator = member.split("#")
     for ban_entry in banned_users:
         user = ban_entry.user
+        if(user.id) == (member_id):
+            await ctx.guild.unban(user)
+            await ctx.send(f"{user.name}#{user.discriminator} has been unbanned!")
         if(user.name, user.discriminator) == (member_name, member_discriminator):
             await ctx.guild.unban(user)
             await ctx.send(f"{user.name}#{user.discriminator} has been unbanned!")
