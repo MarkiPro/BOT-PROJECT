@@ -141,7 +141,7 @@ async def on_command_error(ctx, error):
         await ctx.send(embed=embed1)
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(embed=embed2)
-for file in os.listdir('commands'):
+for file in os.listdir('commands/'):
     if file.endswith('.py'):
         client.load_extension(f'commands.{file[:-3]}')
 client.run(token)
