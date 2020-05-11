@@ -6,7 +6,7 @@ class Moderation(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @client.command()
+    @commands.command
     @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         embed1 = discord.Embed(
