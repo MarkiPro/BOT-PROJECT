@@ -71,7 +71,7 @@ client = commands.Bot(command_prefix='rm!', help_command=EmbedHelpCommand(), cas
 
 @client.event
 async def on_ready():
-    print(f"Logged in as {client.user.tag}")
+    print(f"Ready")
 
 for file in os.listdir('commands/'):
     if file.endswith('.py'):
