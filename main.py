@@ -3,63 +3,120 @@ from discord.ext import commands
 import os
 from discord import user
 
-class EmbedHelpCommand(commands.MinimalHelpCommand):
-    def command_not_found(self, string):
-        pass
-    def get_ending_note(self):
-        return 'Use `{0}{1} [command]` for more information on a certain command.'.format(self.clean_prefix, self.invoked_with)
-    def get_command_signature(self, command):
-        return '``{1.clean_prefix}{0.qualified_name} {0.signature}``'.format(command, self)
-    async def send_bot_help(self, mapping):
-        embed = discord.Embed(title="**Bot Commands:**", colour=0x0064ff)
-        description = self.context.bot.description
-        if description:
-            embed.description = description
-        for cog, commands in mapping.items():
-            name = 'No Category' if cog is None else cog.qualified_name
-            filtered = await self.filter_commands(commands, sort=True)
-            if filtered:
-                value = ', \u2002'.join(c.name for c in commands)
-                if cog and cog.description:
-                    value = '{0}\n{1}'.format(cog.description, value)
-                embed.add_field(name=name, value=value, inline=False)
-        embed.set_footer(text=self.get_ending_note())
-        await self.get_destination().send(embed=embed)
-    async def send_cog_help(self, cog):
-        embed = discord.Embed(title='**{0.qualified_name} Commands:**'.format(cog), colour=0x0064ff)
-        if cog.description:
-            embed.description = cog.description
-        filtered = await self.filter_commands(cog.get_commands(), sort=True)
-        for command in filtered:
-            embed.description(self.get_command_signature(command))
-        embed.set_footer(text=self.get_ending_note())
-        await self.get_destination().send(embed=embed)
-    async def send_group_help(self, group):
-        embed = discord.Embed(title=group.qualified_name, colour=0x0064ff)
-        if group.help:
-            embed.description = group.help
-        if isinstance(group, commands.Group):
-            filtered = await self.filter_commands(group.commands, sort=True)
-            for command in filtered:
-                embed.description(self.get_command_signature(command))
-        embed.set_footer(text=self.get_ending_note())
-        await self.get_destination().send(embed=embed)
-    async def send_command_help(self, command):
-        embed = discord.Embed(title="**Command**", colour=0x0064ff)
-        if command.help:
-            embed.description = command.help
-        if isinstance(command, commands.Command):
-            embed.description(self.get_command_signature(command))
-        await self.get_destination().send(embed=embed)
-
 token = os.environ['TOKEN']
-client = commands.Bot(command_prefix='rm!', help_command=EmbedHelpCommand(), case_insensitive=True)
+client = commands.Bot(command_prefix='rm!', case_insensitive=True)
 
 @client.event
 async def on_ready():
     print(f"Ready")
 
-for file in os.listdir('commands/'):
-    if file.endswith('.py'):
-        client.load_extension(f'commands.{file[:-3]}')
+
+@commands.command()
+async def help(self, ctx, *, commandArg):
+    prefix = await self.client.get_prefix(ctx.message)
+    if(str(commandArg)) == ("ban"):
+        embed = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix[0]}ban <user> [reason]` - This is the correct usage of the ban command, reason is by default set to `None`.",
+            color=0x0064ff)
+        await ctx.send(embed=embed)
+    if(str(commandArg)) == ("kick"):
+        embed = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix[0]}kick <user> [reason]` - This is the correct usage of the kick command, reason is by default set to `None`.",
+            color=0x0064ff)
+        await ctx.send(embed=embed)
+    if(str(commandArg)) == ("clear"):
+        embed = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix[0]}clear <amount>` - This is the correct usage of the clear command, amount is by default set to `0`, so it won't delete any other message apart from yours.",
+            color=0x0064ff)
+        await ctx.send(embed=embed)
+    if(str(commandArg)) == ("unban"):
+        embed = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix[0]}unban <user> [reason]` - This is the correct usage of the unban command, by default reason is set to `None`.",
+            color=0x0064ff)
+        await ctx.send(embed=embed)
+    if(str(commandArg)) == ("help"):
+        embed = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix[0]}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty.",
+            color=0x0064ff)
+        await ctx.send(embed=embed)
+    else:
+        embed = discord.Embed(
+            title="**COMMANDS:**", 
+            description=f"""**--INFORMATIVE--**
+            
+                            `{prefix[0]}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty;
+                            
+                            **--MODERATION--**
+                            
+                            `{prefix[0]}clear <amount>` - This is the correct usage of the clear command, amount is by default set to `0`, so it won't delete any other message apart from yours;
+                            `{prefix[0]}kick <user> [reason]` - This is the correct usage of the kick command, reason is by default set to `None`;
+                            `{prefix[0]}ban <user> [reason]` - This is the correct usage of the ban command, reason is by default set to `None`;
+                            `{prefix[0]}unban <user> [reason]` - This is the correct usage of the unban command, by default reason is set to `None`;
+
+                            """,
+            color=0x0064ff)
+        await ctx.send(embed=embed)
+
+@commands.command()
+@commands.has_permissions(kick_members=True)
+async def kick(ctx, member: discord.Member, *, reason=None):
+    embed1 = discord.Embed(
+        title="**SUCCESS**", 
+        description=f"***:white_check_mark: *** {member.display_name} *** has been kicked for: `{reason}`***",
+        color=0x00fa00)
+    embed2 = discord.Embed(
+        title="**NOTIFICATION**", 
+        description=f":bell: *You have been kicked in **{ctx.guild}** for:* `{reason}`",
+        color=0x0064ff)
+    async with ctx.typing():
+        await member.send(embed=embed2)
+        await member.kick(reason=reason)
+        await ctx.send(embed=embed1)
+
+@commands.command()
+@commands.has_permissions(manage_messages=True)
+async def clear(ctx, amount=0):
+    await ctx.channel.purge(limit=amount+1)
+
+@commands.command()
+@commands.has_permissions(ban_members=True)
+async def ban(self, ctx, member: discord.Member, *, reason=None):
+    embed1 = discord.Embed(
+        title="**SUCCESS**",
+        description=f"***:white_check_mark: *** {member.display_name} *** has been banned for: `{reason}`***",
+        color=0x00fa00)
+    embed2 = discord.Embed(
+        title="**NOTIFICATION**",
+        description=f":bell: *You have been banned in **{ctx.guild}** for:* `{reason}`",
+        color=0x0064ff)
+    async with ctx.typing():
+        await member.ban(reason=reason)
+        await ctx.send(embed=embed1)
+        await member.send(embed=embed2)
+
+@commands.command()
+@commands.has_permissions(ban_members=True)
+async def unban(ctx, member, *, reason=None):
+    ban_list = await ctx.guild.bans()
+    for ban_entry in ban_list:
+        user = ban_entry.user
+        id = member
+        embed1 = discord.Embed(
+        title="**SUCCESS**", 
+        description=f"***:white_check_mark: *** {user.display_name} *** has been unbanned for: `{reason}`***",
+        color=0x00fa00)
+        try:
+            user_name, user_discriminator = member.split('#')
+        except ValueError:
+            user_name = ''
+            user_discriminator = ''
+        if (user.name, user.discriminator) == (user_name, user_discriminator) or int(id) == user.id:
+            await ctx.guild.unban(user, reason=reason)
+            await ctx.send(embed=embed1)
+
 client.run(token)
