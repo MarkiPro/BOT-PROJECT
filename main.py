@@ -10,8 +10,9 @@ client = commands.Bot(command_prefix='rm!', case_insensitive=True)
 async def on_ready():
     print(f"Ready")
 
+@client.remove_command(help)
 
-@commands.command()
+@client.command()
 async def help(self, ctx, *, commandArg):
     prefix = await self.client.get_prefix(ctx.message)
     if(str(commandArg)) == ("ban"):
@@ -62,7 +63,7 @@ async def help(self, ctx, *, commandArg):
             color=0x0064ff)
         await ctx.send(embed=embed)
 
-@commands.command()
+@client.command()
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
     embed1 = discord.Embed(
@@ -78,12 +79,12 @@ async def kick(ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
         await ctx.send(embed=embed1)
 
-@commands.command()
+@client.command()
 @commands.has_permissions(manage_messages=True)
 async def clear(ctx, amount=0):
     await ctx.channel.purge(limit=amount+1)
 
-@commands.command()
+@client.command()
 @commands.has_permissions(ban_members=True)
 async def ban(self, ctx, member: discord.Member, *, reason=None):
     embed1 = discord.Embed(
@@ -99,7 +100,7 @@ async def ban(self, ctx, member: discord.Member, *, reason=None):
         await ctx.send(embed=embed1)
         await member.send(embed=embed2)
 
-@commands.command()
+@client.command()
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, member, *, reason=None):
     ban_list = await ctx.guild.bans()
