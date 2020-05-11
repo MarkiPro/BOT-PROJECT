@@ -15,7 +15,7 @@ class Moderation(commands.Cog):
             color=0x00fa00)
         embed2 = discord.Embed(
             title="**NOTIFICATION**",
-            description=f":bell: *You have been kicked in **{ctx.guild}** for:* `{reason}`",
+            description=f":bell: *You have been banned in **{ctx.guild}** for:* `{reason}`",
             color=0x0064ff)
         async with ctx.typing():
             await member.ban(reason=reason)
