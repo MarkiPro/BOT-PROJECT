@@ -10,7 +10,7 @@ client = commands.Bot(command_prefix='rm!', case_insensitive=True)
 async def on_ready():
     print(f"Ready")
 
-@client.remove_command(help)
+client.remove_command('help')
 
 @client.command()
 async def help(self, ctx, *, commandArg):
