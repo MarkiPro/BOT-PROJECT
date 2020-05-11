@@ -62,7 +62,6 @@ class EmbedHelpCommand(commands.MinimalHelpCommand):
 
 token = os.environ['TOKEN']
 client = commands.Bot(command_prefix='rm!', help_command=EmbedHelpCommand())
-prefix = commands.Bot.command_prefix
 
 @client.event
 async def on_ready():
