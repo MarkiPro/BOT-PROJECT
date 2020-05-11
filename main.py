@@ -111,14 +111,14 @@ async def clear(ctx, amount=0):
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, member, *, reason=None):
-    embed1 = discord.Embed(
-        title="**SUCCESS**", 
-        description=f"***:white_check_mark: *** {member.display_name} *** has been unbanned for: `{reason}`***",
-        color=0x00fa00)
     ban_list = await ctx.guild.bans()
     for ban_entry in ban_list:
         user = ban_entry.user
         id = member
+        embed1 = discord.Embed(
+        title="**SUCCESS**", 
+        description=f"***:white_check_mark: *** {user.display_name} *** has been unbanned for: `{reason}`***",
+        color=0x00fa00)
         try:
             user_name, user_discriminator = member.split('#')
         except ValueError:
