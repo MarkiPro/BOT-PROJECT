@@ -10,7 +10,7 @@ client = commands.Bot(command_prefix='rm!', case_insensitive=True)
 async def on_ready():
     print(f"Ready")
 
-client.remove_command('help')
+@client.remove_command('help')
 
 @client.command()
 async def help(self, ctx, *, commandArg):
@@ -45,7 +45,7 @@ async def help(self, ctx, *, commandArg):
             description=f"`{prefix[0]}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty.",
             color=0x0064ff)
         await ctx.send(embed=embed)
-    if(str(commandArg)) == (""):
+    if(not str(commandArg)):
         embed = discord.Embed(
             title="**COMMANDS:**", 
             description=f"""**--INFORMATIVE--**
