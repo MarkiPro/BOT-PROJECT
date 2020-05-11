@@ -4,12 +4,26 @@ import os
 from discord import user
 
 class EmbedHelpCommand(commands.MinimalHelpCommand):
+    """This is an example of a HelpCommand that utilizes embeds.
+    It's pretty basic but it lacks some nuances that people might expect.
+    1. It breaks if you have more than 25 cogs or more than 25 subcommands. (Most people don't reach this)
+    2. It doesn't DM users. To do this, you have to override `get_destination`. It's simple.
+    Other than those two things this is a basic skeleton to get you started. It should
+    be simple to modify if you desire some other behaviour.
+ 
+    To use this, pass it to the bot constructor e.g.:
+ 
+    bot = commands.Bot(help_command=EmbedHelpCommand())
+    """
+    # Set the embed colour here
+    COLOUR = discord.Colour.blue()
+ 
     def get_ending_note(self):
         return 'Use {0}{1} [command] for more info on a command.'.format(self.clean_prefix, self.invoked_with)
     def get_command_signature(self, command):
         return '``{1.clean_prefix}{0.qualified_name} {0.signature}``'.format(command, self)
     async def send_bot_help(self, mapping):
-        embed = discord.Embed(title='Bot Commands', colour=0x0064ff)
+        embed = discord.Embed(title='Bot Commands', colour=self.COLOUR)
         description = self.context.bot.description
         if description:
             embed.description = description
@@ -24,12 +38,12 @@ class EmbedHelpCommand(commands.MinimalHelpCommand):
         embed.set_footer(text=self.get_ending_note())
         await self.get_destination().send(embed=embed)
     async def send_cog_help(self, cog):
-        embed = discord.Embed(title='{0.qualified_name} Commands'.format(cog), colour=0x0064ff)
+        embed = discord.Embed(title='{0.qualified_name} Commands'.format(cog), colour=self.COLOUR)
         if cog.description:
             embed.description = cog.description
         filtered = await self.filter_commands(cog.get_commands(), sort=True)
         for command in filtered:
-            embed.description(self.get_command_signature(command))
+            embed.add_field(name=self.get_command_signature(command), value=command.description or '...', inline=False)
         embed.set_footer(text=self.get_ending_note())
         await self.get_destination().send(embed=embed)
     async def send_group_help(self, group):
@@ -39,15 +53,17 @@ class EmbedHelpCommand(commands.MinimalHelpCommand):
         if isinstance(group, commands.Group):
             filtered = await self.filter_commands(group.commands, sort=True)
             for command in filtered:
-                embed.description(self.get_command_signature(command))
+                embed.add_field(name=self.get_command_signature(command), value=command.short_doc or '...',
+                                inline=False)
         embed.set_footer(text=self.get_ending_note())
         await self.get_destination().send(embed=embed)
     async def send_command_help(self, command):
-        embed = discord.Embed(title="Command", colour=0x0064ff)
+        embed = discord.Embed(title="Command", colour=self.COLOUR)
         if command.help:
             embed.description = command.help
         if isinstance(command, commands.Command):
-            embed.description(self.get_command_signature(command))
+            embed.add_field(name=self.get_command_signature(command), value=command.description or '....', inline=False)
+        embed.set_footer(text=self.get_ending_note())
         await self.get_destination().send(embed=embed)
 
 token = os.environ['TOKEN']
