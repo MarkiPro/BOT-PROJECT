@@ -127,20 +127,7 @@ async def unban(ctx, member, *, reason=None):
         if (user.name, user.discriminator) == (user_name, user_discriminator) or int(id) == user.id:
             await ctx.guild.unban(user, reason=reason)
             await ctx.send(embed=embed1)
-@client.event
-async def on_command_error(ctx, error):
-    embed1 = discord.Embed(
-        title="**ERROR**", 
-        description=f"***:warning: Please provide all the require arguments, use `r!help <command>` for more information!***",
-        color=0xff0000)
-    embed2 = discord.Embed(
-        title="**ERROR**", 
-        description=f"***:warning: You do not have permission to use this command!***",
-        color=0xff0000)
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send(embed=embed1)
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send(embed=embed2)
+
 for file in os.listdir('commands/'):
     if file.endswith('.py'):
         client.load_extension(f'commands.{file[:-3]}')
