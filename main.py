@@ -45,7 +45,7 @@ async def help(self, ctx, *, commandArg):
             description=f"`{prefix[0]}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty.",
             color=0x0064ff)
         await ctx.send(embed=embed)
-    else:
+    if(str(commandArg)) == (""):
         embed = discord.Embed(
             title="**COMMANDS:**", 
             description=f"""**--INFORMATIVE--**
