@@ -16,7 +16,7 @@ class EmbedHelpCommand(commands.MinimalHelpCommand):
     bot = commands.Bot(help_command=EmbedHelpCommand())
     """
     # Set the embed colour here
-    COLOUR = discord.Colour.DodgerBlue()
+    COLOUR = discord.Colour.dodgerblue()
  
     def get_ending_note(self):
         return 'Use {0}{1} [command] for more info on a command.'.format(self.clean_prefix, self.invoked_with)
