@@ -13,8 +13,8 @@ async def on_ready():
 @client.remove_command('help')
 
 @client.command()
-async def help(self, ctx, *, commandArg):
-    prefix = await self.client.get_prefix(ctx.message)
+async def help(ctx, *, commandArg):
+    prefix = await client.get_prefix(ctx.message)
     if(str(commandArg)) == ("ban"):
         embed = discord.Embed(
             title="**COMMAND**", 
