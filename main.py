@@ -10,26 +10,26 @@ class EmbedHelpCommand(commands.MinimalHelpCommand):
     2. It doesn't DM users. To do this, you have to override `get_destination`. It's simple.
     Other than those two things this is a basic skeleton to get you started. It should
     be simple to modify if you desire some other behaviour.
-
+ 
     To use this, pass it to the bot constructor e.g.:
-
+ 
     bot = commands.Bot(help_command=EmbedHelpCommand())
     """
     # Set the embed colour here
     COLOUR = discord.Colour.blurple()
-
+ 
     def get_ending_note(self):
         return 'Use {0}{1} [command] for more info on a command.'.format(self.clean_prefix, self.invoked_with)
-
+ 
     def get_command_signature(self, command):
         return '``{1.clean_prefix}{0.qualified_name} {0.signature}``'.format(command, self)
-
+ 
     async def send_bot_help(self, mapping):
         embed = discord.Embed(title='Bot Commands', colour=self.COLOUR)
         description = self.context.bot.description
         if description:
             embed.description = description
-
+ 
         for cog, commands in mapping.items():
             name = 'No Category' if cog is None else cog.qualified_name
             filtered = await self.filter_commands(commands, sort=True)
@@ -37,28 +37,48 @@ class EmbedHelpCommand(commands.MinimalHelpCommand):
                 value = ', \u2002'.join(c.name for c in commands)
                 if cog and cog.description:
                     value = '{0}\n{1}'.format(cog.description, value)
-
+ 
                 embed.add_field(name=name, value=value, inline=False)
-
+ 
         embed.set_footer(text=self.get_ending_note())
         await self.get_destination().send(embed=embed)
-
+ 
     async def send_cog_help(self, cog):
         embed = discord.Embed(title='{0.qualified_name} Commands'.format(cog), colour=self.COLOUR)
         if cog.description:
             embed.description = cog.description
-
+ 
         filtered = await self.filter_commands(cog.get_commands(), sort=True)
         for command in filtered:
             embed.add_field(name=self.get_command_signature(command), value=command.description or '...', inline=False)
-
+ 
         embed.set_footer(text=self.get_ending_note())
         await self.get_destination().send(embed=embed)
-
+ 
     async def send_group_help(self, group):
         embed = discord.Embed(title=group.qualified_name, colour=self.COLOUR)
         if group.help:
             embed.description = group.help
+ 
+        if isinstance(group, commands.Group):
+            filtered = await self.filter_commands(group.commands, sort=True)
+            for command in filtered:
+                embed.add_field(name=self.get_command_signature(command), value=command.short_doc or '...',
+                                inline=False)
+ 
+        embed.set_footer(text=self.get_ending_note())
+        await self.get_destination().send(embed=embed)
+ 
+    async def send_command_help(self, command):
+        embed = discord.Embed(title="Command", colour=self.COLOUR)
+        if command.help:
+            embed.description = command.help
+ 
+        if isinstance(command, commands.Command):
+            embed.add_field(name=self.get_command_signature(command), value=command.description or '....', inline=False)
+ 
+        embed.set_footer(text=self.get_ending_note())
+        await self.get_destination().send(embed=embed)
 
 token = os.environ['TOKEN']
 client = commands.Bot(command_prefix='rm!', help_command=EmbedHelpCommand())
@@ -82,22 +102,6 @@ async def kick(ctx, member: discord.Member, *, reason=None):
         await member.send(embed=embed2)
         await member.kick(reason=reason)
         await ctx.send(embed=embed1)
-
-@client.command()
-@commands.has_permissions(ban_members=True)
-async def ban(ctx, member: discord.Member, *, reason=None):
-    embed1 = discord.Embed(
-        title="**SUCCESS**", 
-        description=f"***:white_check_mark: *** {member.display_name} *** has been banned for: `{reason}`***",
-        color=0x00fa00)
-    embed2 = discord.Embed(
-        title="**NOTIFICATION**", 
-        description=f":bell: *You have been kicked in **{ctx.guild}** for:* `{reason}`",
-        color=0x0064ff)
-    async with ctx.typing():
-        await member.ban(reason=reason)
-        await ctx.send(embed=embed1)
-        await member.send(embed=embed2)
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
