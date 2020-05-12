@@ -68,7 +68,7 @@ async def help(ctx, *, commandArg=None):
 async def mute(ctx, member: discord.Member, time, *, reason=None):
     await ctx.send("This is now")
     await asyncio.sleep(time)
-    await ctx.send("This would be printed {time} seconds later")
+    await ctx.send("This would be printed {time: int} seconds later")
 
 @client.command()
 @commands.has_permissions(kick_members=True)
