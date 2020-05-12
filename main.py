@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import os
 from discord import user
+import asyncio
 
 token = os.environ['TOKEN']
 client = commands.Bot(command_prefix='rm!', case_insensitive=True)
@@ -62,6 +63,12 @@ async def help(ctx, *, commandArg=None):
             description=f"`{prefix}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty.",
             color=0x0064ff)
         await ctx.send(embed=embed5)
+
+@client.command()
+async def mute(ctx, member: discord.Member, time, *, reason=None):
+    await ctx.send("This is now")
+    await asyncio.sleep(time)
+    await ctx.send("This would be printed {time} seconds later")
 
 @client.command()
 @commands.has_permissions(kick_members=True)
