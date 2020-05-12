@@ -66,9 +66,12 @@ async def help(ctx, *, commandArg=None):
 
 @client.command()
 async def mute(ctx, member: discord.Member, time:int, *, reason=None):
+    mutedRole = discord.utils.get(ctx.guilds.roles, id=709356787958284319)
     await ctx.send("This is now")
+    member.add_roles(mutedRole)
     await asyncio.sleep(time)
     await ctx.send("This would be printed {time} seconds later")
+    member.remove_roles(mutedRole)
 
 @client.command()
 @commands.has_permissions(kick_members=True)
