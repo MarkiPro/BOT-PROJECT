@@ -74,7 +74,7 @@ async def mute(ctx, member: discord.Member, time:int, *, reason=None):
         title="**NOTIFICATION**", 
         description=f":bell: *** {member.display_name} *** has been unmuted",
         color=0x0064ff)
-    mutedRole = discord.utils.get(ctx.guild.roles, id=709356787958284319)
+    mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
     await ctx.send(embed=embed1)
     await member.add_roles(mutedRole)
     await asyncio.sleep(time)
