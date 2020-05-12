@@ -86,7 +86,7 @@ async def clear(ctx, amount=0):
 
 @client.command()
 @commands.has_permissions(ban_members=True)
-async def ban(self, ctx, member: discord.Member, *, reason=None):
+async def ban(ctx, member: discord.Member, *, reason=None):
     embed1 = discord.Embed(
         title="**SUCCESS**",
         description=f"***:white_check_mark: *** {member.display_name} *** has been banned for: `{reason}`***",
