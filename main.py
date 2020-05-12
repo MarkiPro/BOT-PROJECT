@@ -66,7 +66,7 @@ async def help(ctx, *, commandArg=None):
 
 @client.command()
 async def mute(ctx, member: discord.Member, time:int, *, reason=None):
-    mutedRole = discord.utils.get(ctx.guilds.roles, id=709356787958284319)
+    mutedRole = discord.utils.get(ctx.guild.roles, id=709356787958284319)
     await ctx.send("This is now")
     member.add_roles(mutedRole)
     await asyncio.sleep(time)
@@ -125,12 +125,6 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, member, *, reason=None):
-    if(member == ctx.me):
-        embed1 = discord.Embed(
-            title="**OOPS**",
-            description=f"***Get yourself together, if you can unban only those who were banned, and if I was banned, I wouldn't be here, which would mean that you wouldn't be able to use my commands - `COMMON SENSE`***",
-            color=0xffbd00)
-        await ctx.send(embed=embed1)
     ban_list = await ctx.guild.bans()
     for ban_entry in ban_list:
         user = ban_entry.user
