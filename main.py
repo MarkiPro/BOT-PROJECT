@@ -66,6 +66,12 @@ async def help(ctx, *, commandArg=None):
 @client.command()
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
+    if(member == ctx.me):
+        embed1 = discord.Embed(
+            title="**OOPS**",
+            description=f"***Sorry bro, not gonna happen :) ***",
+            color=0xffbd00)
+        await ctx.send(embed=embed1)
     embed1 = discord.Embed(
         title="**SUCCESS**", 
         description=f"***:white_check_mark: *** {member.display_name} *** has been kicked for: `{reason}`***",
@@ -87,6 +93,12 @@ async def clear(ctx, amount=0):
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
+    if(member == ctx.me):
+        embed1 = discord.Embed(
+            title="**OOPS**",
+            description=f"***Sorry bro, not gonna happen :) ***",
+            color=0xffbd00)
+        await ctx.send(embed=embed1)
     embed1 = discord.Embed(
         title="**SUCCESS**",
         description=f"***:white_check_mark: *** {member.display_name} *** has been banned for: `{reason}`***",
@@ -103,6 +115,12 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, member, *, reason=None):
+    if(member == ctx.me):
+        embed1 = discord.Embed(
+            title="**OOPS**",
+            description=f"***Get yourself together, if you can unban only those who were banned, and if I was banned, I wouldn't be here, which would mean that you wouldn't be able to use my commands - `COMMON SENSE`***",
+            color=0xffbd00)
+        await ctx.send(embed=embed1)
     ban_list = await ctx.guild.bans()
     for ban_entry in ban_list:
         user = ban_entry.user
