@@ -66,11 +66,19 @@ async def help(ctx, *, commandArg=None):
 
 @client.command()
 async def mute(ctx, member: discord.Member, time:int, *, reason=None):
+    embed1 = discord.Embed(
+        title="**SUCCESS**",
+        description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: {time}, for: `{reason}`***",
+        color=0x00fa00)
+    embed2 = discord.Embed(
+        title="**NOTIFICATION**", 
+        description=f":bell: *** {member.display_name} *** has been unmuted",
+        color=0x0064ff)
     mutedRole = discord.utils.get(ctx.guild.roles, id=709356787958284319)
-    await ctx.send("This is now")
+    await ctx.send(embed=embed1)
     await member.add_roles(mutedRole)
     await asyncio.sleep(time)
-    await ctx.send("This would be printed {time} seconds later")
+    await ctx.send(embed=embed2)
     await member.remove_roles(mutedRole)
 
 @client.command()
