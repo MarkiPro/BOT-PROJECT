@@ -65,7 +65,7 @@ async def help(ctx, *, commandArg=None):
         await ctx.send(embed=embed5)
 
 @client.command()
-async def mute(ctx, member: discord.Member, time:int, *, reason=None):
+async def mute(ctx, member: discord.Member, time, *, reason=None):
     def parse_time(time):
         split_time = time.split(' ')
         options = {'m': 60, 'h': 3600, 'd': 86400}
