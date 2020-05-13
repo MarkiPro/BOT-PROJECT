@@ -66,6 +66,21 @@ async def help(ctx, *, commandArg=None):
 
 @client.command()
 async def mute(ctx, member: discord.Member, time:int, *, reason=None):
+    def parse_time(time):
+        split_time = time.split(' ')
+        options = {'m': 60, 'h': 3600, 'd': 86400}
+        time = 0
+
+        for _ in split_time:
+            for key, value in options.items():
+                if _.endswith(key):
+                    multiplier = int(_[:-1])
+                    print(multiplier)
+                    time_to_add = value * multiplier
+                    print(time_to_add)
+                    time = time + time_to_add
+
+        return time
     embed1 = discord.Embed(
         title="**SUCCESS**",
         description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`***",
