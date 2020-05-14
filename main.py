@@ -223,8 +223,8 @@ async def on_command_error(ctx, error):
         color=0xff0000)
     if isinstance(error, commands.MissingRequiredArguments):
         await ctx.send(embed=embed1)
-    if isinstance(error, commands.MissingPermissions)
+    if isinstance(error, commands.MissingPermissions):
         await ctx.send(embed=embed2)
-    if isinstance(error, commands.has_permissions(kick_members, administrator))
+    if isinstance(error, commands.has_permissions(kick_members, administrator)):
         await ctx.send(embed=embed3)
 client.run(token)
