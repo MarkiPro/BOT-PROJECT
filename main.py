@@ -69,17 +69,19 @@ async def help(ctx, *, commandArg=None):
             description=f"`{prefix}mute <user> <amount> [reason]` - This is correct usage of the mute command, reason is by default set to `None`, and there is no default value applied to `amount`.",
             color=0x0064ff)
         await ctx.send(embed=embed5)
-
+"""
 @client.command()
 @commands.has_permissions(administrator)
 async def pref(ctx, *, prefixArg):
     prefix1 = prefix
     return
-    prefix2 = prefix
+    await prefix2 = prefix
     embed1 = discord.Embed(
         title="**SUCCESS**",
         description=f"***:white_check_mark: *** Prefix changed from {prefix1} to {prefix2}! ***",
         color=0x00fa00)
+    await ctx.send(embed=embed1)
+"""
 
 @client.command()
 @commands.has_permissions(mute_members)
