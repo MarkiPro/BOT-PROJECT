@@ -162,11 +162,11 @@ async def clear(ctx, amount=0):
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
     if member.has_permissions(ban_members):
-        return:
-            embed1 = discord.Embed(
-                title="**ERROR**", 
-                description=f"***::no_entry_sign: That user is Moderator/Administrator, I can't kick them!***",
-                color=0xff0000)
+        return
+        embed1 = discord.Embed(
+            title="**ERROR**", 
+            description=f"***::no_entry_sign: That user is Moderator/Administrator, I can't kick them!***",
+            color=0xff0000)
         ctx.send(embed=embed1)
     if(member == ctx.me):
         embed1 = discord.Embed(
