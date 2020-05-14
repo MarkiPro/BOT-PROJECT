@@ -26,10 +26,10 @@ async def help(ctx, *, commandArg=None):
                             **--MODERATION--**
                             
                             `{prefix}clear <amount>` - This is the correct usage of the clear command, amount is by default set to `0`, so it won't delete any other message apart from yours;
+                            `{prefix}mute <user> <amount> [reason]` - This is correct usage of the mute command, reason is by default set to `None`, and there is no default value applied to `amount`;
                             `{prefix}kick <user> [reason]` - This is the correct usage of the kick command, reason is by default set to `None`;
                             `{prefix}ban <user> [reason]` - This is the correct usage of the ban command, reason is by default set to `None`;
                             `{prefix}unban <user> [reason]` - This is the correct usage of the unban command, by default reason is set to `None`;
-
                             """,
             color=0x0064ff)
         await ctx.send(embed=embed6)
@@ -63,8 +63,38 @@ async def help(ctx, *, commandArg=None):
             description=f"`{prefix}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty.",
             color=0x0064ff)
         await ctx.send(embed=embed5)
+    if(str(commandArg)) == ("mute"):
+        embed5 = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix}mute <user> <amount> [reason]` - This is correct usage of the mute command, reason is by default set to `None`, and there is no default value applied to `amount`.",
+            color=0x0064ff)
+        await ctx.send(embed=embed5)
 
 @client.command()
+@commands.has_permissions(administrator)
+async def pref(ctx, *, prefixArg):
+    prefix1 = prefix
+    return
+    prefix2 = prefix
+    embed1 = discord.Embed(
+        title="**SUCCESS**",
+        description=f"***:white_check_mark: *** Prefix changed from {prefix1} to {prefix2}! ***",
+        color=0x00fa00)
+
+@client.command()
+@commands.has_permissions(mute_members)
+async def unmute(ctx, member: discord.Member, *, reason=None):
+    mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
+    if(member.roles(mutedRole)):
+        member.remove_roles(mutedRole)
+        embed1 = discord.Embed(
+            title="**SUCCESS**",
+            description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`!***",
+            color=0x00fa00)
+        await ctx.send(embed=embed1)
+
+@client.command()
+@commands.has_permissions(mute_members)
 async def mute(ctx, member: discord.Member, time, *, reason=None):
     def parse_time(time):
         split_time = time.split(' ')
@@ -83,15 +113,15 @@ async def mute(ctx, member: discord.Member, time, *, reason=None):
         return time
     embed1 = discord.Embed(
         title="**SUCCESS**",
-        description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`***",
+        description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`!***",
         color=0x00fa00)
     embed2 = discord.Embed(
         title="**NOTIFICATION**", 
-        description=f":bell: *** {member.display_name} *** has been unmuted",
+        description=f":bell: *** {member.display_name} *** has been unmuted!",
         color=0x0064ff)
     embed3 = discord.Embed(
         title="**NOTIFICATION**", 
-        description=f":bell: *** You *** have been unmuted",
+        description=f":bell: *** You *** have been unmuted!",
         color=0x0064ff)
     mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
     await member.add_roles(mutedRole)
@@ -112,11 +142,11 @@ async def kick(ctx, member: discord.Member, *, reason=None):
         await ctx.send(embed=embed1)
     embed1 = discord.Embed(
         title="**SUCCESS**", 
-        description=f"***:white_check_mark: *** {member.display_name} *** has been kicked for: `{reason}`***",
+        description=f"***:white_check_mark: *** {member.display_name} *** has been kicked for: `{reason}`!***",
         color=0x00fa00)
     embed2 = discord.Embed(
         title="**NOTIFICATION**", 
-        description=f":bell: *You have been kicked in **{ctx.guild}** for:* `{reason}`",
+        description=f":bell: *You have been kicked in **{ctx.guild}** for:* `{reason}`!",
         color=0x0064ff)
     async with ctx.typing():
         await member.send(embed=embed2)
@@ -131,6 +161,13 @@ async def clear(ctx, amount=0):
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
+    if member.has_permissions(ban_members):
+        return:
+            embed1 = discord.Embed(
+                title="**ERROR**", 
+                description=f"***::no_entry_sign: That user is Moderator/Administrator, I can't kick them!***",
+                color=0xff0000)
+        ctx.send(embed=embed1)
     if(member == ctx.me):
         embed1 = discord.Embed(
             title="**OOPS**",
@@ -139,11 +176,11 @@ async def ban(ctx, member: discord.Member, *, reason=None):
         await ctx.send(embed=embed1)
     embed1 = discord.Embed(
         title="**SUCCESS**",
-        description=f"***:white_check_mark: *** {member.display_name} *** has been banned for: `{reason}`***",
+        description=f"***:white_check_mark: *** {member.display_name} *** has been banned for: `{reason}`!***",
         color=0x00fa00)
     embed2 = discord.Embed(
         title="**NOTIFICATION**",
-        description=f":bell: *You have been banned in **{ctx.guild}** for:* `{reason}`",
+        description=f":bell: *You have been banned in **{ctx.guild}** for:* `{reason}`!",
         color=0x0064ff)
     async with ctx.typing():
         await member.ban(reason=reason)
@@ -159,7 +196,7 @@ async def unban(ctx, member, *, reason=None):
         id = member
         embed1 = discord.Embed(
         title="**SUCCESS**", 
-        description=f"***:white_check_mark: *** {user.display_name} *** has been unbanned for: `{reason}`***",
+        description=f"***:white_check_mark: *** {user.display_name} *** has been unbanned for: `{reason}`!***",
         color=0x00fa00)
         try:
             user_name, user_discriminator = member.split('#')
@@ -170,4 +207,24 @@ async def unban(ctx, member, *, reason=None):
             await ctx.guild.unban(user, reason=reason)
             await ctx.send(embed=embed1)
 
+@client.event
+async def on_command_error(ctx, error):
+    embed1 = discord.Embed(
+        title="**ERROR**", 
+        description=f"***::no_entry_sign: You're missing arguments! Please do {prefix}help <command> to get more information on a certain command!***",
+        color=0xff0000)
+    embed2 = discord.Embed(
+        title="**ERROR**", 
+        description=f"***::no_entry_sign: You're missing permission to use this command!***",
+        color=0xff0000)
+    embed3 = discord.Embed(
+        title="**ERROR**", 
+        description=f"***::no_entry_sign: That user is Moderator/Administrator, I don't have permissions to change anything for them!***",
+        color=0xff0000)
+    if isinstance(error, commands.MissingRequiredArguments):
+        await ctx.send(embed=embed1)
+    if isinstance(error, commands.MissingPermissions)
+        await ctx.send(embed=embed2)
+    if isinstance(error, commands.has_permissions(kick_members, administrator))
+        await ctx.send(embed=embed3)
 client.run(token)
