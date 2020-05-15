@@ -14,25 +14,6 @@ async def on_ready():
 @client.remove_command('help')
 
 @client.command()
-async def help(ctx, *, commandArg=None):
-    prefix = await client.get_prefix(ctx.message)
-    if(not commandArg):
-        embed6 = discord.Embed(
-            title="**COMMANDS:**", 
-            description=f"""**--INFORMATIVE--**
-            
-                            `{prefix}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty;
-                            """,
-            color=0x0064ff)
-        await ctx.send(embed=embed6)
-    if(str(commandArg)) == ("help"):
-        embed5 = discord.Embed(
-            title="**COMMAND**", 
-            description=f"`{prefix}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty.",
-            color=0x0064ff)
-        await ctx.send(embed=embed5)
-
-@client.command()
 @commands.has_permissions(kick_members=True, ban_members=True, administrator=True)
 @client.command()
 async def help(ctx, *, commandArg=None):
