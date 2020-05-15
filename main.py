@@ -195,7 +195,7 @@ async def unban(ctx, member, *, reason=None):
         if (user.name, user.discriminator) == (user_name, user_discriminator) or int(id) == user.id:
             await ctx.guild.unban(user, reason=reason)
             await ctx.send(embed=embed1)
-
+"""
 @client.event
 async def on_command_error(ctx, error):
     prefix = await client.get_prefix(ctx.message)
@@ -211,4 +211,5 @@ async def on_command_error(ctx, error):
         await ctx.send(embed=embed1)
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(embed=embed2)
+"""
 client.run(token)
