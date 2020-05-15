@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import os
-from discord import member, user
+from discord import user
 import asyncio
 
 token = os.environ['TOKEN']
@@ -92,68 +92,62 @@ async def unmute(ctx, member: discord.Member, *, reason=None):
 @client.command()
 @commands.has_permissions(manage_roles=True)
 async def mute(ctx, member: discord.Member, time, *, reason=None):
-    if member.has_permissions(manage_roles=True):
-        return False
-    else:
-        def parse_time(time):
-            split_time = time.split(' ')
-            options = {'m': 60, 'h': 3600, 'd': 86400}
-            time = 0
+    def parse_time(time):
+        split_time = time.split(' ')
+        options = {'m': 60, 'h': 3600, 'd': 86400}
+        time = 0
 
-            for _ in split_time:
-                for key, value in options.items():
-                    if _.endswith(key):
-                        multiplier = int(_[:-1])
-                        print(multiplier)
-                        time_to_add = value * multiplier
-                        print(time_to_add)
-                        time = time + time_to_add
+        for _ in split_time:
+            for key, value in options.items():
+                if _.endswith(key):
+                    multiplier = int(_[:-1])
+                    print(multiplier)
+                    time_to_add = value * multiplier
+                    print(time_to_add)
+                    time = time + time_to_add
 
-            return time
-        embed1 = discord.Embed(
-            title="**SUCCESS**",
-            description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`!***",
-            color=0x00fa00)
-        embed2 = discord.Embed(
-            title="**NOTIFICATION**", 
-            description=f":bell: *** {member.display_name} *** has been unmuted!",
-            color=0x0064ff)
-        embed3 = discord.Embed(
-            title="**NOTIFICATION**", 
-            description=f":bell: *** You *** have been unmuted!",
-            color=0x0064ff)
-        mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
-        await member.add_roles(mutedRole)
-        await ctx.send(embed=embed1)
-        await member.send(embed=embed3)
-        await asyncio.sleep(time)
-        await ctx.send(embed=embed2)
-        await member.remove_roles(mutedRole)
+        return time
+    embed1 = discord.Embed(
+        title="**SUCCESS**",
+        description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`!***",
+        color=0x00fa00)
+    embed2 = discord.Embed(
+        title="**NOTIFICATION**", 
+        description=f":bell: *** {member.display_name} *** has been unmuted!",
+        color=0x0064ff)
+    embed3 = discord.Embed(
+        title="**NOTIFICATION**", 
+        description=f":bell: *** You *** have been unmuted!",
+        color=0x0064ff)
+    mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
+    await member.add_roles(mutedRole)
+    await ctx.send(embed=embed1)
+    await member.send(embed=embed3)
+    await asyncio.sleep(time)
+    await ctx.send(embed=embed2)
+    await member.remove_roles(mutedRole)
 
 @client.command()
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
-    if member.has_permissions(kick_members=True):
-        return False
-    else:
-        if(member == ctx.me):
-            embed1 = discord.Embed(
-                title="**OOPS**",
-                description=f"***Sorry bro, not gonna happen :) ***",
-                color=0xffbd00)
-            await ctx.send(embed=embed1)
+    if(member == ctx.me):
         embed1 = discord.Embed(
-            title="**SUCCESS**", 
-            description=f"***:white_check_mark: *** {member.display_name} *** has been kicked for: `{reason}`!***",
-            color=0x00fa00)
-        embed2 = discord.Embed(
-            title="**NOTIFICATION**", 
-            description=f":bell: *You have been kicked in **{ctx.guild}** for:* `{reason}`!",
-            color=0x0064ff)
-        async with ctx.typing():
-            await member.send(embed=embed2)
-            await member.kick(reason=reason)
-            await ctx.send(embed=embed1)
+            title="**OOPS**",
+            description=f"***Sorry bro, not gonna happen :) ***",
+            color=0xffbd00)
+        await ctx.send(embed=embed1)
+    embed1 = discord.Embed(
+        title="**SUCCESS**", 
+        description=f"***:white_check_mark: *** {member.display_name} *** has been kicked for: `{reason}`!***",
+        color=0x00fa00)
+    embed2 = discord.Embed(
+        title="**NOTIFICATION**", 
+        description=f":bell: *You have been kicked in **{ctx.guild}** for:* `{reason}`!",
+        color=0x0064ff)
+    async with ctx.typing():
+        await member.send(embed=embed2)
+        await member.kick(reason=reason)
+        await ctx.send(embed=embed1)
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
@@ -163,50 +157,44 @@ async def clear(ctx, amount=0):
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
-    if member.has_permissions(ban_members=True):
-        return False
-    else:
-        if(member == ctx.me):
-            embed1 = discord.Embed(
-                title="**OOPS**",
-                description=f"***Sorry bro, not gonna happen :) ***",
-                color=0xffbd00)
-            await ctx.send(embed=embed1)
+    if(member == ctx.me):
         embed1 = discord.Embed(
-            title="**SUCCESS**",
-            description=f"***:white_check_mark: *** {member.display_name} *** has been banned for: `{reason}`!***",
-            color=0x00fa00)
-        embed2 = discord.Embed(
-            title="**NOTIFICATION**",
-            description=f":bell: *You have been banned in **{ctx.guild}** for:* `{reason}`!",
-            color=0x0064ff)
-        async with ctx.typing():
-            await member.ban(reason=reason)
-            await ctx.send(embed=embed1)
-            await member.send(embed=embed2)
+            title="**OOPS**",
+            description=f"***Sorry bro, not gonna happen :) ***",
+            color=0xffbd00)
+        await ctx.send(embed=embed1)
+    embed1 = discord.Embed(
+        title="**SUCCESS**",
+        description=f"***:white_check_mark: *** {member.display_name} *** has been banned for: `{reason}`!***",
+        color=0x00fa00)
+    embed2 = discord.Embed(
+        title="**NOTIFICATION**",
+        description=f":bell: *You have been banned in **{ctx.guild}** for:* `{reason}`!",
+        color=0x0064ff)
+    async with ctx.typing():
+        await member.ban(reason=reason)
+        await ctx.send(embed=embed1)
+        await member.send(embed=embed2)
 
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, member, *, reason=None):
-    if member.has_permissions(kick_members=True):
-        return False
-    else:
-        ban_list = await ctx.guild.bans()
-        for ban_entry in ban_list:
-            user = ban_entry.user
-            id = member
-            embed1 = discord.Embed(
-            title="**SUCCESS**", 
-            description=f"***:white_check_mark: *** {user.display_name} *** has been unbanned for: `{reason}`!***",
-            color=0x00fa00)
-            try:
-                user_name, user_discriminator = member.split('#')
-            except ValueError:
-                user_name = ''
-                user_discriminator = ''
-            if (user.name, user.discriminator) == (user_name, user_discriminator) or int(id) == user.id:
-                await ctx.guild.unban(user, reason=reason)
-                await ctx.send(embed=embed1)
+    ban_list = await ctx.guild.bans()
+    for ban_entry in ban_list:
+        user = ban_entry.user
+        id = member
+        embed1 = discord.Embed(
+        title="**SUCCESS**", 
+        description=f"***:white_check_mark: *** {user.display_name} *** has been unbanned for: `{reason}`!***",
+        color=0x00fa00)
+        try:
+            user_name, user_discriminator = member.split('#')
+        except ValueError:
+            user_name = ''
+            user_discriminator = ''
+        if (user.name, user.discriminator) == (user_name, user_discriminator) or int(id) == user.id:
+            await ctx.guild.unban(user, reason=reason)
+            await ctx.send(embed=embed1)
 
 @client.event
 async def on_command_error(ctx, error):
