@@ -14,8 +14,6 @@ async def on_ready():
 @client.remove_command('help')
 
 @client.command()
-@commands.has_permissions(kick_members=True, ban_members=True, administrator=True)
-@client.command()
 async def help(ctx, *, commandArg=None):
     prefix = await client.get_prefix(ctx.message)
     if(not commandArg):
