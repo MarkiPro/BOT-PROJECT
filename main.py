@@ -217,7 +217,7 @@ async def on_command_error(ctx, error):
         title="**ERROR**", 
         description=f"***::no_entry_sign: That user is Moderator/Administrator, I don't have permissions to change anything for them!***",
         color=0xff0000)
-    if isinstance(error, commands.MissingRequiredArguments):
+    if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(embed=embed1)
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(embed=embed2)
