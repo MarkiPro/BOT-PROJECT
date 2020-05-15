@@ -22,6 +22,27 @@ async def help(ctx, *, commandArg=None):
             description=f"""**--INFORMATIVE--**
             
                             `{prefix}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty;
+                            """,
+            color=0x0064ff)
+        await ctx.send(embed=embed6)
+    if(str(commandArg)) == ("help"):
+        embed5 = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty.",
+            color=0x0064ff)
+        await ctx.send(embed=embed5)
+
+@client.command()
+@commands.has_permissions(kick_members=True, ban_members=True, administrator=True)
+@client.command()
+async def help(ctx, *, commandArg=None):
+    prefix = await client.get_prefix(ctx.message)
+    if(not commandArg):
+        embed6 = discord.Embed(
+            title="**COMMANDS:**", 
+            description=f"""**--INFORMATIVE--**
+            
+                            `{prefix}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty;
                             
                             **--MODERATION--**
                             
@@ -69,34 +90,27 @@ async def help(ctx, *, commandArg=None):
             description=f"`{prefix}mute <user> <amount> [reason]` - This is correct usage of the mute command, reason is by default set to `None`, and there is no default value applied to `amount`.",
             color=0x0064ff)
         await ctx.send(embed=embed5)
-"""
-@client.command()
-@commands.has_permissions(administrator)
-async def pref(ctx, *, prefixArg):
-    prefix1 = prefix
-    return
-    await prefix2 = prefix
-    embed1 = discord.Embed(
-        title="**SUCCESS**",
-        description=f"***:white_check_mark: *** Prefix changed from {prefix1} to {prefix2}! ***",
-        color=0x00fa00)
-    await ctx.send(embed=embed1)
-"""
+    if(str(commandArg)) == ("unmute"):
+        embed5 = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix}unmute <user> [reason]` - This is correct usage of the mute command, reason is by default set to `None`.",
+            color=0x0064ff)
+        await ctx.send(embed=embed5)
 
 @client.command()
-@commands.has_permissions(mute_members)
+@commands.has_permissions(manage_roles=True)
 async def unmute(ctx, member: discord.Member, *, reason=None):
     mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
     if(member.roles(mutedRole)):
         member.remove_roles(mutedRole)
         embed1 = discord.Embed(
             title="**SUCCESS**",
-            description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`!***",
+            description=f"***:white_check_mark: *** {member.display_name} *** has been unmuted for: `{reason}`***",
             color=0x00fa00)
         await ctx.send(embed=embed1)
 
 @client.command()
-@commands.has_permissions(mute_members)
+@commands.has_permissions(manage_roles=True)
 async def mute(ctx, member: discord.Member, time, *, reason=None):
     def parse_time(time):
         split_time = time.split(' ')
@@ -163,7 +177,7 @@ async def clear(ctx, amount=0):
 @client.command()
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
-    if member.has_permissions(ban_members):
+    if member.has_permissions(ban_members=True):
         return
         embed1 = discord.Embed(
             title="**ERROR**", 
@@ -211,6 +225,7 @@ async def unban(ctx, member, *, reason=None):
 
 @client.event
 async def on_command_error(ctx, error):
+    prefix = await client.get_prefix(ctx.message)
     embed1 = discord.Embed(
         title="**ERROR**", 
         description=f"***::no_entry_sign: You're missing arguments! Please do {prefix}help <command> to get more information on a certain command!***",
@@ -227,6 +242,6 @@ async def on_command_error(ctx, error):
         await ctx.send(embed=embed1)
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(embed=embed2)
-    if isinstance(error, commands.has_permissions(kick_members, administrator)):
+    if isinstance(error, commands.has_permissions(kick_members=True, administrator=True)):
         await ctx.send(embed=embed3)
 client.run(token)
