@@ -207,14 +207,8 @@ async def on_command_error(ctx, error):
         title="**ERROR**", 
         description=f"***:no_entry_sign: You're missing permission to use this command!***",
         color=0xff0000)
-    embed3 = discord.Embed(
-        title="**ERROR**", 
-        description=f"***:no_entry_sign: That user is Moderator/Administrator, I don't have permissions to change anything for them!***",
-        color=0xff0000)
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(embed=embed1)
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(embed=embed2)
-    if isinstance(error, commands.has_permissions(kick_members=True, administrator=True)):
-        await ctx.send(embed=embed3)
 client.run(token)
