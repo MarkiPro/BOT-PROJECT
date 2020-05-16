@@ -34,6 +34,7 @@ async def help(ctx, *, commandArg=None):
                             
                             **--COMMUNITY--**
 
+                            `{prefix}suggest <suggestion>`          - This is the correct usage of the suggest command, suggestion doesn't have a default value;
                             """,
             color=0x0064ff)
         await ctx.send(embed=embed6)
