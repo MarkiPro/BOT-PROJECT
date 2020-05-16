@@ -93,7 +93,12 @@ async def unmute(ctx, member: discord.Member, *, reason=None):
             title="**SUCCESS**",
             description=f"***:white_check_mark: *** {member.display_name} *** has been unmuted for: `{reason}`***",
             color=0x00fa00)
+        embed2 = discord.Embed(
+            title="**NOTIFICATION**", 
+            description=f":bell: *** You *** have been unmuted!",
+            color=0x0064ff)
         await ctx.send(embed=embed1)
+        await member.send(embed=embed2)
 
 @client.command()
 @commands.has_permissions(manage_roles=True)
