@@ -87,8 +87,7 @@ async def suggest(ctx, *, suggestion):
     embed1 = discord.Embed(
         title="**SUGGESTION**",
         description="{suggestion}",
-        color=0x0064ff,
-        author=ctx.author
+        color=0x0064ff
         )
     await suggestionsChannel.send(embed=embed1)
 
