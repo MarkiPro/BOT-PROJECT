@@ -21,7 +21,7 @@ async def help(ctx, *, commandArg=None):
             title="**COMMANDS:**", 
             description=f"""**--INFORMATIVE--**
             
-                            `{prefix}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty;
+                            `{prefix}help [command]`                - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty;
                             
                             **--MODERATION--**
                             
@@ -31,6 +31,9 @@ async def help(ctx, *, commandArg=None):
                             `{prefix}kick <user> [reason]`          - This is the correct usage of the kick command, reason is by default set to `None`;
                             `{prefix}ban <user> [reason]`           - This is the correct usage of the ban command, reason is by default set to `None`;
                             `{prefix}unban <user> [reason]`         - This is the correct usage of the unban command, by default reason is set to `None`;
+                            
+                            **--COMMUNITY--**
+
                             """,
             color=0x0064ff)
         await ctx.send(embed=embed6)
@@ -76,6 +79,17 @@ async def help(ctx, *, commandArg=None):
             description=f"`{prefix}unmute <user> [reason]` - This is correct usage of the mute command, reason is by default set to `None`.",
             color=0x0064ff)
         await ctx.send(embed=embed5)
+
+@client.command()
+async def suggest(ctx, *, suggestion):
+    suggestionsChannel = discord.Guild.get_channel(id=711307176899248149)
+    embed1 = discord.Embed(
+        title="**SUGGESTION**",
+        description="{suggestion}",
+        color=0x0064ff,
+        author=ctx.author
+        )
+    await suggestionsChannel.send(embed=embed1)
 
 @client.command()
 @commands.has_permissions(manage_roles=True)
@@ -130,7 +144,7 @@ async def mute(ctx, member: discord.Member, time, *, reason=None):
         title="**NOTIFICATION**", 
         description=f":bell: *** You *** have been unmuted!",
         color=0x0064ff)
-    mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
+    mutedRole = await discord.utils.get(ctx.guild.roles, id=709737313705525358)
     await member.add_roles(mutedRole)
     await ctx.send(embed=embed1)
     await member.send(embed=embed3)
