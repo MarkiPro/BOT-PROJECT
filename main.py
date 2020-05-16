@@ -82,7 +82,12 @@ async def help(ctx, *, commandArg=None):
 async def unmute(ctx, member: discord.Member, *, reason=None):
     mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
     everyoneRole = discord.utils.get(ctx.guild.roles, id=707262068218265653)
-    if(member.roles(everyoneRole, mutedRole)):
+    has_role = False
+    for role in member.roles:
+        if role.name == 'Muted':
+            has_role = True
+            break
+    if has_role:
         member.remove_roles(mutedRole)
         embed1 = discord.Embed(
             title="**SUCCESS**",
