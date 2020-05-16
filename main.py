@@ -221,7 +221,7 @@ async def warn(ctx, member: discord.Member, *, reason):
     await ctx.send(f"{member} has been warned!")
 
 @client.command()
-async def warns(ctx, member: discord.Member):
+async def warnings(ctx, member: discord.Member):
     connection = mysql.connector.connect(
         host='localhost',
         user='root',
@@ -239,7 +239,7 @@ async def warns(ctx, member: discord.Member):
     await ctx.send(embed=embed)
 
 @client.command()
-async def rem_warn(ctx, *, id):
+async def removewarn(ctx, *, id):
     connection = mysql.connector.connect(
         host='localhost',
         user='root',
