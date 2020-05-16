@@ -3,10 +3,10 @@ from discord.ext import commands
 import os
 from discord import user
 import asyncio
+import mysql.connector
 
 token = os.environ['TOKEN']
 client = commands.Bot(command_prefix='rm!', case_insensitive=True)
-
 @client.event
 async def on_ready():
     print(f"Ready")
@@ -206,6 +206,60 @@ async def unban(ctx, member, *, reason=None):
         if (user.name, user.discriminator) == (user_name, user_discriminator) or int(id) == user.id:
             await ctx.guild.unban(user, reason=reason)
             await ctx.send(embed=embed1)
+
+@client.command()
+async def warn(ctx, member: discord.Member, *, reason):
+    connection = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        passwd='',
+        database='discord-py-tutorial'
+    )
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO warns VALUES (%s, %s, %s, %s, %s)", (None, ctx.guild.id, member.id, reason, ctx.author.id))
+    connection.commit()
+    await ctx.send(f"{member} has been warned!")
+
+@client.command()
+async def warns(ctx, member: discord.Member):
+    connection = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        passwd='',
+        database='discord-py-tutorial'
+    )
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM warns WHERE user_id = %s AND guild_id = %s", (member.id, ctx.guild.id))
+    warns = cursor.fetchall()
+    embed = discord.Embed(title=f"Warns of {member}".upper(), description="Returns all the warns of a user")
+    member_converter = commands.MemberConverter()
+    for warn in warns:
+        moderator = await member_converter.convert(ctx, warn[4])
+        embed.add_field(name=f"Warn #{warn[0]} by {moderator}", value=f"{warn[3]}", inline=False)
+    await ctx.send(embed=embed)
+
+@client.command()
+async def rem_warn(ctx, *, id):
+    connection = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        passwd='',
+        database='discord-py-tutorial'
+    )
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM warns WHERE id = %s", (int(id), ))
+    warn = cursor.fetchone()
+
+    if warn == None:
+        return await ctx.send("This warn does'nt exist!")
+
+    if int(warn[1]) != ctx.guild.id:
+        return await ctx.send("This warn doesnt belong to this guild.")
+
+
+    cursor.execute("DELETE FROM warns WHERE id = %s", (int(id), ))
+    connection.commit()
+    await ctx.send(f"Removed warn #{id}")
 
 @client.event
 async def on_command_error(ctx, error):
