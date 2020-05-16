@@ -88,7 +88,7 @@ async def unmute(ctx, member: discord.Member, *, reason=None):
             has_role = True
             break
     if has_role:
-        member.remove_roles(mutedRole)
+        await member.remove_roles(mutedRole)
         embed1 = discord.Embed(
             title="**SUCCESS**",
             description=f"***:white_check_mark: *** {member.display_name} *** has been unmuted for: `{reason}`***",
