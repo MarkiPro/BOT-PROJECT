@@ -156,7 +156,7 @@ async def suggest(ctx):
             title=f"**{title}**",
             description=f"{body}",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(1589750228)
+            timestamp=datetime.datetime.now(tz=None)
             )
         suggestedEmbed.set_footer(text=f"by: {ctx.author}")
         sent = await suggestionsChannel.send(embed=suggestedEmbed)
