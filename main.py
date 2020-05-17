@@ -159,9 +159,9 @@ async def suggest(ctx):
             timestamp=datetime.datetime.utcfromtimestamp(1589750228)
             )
         suggestedEmbed.set_footer(text=f"by: {ctx.author}")
-        await suggestionsChannel.send(embed=suggestedEmbed)
-        await client.add_reaction(ctx, emoji = "\U0001F44D") # use the message object to add the reaction to
-        await client.add_reaction(ctx, emoji = "\U0001F44E")
+        sent = await suggestionsChannel.send(embed=suggestedEmbed)
+        await client.add_reaction(sent, emoji = "\U0001F44D") # use the message object to add the reaction to
+        await client.add_reaction(sent, emoji = "\U0001F44E")
 @client.command()
 @commands.has_permissions(manage_roles=True)
 @commands.cooldown(1, 5, commands.BucketType.member)
