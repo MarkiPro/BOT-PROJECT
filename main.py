@@ -137,10 +137,10 @@ async def suggest(ctx):
     suggestedEmbed = discord.Embed(
         title=f"**{title}**",
         description=f"{body}",
-        color=0x0064ff
+        color=0x0064ff,
+        timestamp=datetime.datetime.utcfromtimestamp(1589750228)
         )
     suggestedEmbed.set_footer(text=ctx.author)
-    suggestedEmbed.timestamp(datetime.datetime.now().strftime(format))
     await suggestionsChannel.send(embed=suggestedEmbed)
 @client.command()
 @commands.has_permissions(manage_roles=True)
