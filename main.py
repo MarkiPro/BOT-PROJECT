@@ -140,7 +140,7 @@ async def suggest(ctx):
         color=0x0064ff
         )
     suggestedEmbed.set_footer(text=ctx.author)
-    suggestedEmbed.timestamp(datetime.datetime.now().strftime(fmt="%M"))
+    suggestedEmbed.timestamp(datetime.datetime.now().strftime(format))
     await suggestionsChannel.send(embed=suggestedEmbed)
 @client.command()
 @commands.has_permissions(manage_roles=True)
