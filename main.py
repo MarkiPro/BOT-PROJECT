@@ -82,7 +82,7 @@ async def help(ctx, *, commandArg=None):
             color=0x0064ff)
         await ctx.send(embed=embed5)
 
-@client.commandd()
+@client.command()
 @commands.cooldown(1, 60, commands.BucketType.member)
 async def credits():
     suggestedEmbed = discord.Embed(
