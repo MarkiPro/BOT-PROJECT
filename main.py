@@ -142,7 +142,7 @@ async def suggest(ctx):
         color=0x0064ff,
         timestamp=datetime.datetime.utcfromtimestamp(1589750228)
         )
-    suggestedEmbed.set_footer(f"by: {ctx.author}")
+    suggestedEmbed.set_footer(text=f"by: {ctx.author}")
     await ctx.add_reaction(ThumbsUpEmoji)
     await ctx.add_reaction(ThumbsDownEmoji)
     await suggestionsChannel.send(embed=suggestedEmbed)
