@@ -127,25 +127,40 @@ async def suggest(ctx):
     await ctx.author.send(embed=startEmbed)
     body_message = await client.wait_for('message', check=check, timeout=500)
     body = body_message.content
-    finalEmbed = discord.Embed(
-        title="**SUGGESTION SETUP**",
-        description="Your suggestion has been posted.",
-        color=0x0064ff
-        )
-    await ctx.author.send(embed=finalEmbed)
-    suggestionsChannel = client.get_channel(id=711307176899248149)
-    ThumbsUpEmoji = client.get_emoji(id=711691482683277313)
-    ThumbsDownEmoji = client.get_emoji(id=711691608780963937)
-    suggestedEmbed = discord.Embed(
-        title=f"**{title}**",
-        description=f"{body}",
+    suggestedEmbed2 = discord.Embed(
+        title=f"**FINISHED PRODUCT**",
+        description=f"""{title}
+                        
+                        {body}
+                        
+                        
+                        *Say `done` to post.*""",
         color=0x0064ff,
         timestamp=datetime.datetime.utcfromtimestamp(1589750228)
         )
-    suggestedEmbed.set_footer(text=f"by: {ctx.author}")
-    await ctx.add_reaction(ThumbsUpEmoji)
-    await ctx.add_reaction(ThumbsDownEmoji)
-    await suggestionsChannel.send(embed=suggestedEmbed)
+    suggestedEmbed2.set_footer(text=f"by: {ctx.author}")
+    body_message2 = await client.wait_for('message', check=check, timeout=500)
+    body2 = body_message2.content
+    if(body2 == "done"):
+        finalEmbed = discord.Embed(
+            title="**SUGGESTION SETUP**",
+            description="Your suggestion has been posted.",
+            color=0x0064ff
+            )
+        await ctx.author.send(embed=finalEmbed)
+        suggestionsChannel = client.get_channel(id=711307176899248149)
+        ThumbsUpEmoji = client.get_emoji(id=711691482683277313)
+        ThumbsDownEmoji = client.get_emoji(id=711691608780963937)
+        suggestedEmbed = discord.Embed(
+            title=f"**{title}**",
+            description=f"{body}",
+            color=0x0064ff,
+            timestamp=datetime.datetime.utcfromtimestamp(1589750228)
+            )
+        suggestedEmbed.set_footer(text=f"by: {ctx.author}")
+        await client.add_reaction(ctx, emoji = "\U0001F44D") # use the message object to add the reaction to
+        await client.add_reaction(ctx, emoji = "\U0001F44E")
+        await suggestionsChannel.send(embed=suggestedEmbed)
 @client.command()
 @commands.has_permissions(manage_roles=True)
 @commands.cooldown(1, 5, commands.BucketType.member)
