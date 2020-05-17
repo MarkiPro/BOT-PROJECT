@@ -140,9 +140,8 @@ async def suggest(ctx):
         color=0x0064ff
         )
     suggestedEmbed.set_footer(text=ctx.author)
-    suggestedEmbed.timestamp(datetime.datetime.now().strftime())
+    suggestedEmbed.timestamp(datetime.datetime.now().strftime(fmt=None))
     await suggestionsChannel.send(embed=suggestedEmbed)
-
 @client.command()
 @commands.has_permissions(manage_roles=True)
 @commands.cooldown(1, 5, commands.BucketType.member)
@@ -334,7 +333,6 @@ async def removewarn(ctx, *, id):
     cursor.execute("DELETE FROM warns WHERE id = %s", (int(id), ))
     connection.commit()
     await ctx.send(f"Removed warn #{id}")
-"""
 @client.event
 async def on_command_error(ctx, error):
     prefix = await client.get_prefix(ctx.message)
@@ -356,5 +354,4 @@ async def on_command_error(ctx, error):
         await ctx.send(embed=embed1)
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(embed=embed2)
-"""
 client.run(token)
