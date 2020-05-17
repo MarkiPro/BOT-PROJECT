@@ -150,9 +150,7 @@ async def suggest(ctx):
             )
         await ctx.author.send(embed=finalEmbed)
         suggestionsChannel = client.get_channel(id=711307176899248149)
-        ThumbsUpEmoji = discord.Emoji(
-            
-        )
+        ThumbsUpEmoji = client.get_emoji(id=711691482683277313)
         ThumbsDownEmoji = client.get_emoji(id=711691608780963937)
         suggestedEmbed = discord.Embed(
             title=f"**{title}**",
