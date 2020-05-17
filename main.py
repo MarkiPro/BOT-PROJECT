@@ -4,6 +4,7 @@ import os
 from discord import user
 import asyncio
 import mysql.connector
+import datetime
 
 token = os.environ['TOKEN']
 client = commands.Bot(command_prefix='rm!', case_insensitive=True)
@@ -81,18 +82,70 @@ async def help(ctx, *, commandArg=None):
             color=0x0064ff)
         await ctx.send(embed=embed5)
 
-@client.command()
-async def suggest(ctx, *, suggestion):
-    suggestionsChannel = discord.Guild.get_channel(id=711307176899248149)
-    embed1 = discord.Embed(
-        title="**SUGGESTION**",
-        description="{suggestion}",
+@client.commandd()
+@commands.cooldown(1, 60, commands.BucketType.member)
+async def credits():
+    suggestedEmbed = discord.Embed(
+        title=f"**CREDITS**",
+        description=f"""
+        This bot was originally made by `MarkiPro#0825`.
+        HUUUUUUGE Thank you to `Malware#1234` for being of big help with setting a big chunk of this bot up.""",
         color=0x0064ff
         )
-    await suggestionsChannel.send(embed=embed1)
+    suggestedEmbed.timestamp(datetime.datetime.now().strftime())
+
+@client.command()
+@commands.cooldown(1, 3600, commands.BucketType.member)
+async def suggest(ctx):
+    startedEmbed = discord.Embed(
+        title="**SUGGESTION SETUP**",
+        description="Please continue in dms.",
+        color=0x0064ff
+        )
+    furstEmbed = discord.Embed(
+        title="**SUGGESTION SETUP**",
+        description="What would you like to name your suggestion?",
+        color=0x0064ff
+        )
+    await ctx.send(embed=startedEmbed)
+    await ctx.author.send("What would you like to name your suggestion?")
+    def check(m):
+        if isinstance(m.channel, discord.DMChannel):
+            if m.author == ctx.author:
+                return True
+            else:
+                return False
+        else:
+            return False
+    title_message = await client.wait_for('message', check=check, timeout=500)
+    title = title_message.content
+    startEmbed = discord.Embed(
+        title="**SUGGESTION SETUP**",
+        description="Please write down your suggestion in detail.",
+        color=0x0064ff
+        )
+    await ctx.author.send(embed=startEmbed)
+    body_message = await client.wait_for('message', check=check, timeout=500)
+    body = body_message.content
+    finalEmbed = discord.Embed(
+        title="**SUGGESTION SETUP**",
+        description="Your suggestion has been posted.",
+        color=0x0064ff
+        )
+    await ctx.author.send(embed=finalEmbed)
+    suggestionsChannel = await client.get_channel(id=711307176899248149)
+    suggestedEmbed = discord.Embed(
+        title=f"**{title}**",
+        description=f"{body}",
+        color=0x0064ff
+        )
+    suggestedEmbed.set_footer(text=ctx.author)
+    suggestedEmbed.timestamp(datetime.datetime.now().strftime())
+    await suggestionsChannel.send(embed=suggestedEmbed)
 
 @client.command()
 @commands.has_permissions(manage_roles=True)
+@commands.cooldown(1, 5, commands.BucketType.member)
 async def unmute(ctx, member: discord.Member, *, reason=None):
     mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
     everyoneRole = discord.utils.get(ctx.guild.roles, id=707262068218265653)
@@ -116,6 +169,7 @@ async def unmute(ctx, member: discord.Member, *, reason=None):
 
 @client.command()
 @commands.has_permissions(manage_roles=True)
+@commands.cooldown(1, 5, commands.BucketType.member)
 async def mute(ctx, member: discord.Member, time, *, reason=None):
     def parse_time(time):
         split_time = time.split(' ')
@@ -154,6 +208,7 @@ async def mute(ctx, member: discord.Member, time, *, reason=None):
 
 @client.command()
 @commands.has_permissions(kick_members=True)
+@commands.cooldown(1, 5, commands.BucketType.member)
 async def kick(ctx, member: discord.Member, *, reason=None):
     if(member == ctx.me):
         embed1 = discord.Embed(
@@ -176,11 +231,14 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 
 @client.command()
 @commands.has_permissions(manage_messages=True)
+@commands.cooldown(1, 5, commands.BucketType.member)
 async def clear(ctx, amount=0):
     await ctx.channel.purge(limit=amount+1)
 
+
 @client.command()
 @commands.has_permissions(ban_members=True)
+@commands.cooldown(1, 5, commands.BucketType.member)
 async def ban(ctx, member: discord.Member, *, reason=None):
     if(member == ctx.me):
         embed1 = discord.Embed(
@@ -203,6 +261,7 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 
 @client.command()
 @commands.has_permissions(ban_members=True)
+@commands.cooldown(1, 5, commands.BucketType.member)
 async def unban(ctx, member, *, reason=None):
     ban_list = await ctx.guild.bans()
     for ban_entry in ban_list:
@@ -222,6 +281,7 @@ async def unban(ctx, member, *, reason=None):
             await ctx.send(embed=embed1)
 
 @client.command()
+@commands.cooldown(1, 5, commands.BucketType.member)
 async def warn(ctx, member: discord.Member, *, reason):
     connection = mysql.connector.connect(
         host='localhost',
@@ -286,6 +346,12 @@ async def on_command_error(ctx, error):
         title="**ERROR**", 
         description=f"***:no_entry_sign: You're missing permission to use this command!***",
         color=0xff0000)
+    embed3 = discord.Embed(
+        title="**ERROR**", 
+        description=f"***:no_entry_sign: The command is on a cooldown, please do not rush it.***",
+        color=0xff0000)
+    if isinstance(error, commands.CommandOnCooldown):
+        await ctx.send(embed=embed3)
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send(embed=embed1)
     if isinstance(error, commands.MissingPermissions):
