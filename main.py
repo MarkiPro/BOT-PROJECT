@@ -108,7 +108,7 @@ async def suggest(ctx):
         color=0x0064ff
         )
     await ctx.send(embed=startedEmbed)
-    await ctx.author.send("What would you like to name your suggestion?")
+    await ctx.author.send(embed=furstEmbed)
     def check(m):
         if isinstance(m.channel, discord.DMChannel):
             if m.author == ctx.author:
@@ -133,7 +133,7 @@ async def suggest(ctx):
         color=0x0064ff
         )
     await ctx.author.send(embed=finalEmbed)
-    suggestionsChannel = await client.get_channel(id=711307176899248149)
+    suggestionsChannel = client.get_channel(id=711307176899248149)
     suggestedEmbed = discord.Embed(
         title=f"**{title}**",
         description=f"{body}",
