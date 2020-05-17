@@ -160,8 +160,8 @@ async def suggest(ctx):
             )
         suggestedEmbed.set_footer(text=f"by: {ctx.author}")
         await suggestionsChannel.send(embed=suggestedEmbed)
-        await ctx.add_reaction(ThumbsUpEmoji)
-        await ctx.add_reaction(ThumbsDownEmoji)
+        await client.add_reaction(ctx, emoji = "\U0001F44D") # use the message object to add the reaction to
+        await client.add_reaction(ctx, emoji = "\U0001F44E")
 @client.command()
 @commands.has_permissions(manage_roles=True)
 @commands.cooldown(1, 5, commands.BucketType.member)
