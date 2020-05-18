@@ -37,49 +37,65 @@ async def help(ctx, *, commandArg=None):
 
                             `{prefix}suggest <suggestion>`          - This is the correct usage of the suggest command, suggestion doesn't have a default value;
                             """,
-            color=0x0064ff)
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         await ctx.send(embed=embed6)
     if(str(commandArg)) == ("ban"):
         embed1 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}ban <user> [reason]` - This is the correct usage of the ban command, reason is by default set to `None`.",
-            color=0x0064ff)
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         await ctx.send(embed=embed1)
     if(str(commandArg)) == ("kick"):
         embed2 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}kick <user> [reason]` - This is the correct usage of the kick command, reason is by default set to `None`.",
-            color=0x0064ff)
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         await ctx.send(embed=embed2)
     if(str(commandArg)) == ("clear"):
         embed3 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}clear <amount>` - This is the correct usage of the clear command, amount is by default set to `0`, so it won't delete any other message apart from yours.",
-            color=0x0064ff)
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         await ctx.send(embed=embed3)
     if(str(commandArg)) == ("unban"):
         embed4 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}unban <user> [reason]` - This is the correct usage of the unban command, by default reason is set to `None`.",
-            color=0x0064ff)
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         await ctx.send(embed=embed4)
     if(str(commandArg)) == ("help"):
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}help [command]` - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty.",
-            color=0x0064ff)
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         await ctx.send(embed=embed5)
     if(str(commandArg)) == ("mute"):
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}mute <user> <amount> [reason]` - This is correct usage of the mute command, reason is by default set to `None`, and there is no default value applied to `amount`.",
-            color=0x0064ff)
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         await ctx.send(embed=embed5)
     if(str(commandArg)) == ("unmute"):
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}unmute <user> [reason]` - This is correct usage of the mute command, reason is by default set to `None`.",
-            color=0x0064ff)
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         await ctx.send(embed=embed5)
 
 @client.command()
@@ -90,9 +106,9 @@ async def credits():
         description=f"""
         This bot was originally made by `MarkiPro#0825`.
         HUUUUUUGE Thank you to `Malware#1234` for being of big help with setting a big chunk of this bot up.""",
-        color=0x0064ff
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
         )
-    suggestedEmbed.timestamp(datetime.datetime.now().strftime())
 
 @client.command()
 @commands.cooldown(1, 3600, commands.BucketType.member)
@@ -100,12 +116,14 @@ async def suggest(ctx):
     startedEmbed = discord.Embed(
         title="**SUGGESTION SETUP**",
         description="Please continue in dms.",
-        color=0x0064ff
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
         )
     furstEmbed = discord.Embed(
         title="**SUGGESTION SETUP**",
         description="What would you like to name your suggestion?",
-        color=0x0064ff
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
         )
     await ctx.send(embed=startedEmbed)
     await ctx.author.send(embed=furstEmbed)
@@ -122,21 +140,22 @@ async def suggest(ctx):
     startEmbed = discord.Embed(
         title="**SUGGESTION SETUP**",
         description="Please write down your suggestion in detail.",
-        color=0x0064ff
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
         )
     await ctx.author.send(embed=startEmbed)
     body_message = await client.wait_for('message', check=check, timeout=500)
     body = body_message.content
     suggestedEmbed2 = discord.Embed(
         title=f"**FINISHED PRODUCT**",
-        description=f"""{title}
+        description=f"""**{title}**
                         
                         {body}
                         
                         
                         *Say `done` to post.*""",
         color=0x0064ff,
-        timestamp=datetime.datetime.utcfromtimestamp(1589750228)
+        timestamp=datetime.datetime.now(tz=None)
         )
     await ctx.author.send(embed=suggestedEmbed2)
     suggestedEmbed2.set_footer(text=f"by: {ctx.author}")
@@ -146,7 +165,8 @@ async def suggest(ctx):
         finalEmbed = discord.Embed(
             title="**SUGGESTION SETUP**",
             description="Your suggestion has been posted.",
-            color=0x0064ff
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.author.send(embed=finalEmbed)
         suggestionsChannel = client.get_channel(id=711307176899248149)
@@ -182,11 +202,15 @@ async def unmute(ctx, member: discord.Member, *, reason=None):
         embed1 = discord.Embed(
             title="**SUCCESS**",
             description=f"***:white_check_mark: *** {member.display_name} *** has been unmuted for: `{reason}`***",
-            color=0x00fa00)
+            color=0x00fa00,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         embed2 = discord.Embed(
             title="**NOTIFICATION**", 
             description=f":bell: *** You *** have been unmuted!",
-            color=0x0064ff)
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         await ctx.send(embed=embed1)
         await member.send(embed=embed2)
 
@@ -212,15 +236,21 @@ async def mute(ctx, member: discord.Member, time, *, reason=None):
     embed1 = discord.Embed(
         title="**SUCCESS**",
         description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`!***",
-        color=0x00fa00)
+        color=0x00fa00,
+        timestamp=datetime.datetime.now(tz=None)
+        )
     embed2 = discord.Embed(
         title="**NOTIFICATION**", 
         description=f":bell: *** {member.display_name} *** has been unmuted!",
-        color=0x0064ff)
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
+        )
     embed3 = discord.Embed(
         title="**NOTIFICATION**", 
         description=f":bell: *** You *** have been unmuted!",
-        color=0x0064ff)
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
+        )
     mutedRole = await discord.utils.get(ctx.guild.roles, id=709737313705525358)
     await member.add_roles(mutedRole)
     await ctx.send(embed=embed1)
@@ -237,16 +267,22 @@ async def kick(ctx, member: discord.Member, *, reason=None):
         embed1 = discord.Embed(
             title="**OOPS**",
             description=f"***Sorry bro, not gonna happen :) ***",
-            color=0xffbd00)
+            color=0xffbd00,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         await ctx.send(embed=embed1)
     embed1 = discord.Embed(
         title="**SUCCESS**", 
         description=f"***:white_check_mark: *** {member.display_name} *** has been kicked for: `{reason}`!***",
-        color=0x00fa00)
+        color=0x00fa00,
+        timestamp=datetime.datetime.now(tz=None)
+        )
     embed2 = discord.Embed(
         title="**NOTIFICATION**", 
         description=f":bell: *You have been kicked in **{ctx.guild}** for:* `{reason}`!",
-        color=0x0064ff)
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
+        )
     async with ctx.typing():
         await member.send(embed=embed2)
         await member.kick(reason=reason)
@@ -267,16 +303,22 @@ async def ban(ctx, member: discord.Member, *, reason=None):
         embed1 = discord.Embed(
             title="**OOPS**",
             description=f"***Sorry bro, not gonna happen :) ***",
-            color=0xffbd00)
+            color=0xffbd00,
+            timestamp=datetime.datetime.now(tz=None)
+            )
         await ctx.send(embed=embed1)
     embed1 = discord.Embed(
         title="**SUCCESS**",
         description=f"***:white_check_mark: *** {member.display_name} *** has been banned for: `{reason}`!***",
-        color=0x00fa00)
+        color=0x00fa00,
+        timestamp=datetime.datetime.now(tz=None)
+        )
     embed2 = discord.Embed(
         title="**NOTIFICATION**",
         description=f":bell: *You have been banned in **{ctx.guild}** for:* `{reason}`!",
-        color=0x0064ff)
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
+        )
     async with ctx.typing():
         await member.ban(reason=reason)
         await ctx.send(embed=embed1)
@@ -293,7 +335,9 @@ async def unban(ctx, member, *, reason=None):
         embed1 = discord.Embed(
         title="**SUCCESS**", 
         description=f"***:white_check_mark: *** {user.display_name} *** has been unbanned for: `{reason}`!***",
-        color=0x00fa00)
+        color=0x00fa00,
+        timestamp=datetime.datetime.now(tz=None)
+        )
         try:
             user_name, user_discriminator = member.split('#')
         except ValueError:
@@ -364,15 +408,21 @@ async def on_command_error(ctx, error):
     embed1 = discord.Embed(
         title="**ERROR**", 
         description=f"***:no_entry_sign: You're missing arguments! Please do `{prefix}help <command>` to get more information on a certain command!***",
-        color=0xff0000)
+        color=0xff0000,
+        timestamp=datetime.datetime.now(tz=None)
+        )
     embed2 = discord.Embed(
         title="**ERROR**", 
         description=f"***:no_entry_sign: You're missing permission to use this command!***",
-        color=0xff0000)
+        color=0xff0000,
+        timestamp=datetime.datetime.now(tz=None)
+        )
     embed3 = discord.Embed(
         title="**ERROR**", 
         description=f"***:no_entry_sign: The command is on a cooldown, please do not rush it.***",
-        color=0xff0000)
+        color=0xff0000,
+        timestamp=datetime.datetime.now(tz=None)
+        )
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.send(embed=embed3)
     if isinstance(error, commands.MissingRequiredArgument):
