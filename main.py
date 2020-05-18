@@ -148,17 +148,19 @@ async def suggest(ctx):
     body = body_message.content
     suggestedEmbed2 = discord.Embed(
         title=f"**FINISHED PRODUCT**",
-        description=f"""**{title}**
-                        
-                        {body}
-                        
-                        
-                        *Say `done` to post.*""",
+        description=f"""*Say `done` to post.*""",
         color=0x0064ff,
         timestamp=datetime.datetime.now(tz=None)
         )
+    suggestedEmbed1 = discord.Embed(
+        title=f"**{title}**",
+        description=f"{body}",
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
+        )
+    suggestedEmbed1.set_footer(text=f"by: {ctx.author}")
     await ctx.author.send(embed=suggestedEmbed2)
-    suggestedEmbed2.set_footer(text=f"by: {ctx.author}")
+    await ctx.author.send(embed=suggestedEmbed1)
     body_message2 = await client.wait_for('message', check=check, timeout=500)
     body2 = body_message2.content
     if(body2 == "done"):
@@ -170,8 +172,8 @@ async def suggest(ctx):
             )
         await ctx.author.send(embed=finalEmbed)
         suggestionsChannel = client.get_channel(id=711307176899248149)
-        ThumbsUpEmoji = 711691482683277313
-        ThumbsDownEmoji = 711691608780963937
+        ThumbsUpEmoji = "711691482683277313"
+        ThumbsDownEmoji = "711691608780963937"
         emoji_convertor1 = commands.EmojiConverter()
         emoji1 = await emoji_convertor1.convert(ctx, ThumbsUpEmoji)
         emoji_convertor2 = commands.EmojiConverter()
