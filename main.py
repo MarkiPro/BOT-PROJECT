@@ -172,9 +172,9 @@ async def suggest(ctx):
         suggestionsChannel = client.get_channel(id=711307176899248149)
         ThumbsUpEmoji = client.get_emoji(id=711691482683277313)
         ThumbsDownEmoji = client.get_emoji(id=711691608780963937)
-        emoji_convertor1 = commands.Emoji_Converter()
+        emoji_convertor1 = commands.EmojiConverter()
         emoji1 = await emoji_convertor1.convert(ctx, ThumbsUpEmoji)
-        emoji_convertor2 = commands.Emoji_Converter()
+        emoji_convertor2 = commands.EmojiConverter()
         emoji2 = await emoji_convertor2.convert(ctx, ThumbsDownEmoji)
         suggestedEmbed = discord.Embed(
             title=f"**{title}**",
@@ -401,7 +401,7 @@ async def removewarn(ctx, *, id):
     cursor.execute("DELETE FROM warns WHERE id = %s", (int(id), ))
     connection.commit()
     await ctx.send(f"Removed warn #{id}")
-"""
+
 @client.event
 async def on_command_error(ctx, error):
     prefix = await client.get_prefix(ctx.message)
@@ -429,5 +429,5 @@ async def on_command_error(ctx, error):
         await ctx.send(embed=embed1)
     if isinstance(error, commands.MissingPermissions):
         await ctx.send(embed=embed2)
-"""
+
 client.run(token)
