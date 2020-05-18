@@ -170,8 +170,8 @@ async def suggest(ctx):
             )
         await ctx.author.send(embed=finalEmbed)
         suggestionsChannel = client.get_channel(id=711307176899248149)
-        ThumbsUpEmoji = client.get_emoji(id=711691482683277313)
-        ThumbsDownEmoji = client.get_emoji(id=711691608780963937)
+        ThumbsUpEmoji = 711691482683277313
+        ThumbsDownEmoji = 711691608780963937
         emoji_convertor1 = commands.EmojiConverter()
         emoji1 = await emoji_convertor1.convert(ctx, ThumbsUpEmoji)
         emoji_convertor2 = commands.EmojiConverter()
