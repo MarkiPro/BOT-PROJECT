@@ -172,12 +172,6 @@ async def suggest(ctx):
             )
         await ctx.author.send(embed=finalEmbed)
         suggestionsChannel = client.get_channel(id=711307176899248149)
-        ThumbsUpEmoji = "711691482683277313"
-        ThumbsDownEmoji = "711691608780963937"
-        emoji_convertor1 = commands.EmojiConverter()
-        emoji1 = await emoji_convertor1.convert(ctx, ThumbsUpEmoji)
-        emoji_convertor2 = commands.EmojiConverter()
-        emoji2 = await emoji_convertor2.convert(ctx, ThumbsDownEmoji)
         suggestedEmbed = discord.Embed(
             title=f"**{title}**",
             description=f"{body}",
@@ -186,8 +180,8 @@ async def suggest(ctx):
             )
         suggestedEmbed.set_footer(text=f"by: {ctx.author}")
         sent = await suggestionsChannel.send(embed=suggestedEmbed)
-        await sent.add_reaction(emoji=emoji1)
-        await sent.add_reaction(emoji=emoji2)
+        await sent.add_reaction('👍')
+        await sent.add_reaction('👎')
 @client.command()
 @commands.has_permissions(manage_roles=True)
 @commands.cooldown(1, 5, commands.BucketType.member)
