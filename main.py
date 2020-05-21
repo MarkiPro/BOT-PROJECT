@@ -251,7 +251,7 @@ async def suggest(ctx):
             await sent.add_reaction('👍')
             await sent.add_reaction('👎')
     if ctx.guild.name == "Content Creators":
-        suggestionsChannel = client.get_channel(id=711307176899248149)
+        suggestionsChannel = client.get_channel(id=712655570737299567)
         startedEmbed = discord.Embed(
             title="**SUGGESTION SETUP**",
             description="Please continue the setup in dms.",
@@ -320,8 +320,78 @@ async def suggest(ctx):
             sent = await suggestionsChannel.send(embed=suggestedEmbed)
             await sent.add_reaction('👍')
             await sent.add_reaction('👎')
-    if ctx.guild.name == "RoDev's":
-        suggestionsChannel = client.get_channel(id=711307176899248149)
+    if ctx.guild.name == "ROBOT's Server 2.0":
+        suggestionsChannel = client.get_channel(id=712606761617719326)
+        startedEmbed = discord.Embed(
+            title="**SUGGESTION SETUP**",
+            description="Please continue the setup in dms.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        furstEmbed = discord.Embed(
+            title="**SUGGESTION SETUP**",
+            description="What would you like to name your suggestion?",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=startedEmbed)
+        await ctx.author.send(embed=furstEmbed)
+        def check(m):
+            if isinstance(m.channel, discord.DMChannel):
+                if m.author == ctx.author:
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        title_message = await client.wait_for('message', check=check, timeout=1000)
+        title = title_message.content
+        startEmbed = discord.Embed(
+            title="**SUGGESTION SETUP**",
+            description="Please write down your suggestion in detail.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.author.send(embed=startEmbed)
+        body_message = await client.wait_for('message', check=check, timeout=1000)
+        body = body_message.content
+        suggestedEmbed2 = discord.Embed(
+            title=f"**FINISHED PRODUCT**",
+            description=f"""*Say `done` to post.*""",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        suggestedEmbed1 = discord.Embed(
+            title=f"**{title}**",
+            description=f"{body}",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        suggestedEmbed1.set_footer(text=f"by: {ctx.author}")
+        await ctx.author.send(embed=suggestedEmbed2)
+        await ctx.author.send(embed=suggestedEmbed1)
+        body_message2 = await client.wait_for('message', check=check, timeout=1000)
+        body2 = body_message2.content
+        if(body2 == "done"):
+            finalEmbed = discord.Embed(
+                title="**SUGGESTION SETUP**",
+                description="Your suggestion has been posted.",
+                color=0x0064ff,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            await ctx.author.send(embed=finalEmbed)
+            suggestedEmbed = discord.Embed(
+                title=f"**{title}**",
+                description=f"{body}",
+                color=0x0064ff,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            suggestedEmbed.set_footer(text=f"by: {ctx.author}")
+            sent = await suggestionsChannel.send(embed=suggestedEmbed)
+            await sent.add_reaction('👍')
+            await sent.add_reaction('👎')
+    if ctx.guild.name == "The Court":
+        suggestionsChannel = client.get_channel(id=707272718885585039)
         startedEmbed = discord.Embed(
             title="**SUGGESTION SETUP**",
             description="Please continue the setup in dms.",
@@ -394,74 +464,267 @@ async def suggest(ctx):
 @commands.has_permissions(manage_roles=True)
 @commands.cooldown(1, 5, commands.BucketType.member)
 async def unmute(ctx, member: discord.Member, *, reason=None):
-    mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
-    everyoneRole = discord.utils.get(ctx.guild.roles, id=707262068218265653)
-    has_role = False
-    for role in member.roles:
-        if role.name == 'Muted':
-            has_role = True
-            break
-    if has_role:
-        await member.remove_roles(mutedRole)
-        embed1 = discord.Embed(
-            title="**SUCCESS**",
-            description=f"***:white_check_mark: *** {member.display_name} *** has been unmuted for: `{reason}`***",
-            color=0x00fa00,
-            timestamp=datetime.datetime.now(tz=None)
-            )
-        embed2 = discord.Embed(
-            title="**NOTIFICATION**", 
-            description=f":bell: *** You *** have been unmuted!",
-            color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
-        await ctx.send(embed=embed1)
-        await member.send(embed=embed2)
+    if ctx.guild.name == "The Court":
+        mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
+        has_role = False
+        for role in member.roles:
+            if role.name == 'Muted':
+                has_role = True
+                break
+        if has_role:
+            await member.remove_roles(mutedRole)
+            embed1 = discord.Embed(
+                title="**SUCCESS**",
+                description=f"***:white_check_mark: *** {member.display_name} *** has been unmuted for: `{reason}`***",
+                color=0x00fa00,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            embed2 = discord.Embed(
+                title="**NOTIFICATION**", 
+                description=f":bell: *** You *** have been unmuted!",
+                color=0x0064ff,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            await ctx.send(embed=embed1)
+            await member.send(embed=embed2)
+    if ctx.guild.name == "Content Creators":
+        mutedRole = discord.utils.get(ctx.guild.roles, id=712730274412232807)
+        has_role = False
+        for role in member.roles:
+            if role.name == 'Muted':
+                has_role = True
+                break
+        if has_role:
+            await member.remove_roles(mutedRole)
+            embed1 = discord.Embed(
+                title="**SUCCESS**",
+                description=f"***:white_check_mark: *** {member.display_name} *** has been unmuted for: `{reason}`***",
+                color=0x00fa00,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            embed2 = discord.Embed(
+                title="**NOTIFICATION**", 
+                description=f":bell: *** You *** have been unmuted!",
+                color=0x0064ff,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            await ctx.send(embed=embed1)
+            await member.send(embed=embed2)
+    if ctx.guild.name == "RoDev's":
+        mutedRole = discord.utils.get(ctx.guild.roles, id=601185151766233088)
+        has_role = False
+        for role in member.roles:
+            if role.name == 'Muted':
+                has_role = True
+                break
+        if has_role:
+            await member.remove_roles(mutedRole)
+            embed1 = discord.Embed(
+                title="**SUCCESS**",
+                description=f"***:white_check_mark: *** {member.display_name} *** has been unmuted for: `{reason}`***",
+                color=0x00fa00,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            embed2 = discord.Embed(
+                title="**NOTIFICATION**", 
+                description=f":bell: *** You *** have been unmuted!",
+                color=0x0064ff,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            await ctx.send(embed=embed1)
+            await member.send(embed=embed2)
+    if ctx.guild.name == "ROBOT's Server 2.0":
+        mutedRole = discord.utils.get(ctx.guild.roles, id=712620826398162958)
+        has_role = False
+        for role in member.roles:
+            if role.name == 'Muted':
+                has_role = True
+                break
+        if has_role:
+            await member.remove_roles(mutedRole)
+            embed1 = discord.Embed(
+                title="**SUCCESS**",
+                description=f"***:white_check_mark: *** {member.display_name} *** has been unmuted for: `{reason}`***",
+                color=0x00fa00,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            embed2 = discord.Embed(
+                title="**NOTIFICATION**", 
+                description=f":bell: *** You *** have been unmuted!",
+                color=0x0064ff,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            await ctx.send(embed=embed1)
+            await member.send(embed=embed2)
 
 @client.command()
 @commands.has_permissions(manage_roles=True)
 @commands.cooldown(1, 5, commands.BucketType.member)
 async def mute(ctx, member: discord.Member, time, *, reason=None):
-    def parse_time(time):
-        split_time = time.split(' ')
-        options = {'m': 60, 'h': 3600, 'd': 86400}
-        time = 0
+    if ctx.guild.name == "ROBOT's Server 2.0":
+        def parse_time(time):
+            split_time = time.split(' ')
+            options = {'m': 60, 'h': 3600, 'd': 86400}
+            time = 0
 
-        for _ in split_time:
-            for key, value in options.items():
-                if _.endswith(key):
-                    multiplier = int(_[:-1])
-                    print(multiplier)
-                    time_to_add = value * multiplier
-                    print(time_to_add)
-                    time = time + time_to_add
+            for _ in split_time:
+                for key, value in options.items():
+                    if _.endswith(key):
+                        multiplier = int(_[:-1])
+                        print(multiplier)
+                        time_to_add = value * multiplier
+                        print(time_to_add)
+                        time = time + time_to_add
 
-        return time
-    embed1 = discord.Embed(
-        title="**SUCCESS**",
-        description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`!***",
-        color=0x00fa00,
-        timestamp=datetime.datetime.now(tz=None)
-        )
-    embed2 = discord.Embed(
-        title="**NOTIFICATION**", 
-        description=f":bell: *** {member.display_name} *** has been unmuted!",
-        color=0x0064ff,
-        timestamp=datetime.datetime.now(tz=None)
-        )
-    embed3 = discord.Embed(
-        title="**NOTIFICATION**", 
-        description=f":bell: *** You *** have been unmuted!",
-        color=0x0064ff,
-        timestamp=datetime.datetime.now(tz=None)
-        )
-    mutedRole = await discord.utils.get(ctx.guild.roles, id=709737313705525358)
-    await member.add_roles(mutedRole)
-    await ctx.send(embed=embed1)
-    await member.send(embed=embed3)
-    await asyncio.sleep(time)
-    await ctx.send(embed=embed2)
-    await member.remove_roles(mutedRole)
+            return time
+        embed1 = discord.Embed(
+            title="**SUCCESS**",
+            description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`!***",
+            color=0x00fa00,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        embed2 = discord.Embed(
+            title="**NOTIFICATION**", 
+            description=f":bell: *** {member.display_name} *** has been unmuted!",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        embed3 = discord.Embed(
+            title="**NOTIFICATION**", 
+            description=f":bell: *** You *** have been unmuted!",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        mutedRole = discord.utils.get(ctx.guild.roles, id=712620826398162958)
+        await member.add_roles(mutedRole)
+        await ctx.send(embed=embed1)
+        await member.send(embed=embed3)
+        await asyncio.sleep(time)
+        await ctx.send(embed=embed2)
+        await member.remove_roles(mutedRole)
+    if ctx.guild.name == "RoDev's":
+        def parse_time(time):
+            split_time = time.split(' ')
+            options = {'m': 60, 'h': 3600, 'd': 86400}
+            time = 0
+
+            for _ in split_time:
+                for key, value in options.items():
+                    if _.endswith(key):
+                        multiplier = int(_[:-1])
+                        print(multiplier)
+                        time_to_add = value * multiplier
+                        print(time_to_add)
+                        time = time + time_to_add
+
+            return time
+        embed1 = discord.Embed(
+            title="**SUCCESS**",
+            description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`!***",
+            color=0x00fa00,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        embed2 = discord.Embed(
+            title="**NOTIFICATION**", 
+            description=f":bell: *** {member.display_name} *** has been unmuted!",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        embed3 = discord.Embed(
+            title="**NOTIFICATION**", 
+            description=f":bell: *** You *** have been unmuted!",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        mutedRole = discord.utils.get(ctx.guild.roles, id=601185151766233088)
+        await member.add_roles(mutedRole)
+        await ctx.send(embed=embed1)
+        await member.send(embed=embed3)
+        await asyncio.sleep(time)
+        await ctx.send(embed=embed2)
+        await member.remove_roles(mutedRole)
+    if ctx.guild.name == "Content Creators":
+        def parse_time(time):
+            split_time = time.split(' ')
+            options = {'m': 60, 'h': 3600, 'd': 86400}
+            time = 0
+
+            for _ in split_time:
+                for key, value in options.items():
+                    if _.endswith(key):
+                        multiplier = int(_[:-1])
+                        print(multiplier)
+                        time_to_add = value * multiplier
+                        print(time_to_add)
+                        time = time + time_to_add
+
+            return time
+        embed1 = discord.Embed(
+            title="**SUCCESS**",
+            description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`!***",
+            color=0x00fa00,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        embed2 = discord.Embed(
+            title="**NOTIFICATION**", 
+            description=f":bell: *** {member.display_name} *** has been unmuted!",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        embed3 = discord.Embed(
+            title="**NOTIFICATION**", 
+            description=f":bell: *** You *** have been unmuted!",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        mutedRole = discord.utils.get(ctx.guild.roles, id=712730274412232807)
+        await member.add_roles(mutedRole)
+        await ctx.send(embed=embed1)
+        await member.send(embed=embed3)
+        await asyncio.sleep(time)
+        await ctx.send(embed=embed2)
+        await member.remove_roles(mutedRole)
+    if ctx.guild.name == "The Court":
+        def parse_time(time):
+            split_time = time.split(' ')
+            options = {'m': 60, 'h': 3600, 'd': 86400}
+            time = 0
+
+            for _ in split_time:
+                for key, value in options.items():
+                    if _.endswith(key):
+                        multiplier = int(_[:-1])
+                        print(multiplier)
+                        time_to_add = value * multiplier
+                        print(time_to_add)
+                        time = time + time_to_add
+
+            return time
+        embed1 = discord.Embed(
+            title="**SUCCESS**",
+            description=f"***:white_check_mark: *** {member.display_name} *** has been muted for: `{time}`, for: `{reason}`!***",
+            color=0x00fa00,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        embed2 = discord.Embed(
+            title="**NOTIFICATION**", 
+            description=f":bell: *** {member.display_name} *** has been unmuted!",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        embed3 = discord.Embed(
+            title="**NOTIFICATION**", 
+            description=f":bell: *** You *** have been unmuted!",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        mutedRole = discord.utils.get(ctx.guild.roles, id=709737313705525358)
+        await member.add_roles(mutedRole)
+        await ctx.send(embed=embed1)
+        await member.send(embed=embed3)
+        await asyncio.sleep(time)
+        await ctx.send(embed=embed2)
+        await member.remove_roles(mutedRole)
 
 @client.command()
 @commands.has_permissions(kick_members=True)
@@ -613,7 +876,7 @@ async def on_command_error(ctx, error):
         embed3 = discord.Embed(
             title="**ERROR**", 
             description=f"""***:no_entry_sign: The command is on a cooldown, please do not rush it.
-                                cooldown for this command is {error.cooldown.per}, and you have {error.retry_after} left***""",
+                                cooldown for this command is `{error.cooldown.per}`, and you have `{error.retry_after}` left***""",
             color=0xff0000,
             timestamp=datetime.datetime.now(tz=None)
             )
