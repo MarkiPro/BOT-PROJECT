@@ -27,6 +27,9 @@ async def help(ctx, *, commandArg=None):
                             **--MODERATION--**
                             
                             `{prefix}clear <amount>`                - This is the correct usage of the clear command, amount is by default set to `0`, so it won't delete any other message apart from yours;
+                            `{prefix}warn <user> <reason>`          - This is the correct usage of the warn command, this command is used for warning a user for something they had done, and the reason is by default set to `None`;
+                            `{prefix}removewarn <warningID>`        - This is the correct usage of the removewarn command, this command is used for deleting user's warnings, don't include the `#` in the warning id;
+                            `{prefix}warnings <user>`               - This is the correct usage of the warnings command, and this command is used for checking the user warnings;
                             `{prefix}mute <user> <amount> [reason]` - This is the correct usage of the mute command, reason is by default set to `None`, and there is no default value applied to `amount`;
                             `{prefix}unmute <user> [reason]`        - This is the correct usage of the unmute command, reason is by default set to `None`;
                             `{prefix}kick <user> [reason]`          - This is the correct usage of the kick command, reason is by default set to `None`;
@@ -35,7 +38,8 @@ async def help(ctx, *, commandArg=None):
                             
                             **--COMMUNITY--**
 
-                            `{prefix}suggest <suggestion>`          - This is the correct usage of the suggest command, suggestion doesn't have a default value;
+                            `{prefix}suggest`                       - This is the correct usage of the suggest command, the setup proceeds in dms;
+                            `{prefix}post`                          - This is the correct usage of the post command, the setup proceeds in dms, and this command is used for posting `hiring`, `for hire`, `selling creation` and `game advertising` posts;
                             """,
             color=0x0064ff,
             timestamp=datetime.datetime.now(tz=None)
@@ -97,6 +101,46 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed5)
+    if(str(commandArg)) == ("suggest"):
+        embed5 = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix}suggest` - This is the correct usage of the suggest command, the setup proceeds in dms.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=embed5)
+    if(str(commandArg)) == ("post"):
+        embed5 = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix}post` - This is the correct usage of the post command, the setup proceeds in dms, and this command is used for posting `hiring`, `for hire`, `selling creation` and `game advertising` posts.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=embed5)
+    if(str(commandArg)) == ("warn"):
+        embed5 = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix}warn <user> <reason>` - This is the correct usage of the warn command, this command is used for warning a user for something they had done, and the reason is by default set to `None`.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=embed5)
+    if(str(commandArg)) == ("warnings"):
+        embed5 = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix}warnings <user>` - This is the correct usage of the warnings command, and this command is used for checking the user warnings.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=embed5)
+    if(str(commandArg)) == ("removewarn"):
+        embed5 = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix}removewarn <warningID>` - This is the correct usage of the removewarn command, this command is used for deleting user's warnings, don't include the `#` in the warning id.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=embed5)
 
 @client.command()
 @commands.cooldown(1, 60, commands.BucketType.member)
@@ -115,67 +159,124 @@ async def credits(ctx):
 @client.command()
 @commands.cooldown(1, 86400, commands.BucketType.member)
 async def post(ctx):
-    startedEmbed = discord.Embed(
-        title="**POST SETUP**",
-        description="Please continue the setup in dms",
-        color=0x0064ff,
-        timestamp=datetime.datetime.now(tz=None)
-    )
-    firstEmbed = discord.Embed(
-        title="**POST SETUP**",
-        description=f"""What would you like to do?
-                        
-                        `hire`, `get hired`, `sell creation`, `advertise game`""",
-        color=0x0064ff,
-        timestamp=datetime.datetime.now(tz=None)
-    )
-    await ctx.send(embed=startedEmbed)
-    await ctx.author.send(embed=firstEmbed)
-    def check(m):
-        if isinstance(m.channel, discord.DMChannel):
-            if m.author == ctx.author:
-                return True
+    if ctx.guild.name == "RoDev's":
+        RoDevHiringChannelID = id
+        RoDevForHireChannelID = id
+        RoDevSellingCreationsChannelID = id
+        RoDevGameAdvertsChannelID = id
+        startedEmbed = discord.Embed(
+            title="**POST SETUP**",
+            description="Please continue the setup in dms",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+        )
+        firstEmbed = discord.Embed(
+            title="**POST SETUP**",
+            description=f"""What would you like to do?
+                            
+                            `hire`, `get hired`, `sell creation`, `advertise game`""",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None),
+            set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+        )
+        await ctx.send(embed=startedEmbed)
+        await ctx.author.send(embed=firstEmbed)
+        def check(m):
+            if isinstance(m.channel, discord.DMChannel):
+                if m.author == ctx.author:
+                    return True
+                else:
+                    return False
             else:
                 return False
-        else:
-            return False
-    category_message = await client.wait_for('message', check=check, timeout=960)
-    category = category_message.content
-    if(category == "hire"):
-        firstHireEmbed = discord.Embed(
-            title="**HIRING SETUP**",
-            description="Please go as much in detail about your hiring post.",
-            color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-        )
-        message_details = await client.wait_for('message', check=check, timeout=960)
-        details = message_details.content
-        secondHireEmbed = discord.Embed(
-            title="**HIRING SETUP**",
-            description="Who are you looking to hire? E.g. scripter, builder etc.",
-            color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-        )
-        lookingFor_msg = await client.wait_for('message', check=check, timeout=960)
-        lookingFor = lookingFor_msg
-        thirdHireEmbed = discord.Embed(
-            title="**HIRING SETUP**",
-            description="""How would you like to pay?
-                            `percentage`, `robux`, `USD`, `other`""",
-            color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-        )
-        message_body1 = await client.wait_for('message', check=check, timeout=960)
-        body1 = message_body1.content
-        if(body1 == "percentage"):
-            fourthHireEmbed = discord.Embed(
+        category_message = await client.wait_for('message', check=check, timeout=960)
+        category = category_message.content
+        if(category == "hire"):
+            firstHireEmbed = discord.Embed(
                 title="**HIRING SETUP**",
-                description="How big of a percentage are you willing to give?",
+                description="Please go as much in detail about your hiring post.",
                 color=0x0064ff,
                 timestamp=datetime.datetime.now(tz=None),
-                set_footer="Timeout on this message is "
+                set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
             )
-            percentage_amount = await client.wait_for('message', check=check, timeout=960)
+            await ctx.author.send(embed=firstHireEmbed)
+            message_details = await client.wait_for('message', check=check, timeout=960)
+            details = message_details.content
+            secondHireEmbed = discord.Embed(
+                title="**HIRING SETUP**",
+                description="Who are you looking to hire? E.g. scripter, builder etc.",
+                color=0x0064ff,
+                timestamp=datetime.datetime.now(tz=None),
+                set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+            )
+            await ctx.author.send(embed=secondHireEmbed)
+            lookingFor_msg = await client.wait_for('message', check=check, timeout=960)
+            lookingFor = lookingFor_msg
+            thirdHireEmbed = discord.Embed(
+                title="**HIRING SETUP**",
+                description="""How would you like to pay?
+                                `percentage`, `robux`, `USD`, `other`""",
+                color=0x0064ff,
+                timestamp=datetime.datetime.now(tz=None),
+                set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+            )
+            await ctx.author.send(embed=thirdHireEmbed)
+            message_body1 = await client.wait_for('message', check=check, timeout=960)
+            body1 = message_body1.content
+            if(body1 == "percentage"):
+                fourthHireEmbed = discord.Embed(
+                    title="**HIRING SETUP**",
+                    description="How big of a percentage are you willing to give?",
+                    color=0x0064ff,
+                    timestamp=datetime.datetime.now(tz=None),
+                    set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+                )
+                await ctx.author.send(embed=fourthHireEmbed)
+                percentage_amount = await client.wait_for('message', check=check, timeout=960)
+                percentage = percentage_amount.content
+                fifthHireEmbed = discord.Embed(
+                    title="**HIRING SETUP**",
+                    description="Are you willing to add any other payment? `yes`/`no`",
+                    color=0x0064ff,
+                    timestamp=datetime.datetime.now(tz=None),
+                    set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+                )
+                await ctx.author.send(embed=fifthHireEmbed)
+                other_amount = await client.wait_for('message', check=check, timeout=960)
+                other_amount_body = other_amount.content
+                if(other_amount_body == "no"):
+                    sixthHireEmbed = discord.Embed(
+                        title="**HIRING SETUP FINISHED**",
+                        description="This is the ending result. Say `done` to continue.",
+                        color=0x0064ff,
+                        timestamp=datetime.datetime.now(tz=None),
+                        set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+                    )
+                    seventhHireEmbed = discord.Embed(
+                        title="**HIRING POST**",
+                        description=f"""
+
+                        Contact: {ctx.author.mention};
+
+                        About: {details};
+
+                        Looking For: {lookingFor};
+                        
+                        Payment: {body1}, {percentage};
+                        
+                        """,
+                        color=0x0064ff,
+                        timestamp=datetime.datetime.now(tz=None),
+                        set_footer=f"by: {ctx.author}"
+                    )
+                    await ctx.author.send(embed=sixthHireEmbed)
+                    await ctx.author.send(embed=seventhHireEmbed)
+                    finish_message = await client.wait_for('message', check=check, timeout=960)
+                    finish_msg_body = finish_message.content
+                    if(finish_msg_body == "done"):
+                        RoDevHiringChannel = client.get_channel(id=RoDevHiringChannelID)
+                        sent = await RoDevHiringChannel.send(embed=seventhHireEmbed)
+
 
 @client.command()
 @commands.cooldown(1, 3600, commands.BucketType.member)
