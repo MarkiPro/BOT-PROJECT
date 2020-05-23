@@ -145,21 +145,21 @@ async def help(ctx, *, commandArg=None):
 @client.command()
 @commands.cooldown(1, 60, commands.BucketType.member)
 async def credits(ctx):
-    user_convertor = commands.UserConvertor()
+    user_convertor = commands.UserConverter()
     markipro = await user_convertor.convert(ctx, "438333007036678155")
     malware = await user_convertor.convert(ctx, "466591581286170624")
-    suggestedEmbed = discord.Embed(
+    creditsEmbed = discord.Embed(
         title=f"**CREDITS**",
         description=f"{markipro} and {malware} made the bot.",
         color=0x0064ff,
         timestamp=datetime.datetime.now(tz=None)
         )
-    await ctx.send(embed=suggestedEmbed)
+    await ctx.send(embed=creditsEmbed)
 
 @client.command()
 @commands.cooldown(1, 86400, commands.BucketType.member)
 async def post(ctx):
-    if ctx.guild.name == "RoDev's":
+    if ctx.guild.name == "Test Server":
         RoDevHiringChannelID = id
         RoDevForHireChannelID = id
         RoDevSellingCreationsChannelID = id
