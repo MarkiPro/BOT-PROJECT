@@ -18,29 +18,31 @@ async def on_ready():
 @client.command()
 async def help(ctx, *, commandArg=None):
     prefix = await client.get_prefix(ctx.message)
-    if not commandArg:
+    if(not commandArg):
         embed6 = discord.Embed(
             title="**COMMANDS:**", 
             description=f"""**--INFORMATIVE--**
-            
-                            `{prefix}help [command]`                - This is the correct usage of the help command. This command will inform you about any command that you'd like to, or all the commands, by leaving the command argument empty;
+
+                            `{prefix}credits`
+                            `{prefix}help [command]`
                             
                             **--MODERATION--**
                             
-                            `{prefix}clear <amount>`                - This is the correct usage of the clear command, amount is by default set to `0`, so it won't delete any other message apart from yours;
-                            `{prefix}warn <user> <reason>`          - This is the correct usage of the warn command, this command is used for warning a user for something they had done, and the reason is by default set to `None`;
-                            `{prefix}removewarn <warningID>`        - This is the correct usage of the removewarn command, this command is used for deleting user's warnings, don't include the `#` in the warning id;
-                            `{prefix}warnings <user>`               - This is the correct usage of the warnings command, and this command is used for checking the user warnings;
-                            `{prefix}mute <user> <amount> [reason]` - This is the correct usage of the mute command, reason is by default set to `None`, and there is no default value applied to `amount`;
-                            `{prefix}unmute <user> [reason]`        - This is the correct usage of the unmute command, reason is by default set to `None`;
-                            `{prefix}kick <user> [reason]`          - This is the correct usage of the kick command, reason is by default set to `None`;
-                            `{prefix}ban <user> [reason]`           - This is the correct usage of the ban command, reason is by default set to `None`;
-                            `{prefix}unban <user> [reason]`         - This is the correct usage of the unban command, by default reason is set to `None`;
+                            `{prefix}clear <amount>`
+                            `{prefix}warn <user> <reason>`
+                            `{prefix}removewarn <warningID>`
+                            `{prefix}warnings <user>`
+                            `{prefix}mute <user> <amount> [reason]`
+                            `{prefix}unmute <user> [reason]`
+                            `{prefix}kick <user> [reason]`
+                            `{prefix}ban <user> [reason]`
+                            `{prefix}unban <user> [reason]`
                             
                             **--COMMUNITY--**
 
-                            `{prefix}suggest`                       - This is the correct usage of the suggest command, the setup proceeds in dms;
-                            `{prefix}post`                          - This is the correct usage of the post command, the setup proceeds in dms, and this command is used for posting `hiring`, `for hire`, `selling creation` and `game advertising` posts;
+                            `{prefix}report` - NOT DONE!
+                            `{prefix}suggest`
+                            `{prefix}post`
                             """,
             color=0x0064ff,
             timestamp=datetime.datetime.now(tz=None)
@@ -142,6 +144,120 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed5)
+    if(str(commandArg)) == ("credits"):
+        embed5 = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix}credits` - This is simply going to define the creators of this bot.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=embed5)
+
+@client.command()
+@commands.cooldown(1, 7200, commands.BucketType.member)
+async def report(ctx):
+    ReportsChannelID = 714258369002864691
+    CancelPromptEmbed = discord.Embed(
+        title="**PROMPT CANCELLED**",
+        description="*You have successfully cancelled this prompt.*",
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
+    )
+    reportStartEmbed = discord.Embed(
+        title=f"**REPORT**",
+        description=f"Continue this in dms.",
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
+    )
+    reportEmbedDm = discord.Embed(
+        title=f"**REPORT**",
+        description=f"Who would you like to report, define their name and discord tag, example: Noob#1234",
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None),
+        set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+    )
+    await ctx.send(embed=reportStartEmbed)
+    await ctx.author.send(embed=reportEmbedDm)
+    def check(m):
+        if isinstance(m.channel, discord.DMChannel):
+            if m.author == ctx.author:
+                return True
+            else:
+                return False
+        else:
+            return False
+    userReported_msg = await client.wait_for('message', check=check, timeout=960)
+    reported_user = userReported_msg.content
+    if(reported_user == "cancel"):
+        await ctx.author.send()
+        return False
+    if(reported_user != "cancel"):
+        reportEmbedDm2 = discord.Embed(
+            title="**REPORT**",
+            description="How did they scam you? Please go into as much detail as possible.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None),
+            set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+        )
+        await ctx.author.send(embed=reportEmbedDm2)
+        detail_msg = await client.wait_for('message', check=check, timeout=960)
+        details = detail_msg.content
+        if(details == "cancel"):
+            await ctx.author.send(embed=CancelPromptEmbed)
+            return False
+        if(details != "cancel"):
+            reportEmbedDm3 = discord.Embed(
+                title="**REPORT**",
+                description="Can you provide us any evidence of getting scammed?",
+                color=0x0064ff,
+                timestamp=datetime.datetime.now(tz=None),
+                set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+            )
+            await ctx.author.send(embed=reportEmbedDm3)
+            evidence_msg = await client.wait_for('message', check=check, timeout=960)
+            evidence = evidence_msg.content
+            if(evidence == "cancel"):
+                await ctx.author.send(embed=CancelPromptEmbed)
+                return False
+            if(evidence != "cancel"):
+                reportEmbedDm4 = discord.Embed(
+                    title="**REPORT**",
+                    description="Alright, to post your report, just say `done`. Your report will look like the embed below.",
+                    color=0x0064ff,
+                    timestamp=datetime.datetime.now(tz=None),
+                    set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+                )
+                finalEmbed = discord.Embed(
+                    title="**SCAM REPORT**",
+                    description=f"""
+                    Victim: {ctx.author}
+                    
+                    Scammed by: {reported_user}
+                    
+                    Details: {details}
+
+                    Evidence: {evidence}
+                    """,
+                    color=0x0064ff,
+                    timestamp=datetime.datetime.now(tz=None)
+                )
+                await ctx.author.send(embed=reportEmbedDm4)
+                final_msg = await client.wait_for('message', check=check, timeout=960)
+                final = final_msg.content
+                if(final == "cancel"):
+                    await ctx.author.send(embed=CancelPromptEmbed)
+                    return False
+                if(final == "done"):
+                    SUCCESS = discord.Embed(
+                        title="**REPORT**",
+                        description="*Your report has been posted and will be reviewed.*",
+                        color=0x0064ff,
+                        timestamp=datetime.datetime.now(tz=None)
+                    )
+                    await ctx.author.send(embed=SUCCESS)
+                    channel = client.get_channel(id=ReportsChannelID)
+                    sent = await channel.send(embed=finalEmbed)
+                    sent.add_reaction('⚠️')
 
 @client.command()
 @commands.cooldown(1, 60, commands.BucketType.member)
@@ -151,7 +267,7 @@ async def credits(ctx):
     malware = await user_convertor.convert(ctx, "466591581286170624")
     creditsEmbed = discord.Embed(
         title=f"**CREDITS**",
-        description=f"{markipro} and {malware} made the bot.",
+        description=f"{markipro} made the bot, and {malware} was of big help during the creation.",
         color=0x0064ff,
         timestamp=datetime.datetime.now(tz=None)
         )
@@ -167,10 +283,10 @@ async def post(ctx):
             color=0x0064ff,
             timestamp=datetime.datetime.now(tz=None)
         )
-        RoDevHiringChannelID = id
-        RoDevForHireChannelID = id
-        RoDevSellingCreationsChannelID = id
-        RoDevGameAdvertsChannelID = id
+        RoDevHiringChannelID = 646113487290105871
+        RoDevForHireChannelID = 665738103348265001
+        RoDevSellingCreationsChannelID = 697791056040951838
+        RoDevGameAdvertsChannelID = 648697773058818064
         startedEmbed = discord.Embed(
             title="**POST SETUP**",
             description="Please continue the setup in dms",
@@ -199,7 +315,7 @@ async def post(ctx):
         category_message = await client.wait_for('message', check=check, timeout=960)
         category = category_message.content
         if(category == "cancel"):
-            await ctx.send(embed=CancelPromptEmbed)
+            await ctx.author.send(embed=CancelPromptEmbed)
             return False
         if(category == "hire"):
             firstHireEmbed = discord.Embed(
@@ -214,7 +330,7 @@ async def post(ctx):
             message_details = await client.wait_for('message', check=check, timeout=960)
             details = message_details.content
             if(details == "cancel"):
-                await ctx.send(embed=CancelPromptEmbed)
+                await ctx.author.send(embed=CancelPromptEmbed)
                 return False
             if(details != "cancel"):
                 secondHireEmbed = discord.Embed(
@@ -228,7 +344,7 @@ async def post(ctx):
                 lookingFor_msg = await client.wait_for('message', check=check, timeout=960)
                 lookingFor = lookingFor_msg
                 if(lookingFor == "cancel"):
-                    await ctx.send(embed=CancelPromptEmbed)
+                    await ctx.author.send(embed=CancelPromptEmbed)
                     return False
                 if(lookingFor != "cancel"):
                     thirdHireEmbed = discord.Embed(
@@ -242,7 +358,7 @@ async def post(ctx):
                     payment_msg = await client.wait_for('message', check=check, timeout=960)
                     payment = payment_msg.content
                     if(payment == "cancel"):
-                        await ctx.send(embed=CancelPromptEmbed)
+                        await ctx.author.send(embed=CancelPromptEmbed)
                         return False
                     if(payment != "cancel"):
                         percentage_amount = await client.wait_for('message', check=check, timeout=960)
@@ -276,7 +392,7 @@ async def post(ctx):
                         finish_message = await client.wait_for('message', check=check, timeout=960)
                         finish_msg_body = finish_message.content
                         if(finish_msg_body == "cancel"):
-                            await ctx.send(embed=CancelPromptEmbed)
+                            await ctx.author.send(embed=CancelPromptEmbed)
                             return False
                         if(finish_msg_body == "done"):
                             RoDevHiringChannel = client.get_channel(id=RoDevHiringChannelID)
