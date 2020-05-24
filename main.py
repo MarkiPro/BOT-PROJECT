@@ -5,6 +5,7 @@ from discord import user
 import asyncio
 import mysql.connector
 import datetime
+import math as m1
 
 token = os.environ['TOKEN']
 client = commands.Bot(command_prefix='r!', case_insensitive=True)
@@ -17,7 +18,7 @@ async def on_ready():
 @client.command()
 async def help(ctx, *, commandArg):
     prefix = await client.get_prefix(ctx.message)
-    if not commandArg:
+    if(str(commandArg)) == (""):
         embed6 = discord.Embed(
             title="**COMMANDS:**", 
             description=f"""**--INFORMATIVE--**
@@ -1050,7 +1051,7 @@ async def on_command_error(ctx, error):
         embed3 = discord.Embed(
             title="**ERROR**", 
             description=f"""***:no_entry_sign: The command is on a cooldown, please do not rush it.
-                                cooldown for this command is `{error.cooldown.per}`, and you have `{error.retry_after}` left***""",
+                                cooldown for this command is `{m1.floor(error.cooldown.per)}`, and you have `{m1.floor(error.retry_after)}` left***""",
             color=0xff0000,
             timestamp=datetime.datetime.now(tz=None)
             )
