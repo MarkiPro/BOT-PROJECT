@@ -565,7 +565,7 @@ async def suggest(ctx):
             await sent.add_reaction('👍')
             await sent.add_reaction('👎')
     if ctx.guild.name == "HyenaCraftDJ":
-        suggestionsChannel = client.get_channel(id=707272718885585039)
+        suggestionsChannel = client.get_channel(id=709991144444133376)
         startedEmbed = discord.Embed(
             title="**SUGGESTION SETUP**",
             description="Please continue the setup in dms.",
