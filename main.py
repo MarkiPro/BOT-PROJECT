@@ -1043,34 +1043,32 @@ async def removewarn(ctx, *, id):
     cursor.execute("DELETE FROM warns WHERE id = %s", (int(id), ))
     connection.commit()
     await ctx.send(f"Removed warn #{id}")
-
-@client.event
-async def on_command_error(ctx, error):
-    prefix = await client.get_prefix(ctx.message)
-    if isinstance(error, commands.CommandOnCooldown):
-        embed3 = discord.Embed(
-            title="**ERROR**", 
-            description=f"""***:no_entry_sign: The command is on a cooldown, please do not rush it.
-                                cooldown for this command is `{m1.floor(error.cooldown.per)}`, and you have `{m1.floor(error.retry_after)}` left***""",
-            color=0xff0000,
-            timestamp=datetime.datetime.now(tz=None)
-            )
-        await ctx.send(embed=embed3)
-    if isinstance(error, commands.MissingRequiredArgument):
-        embed1 = discord.Embed(
-            title="**ERROR**", 
-            description=f"***:no_entry_sign: You're missing arguments! Please do `{prefix}help <command>` to get more information on a certain command!***",
-            color=0xff0000,
-            timestamp=datetime.datetime.now(tz=None)
-            )
-        await ctx.send(embed=embed1)
-    if isinstance(error, commands.MissingPermissions):
-        embed2 = discord.Embed(
-            title="**ERROR**", 
-            description=f"***:no_entry_sign: You're missing permission to use this command!***",
-            color=0xff0000,
-            timestamp=datetime.datetime.now(tz=None)
-            )
-        await ctx.send(embed=embed2)
-
+#@client.event
+#async def on_command_error(ctx, error):
+    #prefix = await client.get_prefix(ctx.message)
+    #if isinstance(error, commands.CommandOnCooldown):
+        #embed3 = discord.Embed(
+         #   title="**ERROR**", 
+          #  description=f"""***:no_entry_sign: The command is on a cooldown, please do not rush it.
+           #                     cooldown for this command is `{m1.floor(error.cooldown.per)}`, and you have `{m1.floor(error.retry_after)}` left***""",
+            #color=0xff0000,
+            #timestamp=datetime.datetime.now(tz=None)
+   #         )
+    #    await ctx.send(embed=embed3)
+    #if isinstance(error, commands.MissingRequiredArgument):
+     #   embed1 = discord.Embed(
+      #      title="**ERROR**", 
+       #     description=f"***:no_entry_sign: You're missing arguments! Please do `{prefix}help <command>` to get more information on a certain command!***",
+        #    color=0xff0000,
+         #   timestamp=datetime.datetime.now(tz=None)
+          #  )
+   #     await ctx.send(embed=embed1)
+    #if isinstance(error, commands.MissingPermissions):
+     #   embed2 = discord.Embed(
+      #      title="**ERROR**", 
+       #     description=f"***:no_entry_sign: You're missing permission to use this command!***",
+        #    color=0xff0000,
+         #   timestamp=datetime.datetime.now(tz=None)
+          #  )
+        #await ctx.send(embed=embed2)
 client.run(token)
