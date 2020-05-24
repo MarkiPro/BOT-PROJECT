@@ -15,7 +15,7 @@ async def on_ready():
 @client.remove_command('help')
 
 @client.command()
-async def help(ctx, *, commandArg=None):
+async def help(ctx, *, commandArg):
     prefix = await client.get_prefix(ctx.message)
     if not commandArg:
         embed6 = discord.Embed(
