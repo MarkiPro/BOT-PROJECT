@@ -23,26 +23,43 @@ async def help(ctx, *, commandArg=None):
             title="**COMMANDS:**", 
             description=f"""**--INFORMATIVE--**
 
+
                             `{prefix}credits`
+
                             `{prefix}help [command]`
+
                             
                             **--MODERATION--**
+
                             
                             `{prefix}clear <amount>`
+
                             `{prefix}warn <user> <reason>`
+
                             `{prefix}removewarn <warningID>`
+
                             `{prefix}warnings <user>`
+                            
                             `{prefix}mute <user> <amount> [reason]`
+                            
                             `{prefix}unmute <user> [reason]`
+                            
                             `{prefix}kick <user> [reason]`
+                            
                             `{prefix}ban <user> [reason]`
+                            
                             `{prefix}unban <user> [reason]`
                             
+
                             **--COMMUNITY--**
 
-                            `{prefix}report` - NOT DONE!
+                            
+                            `{prefix}report`
+                            
                             `{prefix}suggest`
+                            
                             `{prefix}post`
+
                             """,
             color=0x0064ff,
             timestamp=datetime.datetime.now(tz=None)
@@ -242,6 +259,7 @@ async def report(ctx):
                     timestamp=datetime.datetime.now(tz=None)
                 )
                 await ctx.author.send(embed=reportEmbedDm4)
+                await ctx.author.send(embed=finalEmbed)
                 final_msg = await client.wait_for('message', check=check, timeout=960)
                 final = final_msg.content
                 if(final == "cancel"):
@@ -257,7 +275,7 @@ async def report(ctx):
                     await ctx.author.send(embed=SUCCESS)
                     channel = client.get_channel(id=ReportsChannelID)
                     sent = await channel.send(embed=finalEmbed)
-                    sent.add_reaction('⚠️')
+                    await sent.add_reaction('⚠️')
 
 @client.command()
 @commands.cooldown(1, 60, commands.BucketType.member)
