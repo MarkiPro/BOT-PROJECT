@@ -17,7 +17,7 @@ async def on_ready():
 @client.command()
 async def help(ctx, *, commandArg=None):
     prefix = await client.get_prefix(ctx.message)
-    if(not commandArg):
+    if not commandArg:
         embed6 = discord.Embed(
             title="**COMMANDS:**", 
             description=f"""**--INFORMATIVE--**
@@ -160,6 +160,12 @@ async def credits(ctx):
 @commands.cooldown(1, 86400, commands.BucketType.member)
 async def post(ctx):
     if ctx.guild.name == "Test Server":
+        CancelPromptEmbed = discord.Embed(
+            title="**PROMPT CANCELLED**",
+            description="*You have successfully cancelled this prompt.*",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+        )
         RoDevHiringChannelID = id
         RoDevForHireChannelID = id
         RoDevSellingCreationsChannelID = id
@@ -191,6 +197,9 @@ async def post(ctx):
                 return False
         category_message = await client.wait_for('message', check=check, timeout=960)
         category = category_message.content
+        if(category == "cancel"):
+            await ctx.send(embed=CancelPromptEmbed)
+            return False
         if(category == "hire"):
             firstHireEmbed = discord.Embed(
                 title="**HIRING SETUP**",
@@ -199,84 +208,78 @@ async def post(ctx):
                 timestamp=datetime.datetime.now(tz=None),
                 set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
             )
+
             await ctx.author.send(embed=firstHireEmbed)
             message_details = await client.wait_for('message', check=check, timeout=960)
             details = message_details.content
-            secondHireEmbed = discord.Embed(
-                title="**HIRING SETUP**",
-                description="Who are you looking to hire? E.g. scripter, builder etc.",
-                color=0x0064ff,
-                timestamp=datetime.datetime.now(tz=None),
-                set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
-            )
-            await ctx.author.send(embed=secondHireEmbed)
-            lookingFor_msg = await client.wait_for('message', check=check, timeout=960)
-            lookingFor = lookingFor_msg
-            thirdHireEmbed = discord.Embed(
-                title="**HIRING SETUP**",
-                description="""How would you like to pay?
-                                `percentage`, `robux`, `USD`, `other`""",
-                color=0x0064ff,
-                timestamp=datetime.datetime.now(tz=None),
-                set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
-            )
-            await ctx.author.send(embed=thirdHireEmbed)
-            message_body1 = await client.wait_for('message', check=check, timeout=960)
-            body1 = message_body1.content
-            if(body1 == "percentage"):
-                fourthHireEmbed = discord.Embed(
+            if(details == "cancel"):
+                await ctx.send(embed=CancelPromptEmbed)
+                return False
+            if(details != "cancel"):
+                secondHireEmbed = discord.Embed(
                     title="**HIRING SETUP**",
-                    description="How big of a percentage are you willing to give?",
+                    description="Who are you looking to hire? E.g. scripter, builder etc.",
                     color=0x0064ff,
                     timestamp=datetime.datetime.now(tz=None),
                     set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
                 )
-                await ctx.author.send(embed=fourthHireEmbed)
-                percentage_amount = await client.wait_for('message', check=check, timeout=960)
-                percentage = percentage_amount.content
-                fifthHireEmbed = discord.Embed(
-                    title="**HIRING SETUP**",
-                    description="Are you willing to add any other payment? `yes`/`no`",
-                    color=0x0064ff,
-                    timestamp=datetime.datetime.now(tz=None),
-                    set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
-                )
-                await ctx.author.send(embed=fifthHireEmbed)
-                other_amount = await client.wait_for('message', check=check, timeout=960)
-                other_amount_body = other_amount.content
-                if(other_amount_body == "no"):
-                    sixthHireEmbed = discord.Embed(
-                        title="**HIRING SETUP FINISHED**",
-                        description="This is the ending result. Say `done` to continue.",
+                await ctx.author.send(embed=secondHireEmbed)
+                lookingFor_msg = await client.wait_for('message', check=check, timeout=960)
+                lookingFor = lookingFor_msg
+                if(lookingFor == "cancel"):
+                    await ctx.send(embed=CancelPromptEmbed)
+                    return False
+                if(lookingFor != "cancel"):
+                    thirdHireEmbed = discord.Embed(
+                        title="**HIRING SETUP**",
+                        description="Please go as much into detail on how you're planning to pay the worker(s).",
                         color=0x0064ff,
                         timestamp=datetime.datetime.now(tz=None),
                         set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
                     )
-                    seventhHireEmbed = discord.Embed(
-                        title="**HIRING POST**",
-                        description=f"""
+                    await ctx.author.send(embed=thirdHireEmbed)
+                    payment_msg = await client.wait_for('message', check=check, timeout=960)
+                    payment = payment_msg.content
+                    if(payment == "cancel"):
+                        await ctx.send(embed=CancelPromptEmbed)
+                        return False
+                    if(payment != "cancel"):
+                        percentage_amount = await client.wait_for('message', check=check, timeout=960)
+                        percentage = percentage_amount.content
+                        sixthHireEmbed = discord.Embed(
+                            title="**HIRING SETUP FINISHED**",
+                            description="This is the ending result. Say `done` to continue.",
+                            color=0x0064ff,
+                            timestamp=datetime.datetime.now(tz=None),
+                            set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+                        )
+                        seventhHireEmbed = discord.Embed(
+                            title="**HIRING POST**",
+                            description=f"""
 
-                        Contact: {ctx.author.mention};
+                            Contact: {ctx.author.mention};
 
-                        About: {details};
+                            About: {details};
 
-                        Looking For: {lookingFor};
-                        
-                        Payment: {body1}, {percentage};
-                        
-                        """,
-                        color=0x0064ff,
-                        timestamp=datetime.datetime.now(tz=None),
-                        set_footer=f"by: {ctx.author}"
-                    )
-                    await ctx.author.send(embed=sixthHireEmbed)
-                    await ctx.author.send(embed=seventhHireEmbed)
-                    finish_message = await client.wait_for('message', check=check, timeout=960)
-                    finish_msg_body = finish_message.content
-                    if(finish_msg_body == "done"):
-                        RoDevHiringChannel = client.get_channel(id=RoDevHiringChannelID)
-                        sent = await RoDevHiringChannel.send(embed=seventhHireEmbed)
-
+                            Looking For: {lookingFor};
+                            
+                            Payment: {payment};
+                            
+                            """,
+                            color=0x0064ff,
+                            timestamp=datetime.datetime.now(tz=None),
+                            set_footer=f"by: {ctx.author}"
+                        )
+                        await ctx.author.send(embed=sixthHireEmbed)
+                        await ctx.author.send(embed=seventhHireEmbed)
+                        finish_message = await client.wait_for('message', check=check, timeout=960)
+                        finish_msg_body = finish_message.content
+                        if(finish_msg_body == "cancel"):
+                            await ctx.send(embed=CancelPromptEmbed)
+                            return False
+                        if(finish_msg_body == "done"):
+                            RoDevHiringChannel = client.get_channel(id=RoDevHiringChannelID)
+                            sent = await RoDevHiringChannel.send(embed=seventhHireEmbed)
 
 @client.command()
 @commands.cooldown(1, 3600, commands.BucketType.member)
@@ -492,6 +495,76 @@ async def suggest(ctx):
             await sent.add_reaction('👍')
             await sent.add_reaction('👎')
     if ctx.guild.name == "The Court":
+        suggestionsChannel = client.get_channel(id=707272718885585039)
+        startedEmbed = discord.Embed(
+            title="**SUGGESTION SETUP**",
+            description="Please continue the setup in dms.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        furstEmbed = discord.Embed(
+            title="**SUGGESTION SETUP**",
+            description="What would you like to name your suggestion?",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=startedEmbed)
+        await ctx.author.send(embed=furstEmbed)
+        def check(m):
+            if isinstance(m.channel, discord.DMChannel):
+                if m.author == ctx.author:
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        title_message = await client.wait_for('message', check=check, timeout=1000)
+        title = title_message.content
+        startEmbed = discord.Embed(
+            title="**SUGGESTION SETUP**",
+            description="Please write down your suggestion in detail.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.author.send(embed=startEmbed)
+        body_message = await client.wait_for('message', check=check, timeout=1000)
+        body = body_message.content
+        suggestedEmbed2 = discord.Embed(
+            title=f"**FINISHED PRODUCT**",
+            description=f"""*Say `done` to post.*""",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        suggestedEmbed1 = discord.Embed(
+            title=f"**{title}**",
+            description=f"{body}",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        suggestedEmbed1.set_footer(text=f"by: {ctx.author}")
+        await ctx.author.send(embed=suggestedEmbed2)
+        await ctx.author.send(embed=suggestedEmbed1)
+        body_message2 = await client.wait_for('message', check=check, timeout=1000)
+        body2 = body_message2.content
+        if(body2 == "done"):
+            finalEmbed = discord.Embed(
+                title="**SUGGESTION SETUP**",
+                description="Your suggestion has been posted.",
+                color=0x0064ff,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            await ctx.author.send(embed=finalEmbed)
+            suggestedEmbed = discord.Embed(
+                title=f"**{title}**",
+                description=f"{body}",
+                color=0x0064ff,
+                timestamp=datetime.datetime.now(tz=None)
+                )
+            suggestedEmbed.set_footer(text=f"by: {ctx.author}")
+            sent = await suggestionsChannel.send(embed=suggestedEmbed)
+            await sent.add_reaction('👍')
+            await sent.add_reaction('👎')
+    if ctx.guild.name == "HyenaCraftDJ":
         suggestionsChannel = client.get_channel(id=707272718885585039)
         startedEmbed = discord.Embed(
             title="**SUGGESTION SETUP**",
