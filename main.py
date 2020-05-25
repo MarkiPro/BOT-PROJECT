@@ -18,7 +18,7 @@ async def on_ready():
 @client.command()
 async def help(ctx, *, commandArg=None):
     prefix = await client.get_prefix(ctx.message)
-    if(not commandArg):
+    if(not commandArg and ctx.author.has_permissions(kick_members=True)):
         embed6 = discord.Embed(
             title="**COMMANDS:**", 
             description=f"""**--INFORMATIVE--**
@@ -65,7 +65,32 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed6)
-    if(str(commandArg)) == ("ban"):
+    if(not commandArg and not ctx.author.has_permissions(kick_members=True)):
+        embed6 = discord.Embed(
+            title="**COMMANDS:**", 
+            description=f"""**--INFORMATIVE--**
+
+
+                            `{prefix}credits`
+
+                            `{prefix}help [command]`
+
+
+                            **--COMMUNITY--**
+
+                            
+                            `{prefix}report`
+                            
+                            `{prefix}suggest`
+                            
+                            `{prefix}post`
+
+                            """,
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=embed6)
+    if(str(commandArg)) == ("ban") and ctx.author.has_permissions(ban_members=True):
         embed1 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}ban <user> [reason]` - This is the correct usage of the ban command, reason is by default set to `None`.",
@@ -73,7 +98,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed1)
-    if(str(commandArg)) == ("kick"):
+    if(str(commandArg)) == ("kick") and ctx.author.has_permissions(kick_members=True):
         embed2 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}kick <user> [reason]` - This is the correct usage of the kick command, reason is by default set to `None`.",
@@ -81,7 +106,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed2)
-    if(str(commandArg)) == ("clear"):
+    if(str(commandArg)) == ("clear") and ctx.author.has_permissions(manage_messages=True):
         embed3 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}clear <amount>` - This is the correct usage of the clear command, amount is by default set to `0`, so it won't delete any other message apart from yours.",
@@ -89,7 +114,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed3)
-    if(str(commandArg)) == ("unban"):
+    if(str(commandArg)) == ("unban") and ctx.author.has_permissions(ban_members=True):
         embed4 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}unban <user> [reason]` - This is the correct usage of the unban command, by default reason is set to `None`.",
@@ -105,7 +130,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed5)
-    if(str(commandArg)) == ("mute"):
+    if(str(commandArg)) == ("mute") and ctx.author.has_permissions(mute_members=True):
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}mute <user> <amount> [reason]` - This is correct usage of the mute command, reason is by default set to `None`, and there is no default value applied to `amount`.",
@@ -113,7 +138,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed5)
-    if(str(commandArg)) == ("unmute"):
+    if(str(commandArg)) == ("unmute") and ctx.author.has_permissions(mute_members=True):
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}unmute <user> [reason]` - This is correct usage of the mute command, reason is by default set to `None`.",
@@ -137,7 +162,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed5)
-    if(str(commandArg)) == ("warn"):
+    if(str(commandArg)) == ("warn") and ctx.author.has_permissions(manage_roles=True):
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}warn <user> <reason>` - This is the correct usage of the warn command, this command is used for warning a user for something they had done, and the reason is by default set to `None`.",
@@ -1135,7 +1160,13 @@ async def warn(ctx, member: discord.Member, *, reason):
     cursor = connection.cursor()
     cursor.execute("INSERT INTO warns VALUES (%s, %s, %s, %s, %s)", (None, ctx.guild.id, member.id, reason, ctx.author.id))
     connection.commit()
-    await ctx.send(f"{member} has been warned!")
+    embed1 = discord.Embed(
+        title="**SUCCESS**",
+        description=f"***:white_check_mark: ***{member} has been warned!***",
+        color=0x00fa00,
+        timestamp=datetime.datetime.now(tz=None)
+        )
+    await ctx.send(embed=embed1)
 
 @client.command()
 async def warnings(ctx, member: discord.Member):
@@ -1148,11 +1179,11 @@ async def warnings(ctx, member: discord.Member):
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM warns WHERE user_id = %s AND guild_id = %s", (member.id, ctx.guild.id))
     warns = cursor.fetchall()
-    embed = discord.Embed(title=f"Warns of {member}".upper(), description="Returns all the warns of a user")
+    embed = discord.Embed(title=f"Warnings of {member}".upper(), description="Returns all the warns of a user")
     member_converter = commands.MemberConverter()
     for warn in warns:
         moderator = await member_converter.convert(ctx, warn[4])
-        embed.add_field(name=f"Warn #{warn[0]} by {moderator}", value=f"{warn[3]}", inline=False)
+        embed.add_field(name=f"Warning #{warn[0]} by {moderator}", value=f"{warn[3]}", inline=False)
     await ctx.send(embed=embed)
 
 @client.command()
@@ -1168,15 +1199,61 @@ async def removewarn(ctx, *, id):
     warn = cursor.fetchone()
 
     if warn == None:
-        return await ctx.send("This warn does'nt exist!")
-
+        embed3 = discord.Embed(
+            title="**ERROR**", 
+            description=f"""***:no_entry_sign: This warn doesn't exist!***""",
+            color=0xff0000,
+            timestamp=datetime.datetime.now(tz=None)
+        )
+        return await ctx.send(embed=embed3)
     if int(warn[1]) != ctx.guild.id:
-        return await ctx.send("This warn doesnt belong to this guild.")
+        embed4 = discord.Embed(
+            title="**ERROR**", 
+            description=f"""***:no_entry_sign: This warn doesn't exist in this guild!***""",
+            color=0xff0000,
+            timestamp=datetime.datetime.now(tz=None)
+        )
+        return await ctx.send(embed=embed4)
 
 
     cursor.execute("DELETE FROM warns WHERE id = %s", (int(id), ))
     connection.commit()
-    await ctx.send(f"Removed warn #{id}")
+    embed1 = discord.Embed(
+        title="**SUCCESS**",
+        description=f"***:white_check_mark: ***Removed warning #{id}***",
+        color=0x00fa00,
+        timestamp=datetime.datetime.now(tz=None)
+        )
+    await ctx.send(embed=embed1)
+
+@client.command()
+async def whois(self, ctx, user: discord.Member = None):
+    if not user:
+        user = ctx.message.author
+        embed = discord.Embed(title=f"**Who is {user.name}**".upper(),
+                                description="Displays basic information about the given user", colour=0xd9ac32)
+        embed.set_author(name=f"{ctx.message.author}", icon_url=ctx.message.author.avatar_url)
+        format = "%A, %d %B, %Y : %I:%M %p"
+        delta_joined = datetime.datetime.now() - user.joined_at
+        delta_created = datetime.datetime.now() - user.created_at
+        embed.set_thumbnail(url=user.avatar_url)
+        embed.add_field(name="Joined on", value=f"{user.joined_at.strftime(format)} ({delta_joined.days} days)", inline=True)
+        embed.add_field(name="Account created on", value=f"{user.created_at.strftime(format)} ({delta_created.days} days)", inline=True)
+        embed.add_field(name="Nickname", value=f"{user.nick}", inline=True)
+        embed.add_field(name="Guild Roles", value=", ".join([i.name for i in user.roles]), inline=False)
+        embed.add_field(name="Guild Permissions", value=", ".join(list(i[0].title() for i in user.guild_permissions if i[1] == True)), inline=False)
+        await ctx.send(embed=embed)
+
+@client.event
+async def on_member_join(member):
+    SomeRandomEmbed = discord.Embed(
+        title="**WELCOME MESSAGE**",
+        description=f"*Welcome to the **{member.guild}**!*",
+        color=0xffa200,
+        timestamp=datetime.datetime.now(tz=None)
+    )
+    await member.send(embed=SomeRandomEmbed)
+
 #@client.event
 #async def on_command_error(ctx, error):
     #prefix = await client.get_prefix(ctx.message)
