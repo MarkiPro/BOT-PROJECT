@@ -90,6 +90,54 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed6)
+    if(not commandArg and not ctx.author.top_role.permission.kick_members==True):
+        embed6 = discord.Embed(
+            title="**COMMANDS:**", 
+            description=f"""**--INFORMATIVE--**
+
+
+                            `{prefix}credits`
+
+                            `{prefix}help [command]`
+
+
+                            **--MODERATION--**
+
+                            `{prefix}clear <amount>`
+                            
+                            `{prefix}warn <user> [reason]`
+                            
+                            `{prefix}warnings <user>`
+
+                            `{prefix}removewarn <warningID>`
+
+                            `{prefix}mute <user> <time> [reason]`
+
+                            `{prefix}unmute <user> [reasnon]`
+
+                            `{prefix}kick <user> [reason]`
+
+                            `{prefix}ban <user> [reason]`
+
+                            `{prefix}unban <user> [reason]`
+
+
+                            **--COMMUNITY--**
+
+                            
+                            `{prefix}report`
+                            
+                            `{prefix}suggest`
+                            
+                            `{prefix}post`
+
+                            `{prefix}codeformat`
+
+                            """,
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=embed6)
     if(str(commandArg)) == ("ban") and ctx.author.top_role.permission.ban_members==True:
         embed1 = discord.Embed(
             title="**COMMAND**", 
@@ -190,6 +238,14 @@ async def help(ctx, *, commandArg=None):
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}credits` - This is simply going to define the creators of this bot.",
+            color=0x0064ff,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=embed5)
+    if(str(commandArg)) == ("codeformat"):
+        embed5 = discord.Embed(
+            title="**COMMAND**", 
+            description=f"`{prefix}codeformat` - This is simply going to help you post your code (formatted).",
             color=0x0064ff,
             timestamp=datetime.datetime.now(tz=None)
             )
