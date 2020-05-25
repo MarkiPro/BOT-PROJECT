@@ -258,14 +258,16 @@ async def codeformat(ctx):
         title=f"**CODEBLOCK**",
         description=f"Continue this in dms.",
         color=0x0064ff,
-        timestamp=datetime.datetime.now(tz=None)
+        timestamp={datetime.datetime.now(tz=None)}
     )
+    codeBlockEmbed.set_footer(text=f"Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt.")
     codeBlockEmbed2 = discord.Embed(
         title=f"**CODEBLOCK**",
         description=f"Is your code long or short? If it's longer and you can't post it, say `pastebin`, and if it's shorter, say `codeblock`.",
         color=0x0064ff,
-        set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        timestamp={datetime.datetime.now(tz=None)}
     )
+    codeBlockEmbed2.set_footer(text=f"Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt.")
     await ctx.send(embed=codeBlockEmbed)
     await ctx.author.send(embed=codeBlockEmbed2)
     def check(m):
@@ -301,8 +303,9 @@ async def report(ctx):
         title=f"**REPORT**",
         description=f"Who would you like to report, define their name and discord tag, example: Noob#1234",
         color=0x0064ff,
-        set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        timestamp={datetime.datetime.now(tz=None)}
     )
+    reportEmbedDm.set_footer(text=f"Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt.")
     await ctx.send(embed=reportStartEmbed)
     await ctx.author.send(embed=reportEmbedDm)
     def check(m):
@@ -323,8 +326,9 @@ async def report(ctx):
             title="**REPORT**",
             description="How did they scam you? Please go into as much detail as possible.",
             color=0x0064ff,
-            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+            timestamp={datetime.datetime.now(tz=None)}
         )
+        reportEmbedDm2.set_footer(text=f"Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt.")
         await ctx.author.send(embed=reportEmbedDm2)
         detail_msg = await client.wait_for('message', check=check, timeout=960)
         details = detail_msg.content
@@ -336,8 +340,9 @@ async def report(ctx):
                 title="**REPORT**",
                 description="Can you provide us any evidence of getting scammed?",
                 color=0x0064ff,
-                set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+                timestamp={datetime.datetime.now(tz=None)}
             )
+            reportEmbedDm3.set_footer(text=f"Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt.")
             await ctx.author.send(embed=reportEmbedDm3)
             evidence_msg = await client.wait_for('message', check=check, timeout=960)
             evidence = evidence_msg.content
@@ -349,8 +354,9 @@ async def report(ctx):
                     title="**REPORT**",
                     description="Alright, to post your report, just say `done`. Your report will look like the embed below.",
                     color=0x0064ff,
-                    set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+                    timestamp={datetime.datetime.now(tz=None)}
                 )
+                reportEmbedDm4.set_footer(text=f"Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt.")
                 finalEmbed = discord.Embed(
                     title="**SCAM REPORT**",
                     description=f"""
@@ -395,7 +401,7 @@ async def credits(ctx):
         description=f"{markipro} made the bot, and {malware} was of big help during the creation.",
         color=0x0064ff,
         timestamp=datetime.datetime.now(tz=None)
-        )
+    )
     await ctx.send(embed=creditsEmbed)
 
 @client.command()
@@ -424,8 +430,9 @@ async def post(ctx):
                             
                             `hire`, `get hired`, `sell creation`, `advertise game`""",
             color=0x0064ff,
-            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+            timestamp={datetime.datetime.now(tz=None)}
         )
+        firstEmbed.set_footer(text=f"Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt.")
         await ctx.send(embed=startedEmbed)
         await ctx.author.send(embed=firstEmbed)
         def check(m):
@@ -446,9 +453,9 @@ async def post(ctx):
                 title="**HIRING SETUP**",
                 description="Please go as much in detail about your hiring post.",
                 color=0x0064ff,
-                set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+                timestamp={datetime.datetime.now(tz=None)}
             )
-
+            firstHireEmbed.set_footer(text=f"Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt.")
             await ctx.author.send(embed=firstHireEmbed)
             message_details = await client.wait_for('message', check=check, timeout=960)
             details = message_details.content
@@ -1203,62 +1210,81 @@ async def ban(ctx, member: discord.Member, *, reason=None):
 @commands.has_permissions(ban_members=True)
 @commands.cooldown(1, 5, commands.BucketType.member)
 async def unban(ctx, member, *, reason=None):
-    ban_list = await ctx.guild.bans()
-    for ban_entry in ban_list:
-        user = ban_entry.user
-        id = member
-        embed1 = discord.Embed(
-        title="**SUCCESS**", 
-        description=f"***:white_check_mark: *** {user.display_name} *** has been unbanned for: `{reason}`!***",
-        color=0x00fa00,
-        timestamp=datetime.datetime.now(tz=None)
-        )
-        try:
-            user_name, user_discriminator = member.split('#')
-        except ValueError:
-            user_name = ''
-            user_discriminator = ''
-        if (user.name, user.discriminator) == (user_name, user_discriminator) or int(id) == user.id:
-            await ctx.guild.unban(user, reason=reason)
-            await ctx.send(embed=embed1)
+        ban_list = await ctx.guild.bans()
+        for ban_entry in ban_list:
+            user = ban_entry.user
+            id = member
+            embed1 = discord.Embed(
+            title="**SUCCESS**", 
+            description=f"***:white_check_mark: *** {user.display_name} *** has been unbanned for: `{reason}`!***",
+            color=0x00fa00,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+            try:
+                user_name, user_discriminator = member.split('#')
+            except ValueError:
+                user_name = ''
+                user_discriminator = ''
+            if (user.name, user.discriminator) == (user_name, user_discriminator) or int(id) == user.id:
+                await ctx.guild.unban(user, reason=reason)
+                await ctx.send(embed=embed1)
 
 @client.command()
 @commands.cooldown(1, 5, commands.BucketType.member)
 async def warn(ctx, member: discord.Member, *, reason):
-    connection = mysql.connector.connect(
-        host="us-cdbr-east-06.cleardb.net",
-        user="baba29035f4254",
-        passwd="8a63c86d",
-        database="heroku_daa9f1b493ff319"
-    )
-    cursor = connection.cursor()
-    cursor.execute("INSERT INTO warns VALUES (%s, %s, %s, %s, %s)", (None, ctx.guild.id, member.id, reason, ctx.author.id))
-    connection.commit()
-    embed1 = discord.Embed(
-        title="**SUCCESS**",
-        description=f"***:white_check_mark: ***{member} has been warned!***",
-        color=0x00fa00,
-        timestamp=datetime.datetime.now(tz=None)
+    if not member:
+        embed = discord.Embed(
+            title="**OOPS**",
+            description=":warning: ***This user does not exist!***",
+            timestamp=datetime.datetime.now(tz=None)
         )
-    await ctx.send(embed=embed1)
+        await ctx.send(embed=embed)
+        return False
+    else:
+        connection = mysql.connector.connect(
+            host="us-cdbr-east-06.cleardb.net",
+            user="baba29035f4254",
+            passwd="8a63c86d",
+            database="heroku_daa9f1b493ff319"
+        )
+        cursor = connection.cursor()
+        cursor.execute("INSERT INTO warns VALUES (%s, %s, %s, %s, %s)", (None, ctx.guild.id, member.id, reason, ctx.author.id))
+        connection.commit()
+        embed1 = discord.Embed(
+            title="**SUCCESS**",
+            description=f":white_check_mark: ***{member} has been warned!***",
+            color=0x00fa00,
+            timestamp=datetime.datetime.now(tz=None)
+            )
+        await ctx.send(embed=embed1)
 
 @client.command()
 async def warnings(ctx, member: discord.Member):
-    connection = mysql.connector.connect(
-        host="us-cdbr-east-06.cleardb.net",
-        user="baba29035f4254",
-        passwd="8a63c86d",
-        database="heroku_daa9f1b493ff319"
-    )
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM warns WHERE user_id = %s AND guild_id = %s", (member.id, ctx.guild.id))
-    warns = cursor.fetchall()
-    embed = discord.Embed(title=f"Warnings of {member}".upper(), description="Returns all the warns of a user")
-    member_converter = commands.MemberConverter()
-    for warn in warns:
-        moderator = await member_converter.convert(ctx, warn[4])
-        embed.add_field(name=f"Warning #{warn[0]} by {moderator}", value=f"{warn[3]}", inline=False)
-    await ctx.send(embed=embed)
+    if not member:
+        embed = discord.Embed(
+            title="**OOPS**",
+            description=":warning: ***This user does not exist!***",
+            timestamp=datetime.datetime.now(tz=None)
+        )
+        await ctx.send(embed=embed)
+        return False
+    else:
+        connection = mysql.connector.connect(
+            host="us-cdbr-east-06.cleardb.net",
+            user="baba29035f4254",
+            passwd="8a63c86d",
+            database="heroku_daa9f1b493ff319"
+        )
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM warns WHERE user_id = %s AND guild_id = %s", (member.id, ctx.guild.id))
+        warns = cursor.fetchall()
+        embed = discord.Embed(title=f"Warnings of {member}".upper(), description="Returns all the warns of a user")
+        member_converter = commands.MemberConverter()
+        for warn in warns:
+            moderator = await member_converter.convert(ctx, warn[4])
+            embed.add_field(name=f"Warning #{warn[0]} by {moderator}", value=f"{warn[3]}", inline=False)
+        await ctx.send(embed=embed)
+
 
 @client.command()
 async def removewarn(ctx, *, id):
@@ -1294,7 +1320,7 @@ async def removewarn(ctx, *, id):
     connection.commit()
     embed1 = discord.Embed(
         title="**SUCCESS**",
-        description=f"***:white_check_mark: ***Removed warning #{id}***",
+        description=f":white_check_mark: ***Removed warning #{id}***",
         color=0x00fa00,
         timestamp=datetime.datetime.now(tz=None)
         )
@@ -1304,6 +1330,21 @@ async def removewarn(ctx, *, id):
 async def whois(ctx, user: discord.Member = None):
     if not user:
         user = ctx.message.author
+        embed = discord.Embed(title=f"**Who is {user.name}**".upper(),
+                                description="Displays basic information about the given user", colour=0xd9ac32)
+        embed.set_author(name=f"{ctx.message.author}", icon_url=ctx.message.author.avatar_url)
+        format = "%A, %d %B, %Y : %I:%M %p"
+        delta_joined = datetime.datetime.now() - user.joined_at
+        delta_created = datetime.datetime.now() - user.created_at
+        embed.set_thumbnail(url=user.avatar_url)
+        embed.add_field(name="Joined on", value=f"{user.joined_at.strftime(format)} ({delta_joined.days} days)", inline=True)
+        embed.add_field(name="Account created on", value=f"{user.created_at.strftime(format)} ({delta_created.days} days)", inline=True)
+        embed.add_field(name="Nickname", value=f"{user.nick}", inline=True)
+        embed.add_field(name="Guild Roles", value=", ".join([i.mention for i in user.roles]), inline=False)
+        embed.add_field(name="Guild Permissions", value=", ".join(list(i[0].title() for i in user.guild_permissions if i[1] == True)), inline=False)
+        await ctx.send(embed=embed)
+    if user:
+        user = user
         embed = discord.Embed(title=f"**Who is {user.name}**".upper(),
                                 description="Displays basic information about the given user", colour=0xd9ac32)
         embed.set_author(name=f"{ctx.message.author}", icon_url=ctx.message.author.avatar_url)
