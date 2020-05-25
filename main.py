@@ -482,8 +482,6 @@ async def post(ctx):
                         await ctx.author.send(embed=CancelPromptEmbed)
                         return False
                     if(payment != "cancel"):
-                        percentage_amount = await client.wait_for('message', check=check, timeout=960)
-                        percentage = percentage_amount.content
                         sixthHireEmbed = discord.Embed(
                             title="**HIRING SETUP FINISHED**",
                             description="This is the ending result. Say `done` to continue.",
