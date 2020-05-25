@@ -1227,7 +1227,7 @@ async def removewarn(ctx, *, id):
     await ctx.send(embed=embed1)
 
 @client.command()
-async def whois(self, ctx, user: discord.Member = None):
+async def whois(ctx, user: discord.Member = None):
     if not user:
         user = ctx.message.author
         embed = discord.Embed(title=f"**Who is {user.name}**".upper(),
