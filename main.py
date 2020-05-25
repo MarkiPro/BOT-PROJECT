@@ -65,7 +65,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed6)
-    if(not commandArg and not ctx.author.has_permissions(kick_members=True)):
+    if(not commandArg and not ctx.author.top_role.permission.kick_members==True):
         embed6 = discord.Embed(
             title="**COMMANDS:**", 
             description=f"""**--INFORMATIVE--**
@@ -90,7 +90,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed6)
-    if(str(commandArg)) == ("ban") and ctx.author.has_permissions(ban_members=True):
+    if(str(commandArg)) == ("ban") and ctx.author.top_role.permission.ban_members==True:
         embed1 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}ban <user> [reason]` - This is the correct usage of the ban command, reason is by default set to `None`.",
@@ -98,7 +98,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed1)
-    if(str(commandArg)) == ("kick") and ctx.author.has_permissions(kick_members=True):
+    if(str(commandArg)) == ("kick") and ctx.author.top_role.permission.kick_members==True:
         embed2 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}kick <user> [reason]` - This is the correct usage of the kick command, reason is by default set to `None`.",
@@ -106,7 +106,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed2)
-    if(str(commandArg)) == ("clear") and ctx.author.has_permissions(manage_messages=True):
+    if(str(commandArg)) == ("clear") and ctx.author.top_role.permission.manage_messages==True:
         embed3 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}clear <amount>` - This is the correct usage of the clear command, amount is by default set to `0`, so it won't delete any other message apart from yours.",
@@ -114,7 +114,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed3)
-    if(str(commandArg)) == ("unban") and ctx.author.has_permissions(ban_members=True):
+    if(str(commandArg)) == ("unban") and ctx.author.top_role.permission.ban_members==True:
         embed4 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}unban <user> [reason]` - This is the correct usage of the unban command, by default reason is set to `None`.",
@@ -130,7 +130,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed5)
-    if(str(commandArg)) == ("mute") and ctx.author.has_permissions(mute_members=True):
+    if(str(commandArg)) == ("mute") and ctx.author.top_role.permission.mute_members==True:
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}mute <user> <amount> [reason]` - This is correct usage of the mute command, reason is by default set to `None`, and there is no default value applied to `amount`.",
@@ -138,7 +138,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed5)
-    if(str(commandArg)) == ("unmute") and ctx.author.has_permissions(mute_members=True):
+    if(str(commandArg)) == ("unmute") and ctx.author.top_role.permission.mute_members==True:
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}unmute <user> [reason]` - This is correct usage of the mute command, reason is by default set to `None`.",
@@ -162,7 +162,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed5)
-    if(str(commandArg)) == ("warn") and ctx.author.has_permissions(manage_roles=True):
+    if(str(commandArg)) == ("warn") and ctx.author.top_role.permission.manage_roles==True:
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}warn <user> <reason>` - This is the correct usage of the warn command, this command is used for warning a user for something they had done, and the reason is by default set to `None`.",
@@ -170,7 +170,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed5)
-    if(str(commandArg)) == ("warnings"):
+    if(str(commandArg)) == ("warnings") and ctx.author.top_role.permission.manage_roles==True:
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}warnings <user>` - This is the correct usage of the warnings command, and this command is used for checking the user warnings.",
@@ -178,7 +178,7 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed5)
-    if(str(commandArg)) == ("removewarn"):
+    if(str(commandArg)) == ("removewarn") and ctx.author.top_role.permission.manage_roles==True:
         embed5 = discord.Embed(
             title="**COMMAND**", 
             description=f"`{prefix}removewarn <warningID>` - This is the correct usage of the removewarn command, this command is used for deleting user's warnings, don't include the `#` in the warning id.",
@@ -194,6 +194,36 @@ async def help(ctx, *, commandArg=None):
             timestamp=datetime.datetime.now(tz=None)
             )
         await ctx.send(embed=embed5)
+
+@client.command()
+@commands.cooldown(1, 60, commands.BucketType.member)
+async def codeformat(ctx):
+    codeBlockEmbed = discord.Embed(
+        title=f"**CODEBLOCK**",
+        description=f"Continue this in dms.",
+        color=0x0064ff,
+        timestamp=datetime.datetime.now(tz=None)
+    )
+    codeBlockEmbed2 = discord.Embed(
+        title=f"**CODEBLOCK**",
+        description=f"Is your code long or short? If it's longer and you can't post it, say `pastebin`, and if it's shorter, say `codeblock`.",
+        color=0x0064ff,
+        set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+    )
+    await ctx.send(embed=codeBlockEmbed)
+    await ctx.author.send(embed=codeBlockEmbed2)
+    def check(m):
+        if isinstance(m.channel, discord.DMChannel):
+            if m.author == ctx.author:
+                return True
+            else:
+                return False
+        else:
+            return False
+    codeEmbed_msg = await client.wait_for('message', check=check, timeout=960)
+    CodeCategory = codeEmbed_msg.content
+    if(CodeCategory == "cancel"):
+        return 
 
 @client.command()
 @commands.cooldown(1, 7200, commands.BucketType.member)
@@ -215,8 +245,7 @@ async def report(ctx):
         title=f"**REPORT**",
         description=f"Who would you like to report, define their name and discord tag, example: Noob#1234",
         color=0x0064ff,
-        timestamp=datetime.datetime.now(tz=None),
-        set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+        set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
     )
     await ctx.send(embed=reportStartEmbed)
     await ctx.author.send(embed=reportEmbedDm)
@@ -238,8 +267,7 @@ async def report(ctx):
             title="**REPORT**",
             description="How did they scam you? Please go into as much detail as possible.",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None),
-            set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
         )
         await ctx.author.send(embed=reportEmbedDm2)
         detail_msg = await client.wait_for('message', check=check, timeout=960)
@@ -252,8 +280,7 @@ async def report(ctx):
                 title="**REPORT**",
                 description="Can you provide us any evidence of getting scammed?",
                 color=0x0064ff,
-                timestamp=datetime.datetime.now(tz=None),
-                set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+                set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
             )
             await ctx.author.send(embed=reportEmbedDm3)
             evidence_msg = await client.wait_for('message', check=check, timeout=960)
@@ -266,8 +293,7 @@ async def report(ctx):
                     title="**REPORT**",
                     description="Alright, to post your report, just say `done`. Your report will look like the embed below.",
                     color=0x0064ff,
-                    timestamp=datetime.datetime.now(tz=None),
-                    set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+                    set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
                 )
                 finalEmbed = discord.Embed(
                     title="**SCAM REPORT**",
@@ -342,8 +368,7 @@ async def post(ctx):
                             
                             `hire`, `get hired`, `sell creation`, `advertise game`""",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None),
-            set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
         )
         await ctx.send(embed=startedEmbed)
         await ctx.author.send(embed=firstEmbed)
@@ -365,8 +390,7 @@ async def post(ctx):
                 title="**HIRING SETUP**",
                 description="Please go as much in detail about your hiring post.",
                 color=0x0064ff,
-                timestamp=datetime.datetime.now(tz=None),
-                set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+                set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
             )
 
             await ctx.author.send(embed=firstHireEmbed)
@@ -380,8 +404,7 @@ async def post(ctx):
                     title="**HIRING SETUP**",
                     description="Who are you looking to hire? E.g. scripter, builder etc.",
                     color=0x0064ff,
-                    timestamp=datetime.datetime.now(tz=None),
-                    set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+                    set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
                 )
                 await ctx.author.send(embed=secondHireEmbed)
                 lookingFor_msg = await client.wait_for('message', check=check, timeout=960)
@@ -394,8 +417,7 @@ async def post(ctx):
                         title="**HIRING SETUP**",
                         description="Please go as much into detail on how you're planning to pay the worker(s).",
                         color=0x0064ff,
-                        timestamp=datetime.datetime.now(tz=None),
-                        set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+                        set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
                     )
                     await ctx.author.send(embed=thirdHireEmbed)
                     payment_msg = await client.wait_for('message', check=check, timeout=960)
@@ -410,8 +432,7 @@ async def post(ctx):
                             title="**HIRING SETUP FINISHED**",
                             description="This is the ending result. Say `done` to continue.",
                             color=0x0064ff,
-                            timestamp=datetime.datetime.now(tz=None),
-                            set_footer="Timeout on this message is `16 minutes`. Say `cancel` to cancel prompt."
+                            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
                         )
                         seventhHireEmbed = discord.Embed(
                             title="**HIRING POST**",
@@ -427,8 +448,7 @@ async def post(ctx):
                             
                             """,
                             color=0x0064ff,
-                            timestamp=datetime.datetime.now(tz=None),
-                            set_footer=f"by: {ctx.author}"
+                            set_footer=f"By: {ctx.author}"
                         )
                         await ctx.author.send(embed=sixthHireEmbed)
                         await ctx.author.send(embed=seventhHireEmbed)
@@ -456,8 +476,8 @@ async def suggest(ctx):
             title="**SUGGESTION SETUP**",
             description="What would you like to name your suggestion?",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         await ctx.send(embed=startedEmbed)
         await ctx.author.send(embed=furstEmbed)
         def check(m):
@@ -474,8 +494,8 @@ async def suggest(ctx):
             title="**SUGGESTION SETUP**",
             description="Please write down your suggestion in detail.",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         await ctx.author.send(embed=startEmbed)
         body_message = await client.wait_for('message', check=check, timeout=1000)
         body = body_message.content
@@ -483,15 +503,15 @@ async def suggest(ctx):
             title=f"**FINISHED PRODUCT**",
             description=f"""*Say `done` to post.*""",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         suggestedEmbed1 = discord.Embed(
             title=f"**{title}**",
             description=f"{body}",
             color=0x0064ff,
             timestamp=datetime.datetime.now(tz=None)
-            )
-        suggestedEmbed1.set_footer(text=f"by: {ctx.author}")
+        )
+        suggestedEmbed1.set_footer(text=f"By: {ctx.author}")
         await ctx.author.send(embed=suggestedEmbed2)
         await ctx.author.send(embed=suggestedEmbed1)
         body_message2 = await client.wait_for('message', check=check, timeout=1000)
@@ -520,14 +540,14 @@ async def suggest(ctx):
             title="**SUGGESTION SETUP**",
             description="Please continue the setup in dms.",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         furstEmbed = discord.Embed(
             title="**SUGGESTION SETUP**",
             description="What would you like to name your suggestion?",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         await ctx.send(embed=startedEmbed)
         await ctx.author.send(embed=furstEmbed)
         def check(m):
@@ -544,8 +564,8 @@ async def suggest(ctx):
             title="**SUGGESTION SETUP**",
             description="Please write down your suggestion in detail.",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         await ctx.author.send(embed=startEmbed)
         body_message = await client.wait_for('message', check=check, timeout=1000)
         body = body_message.content
@@ -553,14 +573,14 @@ async def suggest(ctx):
             title=f"**FINISHED PRODUCT**",
             description=f"""*Say `done` to post.*""",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         suggestedEmbed1 = discord.Embed(
             title=f"**{title}**",
             description=f"{body}",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         suggestedEmbed1.set_footer(text=f"by: {ctx.author}")
         await ctx.author.send(embed=suggestedEmbed2)
         await ctx.author.send(embed=suggestedEmbed1)
@@ -590,14 +610,14 @@ async def suggest(ctx):
             title="**SUGGESTION SETUP**",
             description="Please continue the setup in dms.",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)}"
+        )
         furstEmbed = discord.Embed(
             title="**SUGGESTION SETUP**",
             description="What would you like to name your suggestion?",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         await ctx.send(embed=startedEmbed)
         await ctx.author.send(embed=furstEmbed)
         def check(m):
@@ -614,8 +634,8 @@ async def suggest(ctx):
             title="**SUGGESTION SETUP**",
             description="Please write down your suggestion in detail.",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         await ctx.author.send(embed=startEmbed)
         body_message = await client.wait_for('message', check=check, timeout=1000)
         body = body_message.content
@@ -623,14 +643,14 @@ async def suggest(ctx):
             title=f"**FINISHED PRODUCT**",
             description=f"""*Say `done` to post.*""",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         suggestedEmbed1 = discord.Embed(
             title=f"**{title}**",
             description=f"{body}",
             color=0x0064ff,
             timestamp=datetime.datetime.now(tz=None)
-            )
+        )
         suggestedEmbed1.set_footer(text=f"by: {ctx.author}")
         await ctx.author.send(embed=suggestedEmbed2)
         await ctx.author.send(embed=suggestedEmbed1)
@@ -642,14 +662,14 @@ async def suggest(ctx):
                 description="Your suggestion has been posted.",
                 color=0x0064ff,
                 timestamp=datetime.datetime.now(tz=None)
-                )
+            )
             await ctx.author.send(embed=finalEmbed)
             suggestedEmbed = discord.Embed(
                 title=f"**{title}**",
                 description=f"{body}",
                 color=0x0064ff,
                 timestamp=datetime.datetime.now(tz=None)
-                )
+            )
             suggestedEmbed.set_footer(text=f"by: {ctx.author}")
             sent = await suggestionsChannel.send(embed=suggestedEmbed)
             await sent.add_reaction('👍')
@@ -666,8 +686,8 @@ async def suggest(ctx):
             title="**SUGGESTION SETUP**",
             description="What would you like to name your suggestion?",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         await ctx.send(embed=startedEmbed)
         await ctx.author.send(embed=furstEmbed)
         def check(m):
@@ -684,8 +704,8 @@ async def suggest(ctx):
             title="**SUGGESTION SETUP**",
             description="Please write down your suggestion in detail.",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         await ctx.author.send(embed=startEmbed)
         body_message = await client.wait_for('message', check=check, timeout=1000)
         body = body_message.content
@@ -693,14 +713,14 @@ async def suggest(ctx):
             title=f"**FINISHED PRODUCT**",
             description=f"""*Say `done` to post.*""",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         suggestedEmbed1 = discord.Embed(
             title=f"**{title}**",
             description=f"{body}",
             color=0x0064ff,
             timestamp=datetime.datetime.now(tz=None)
-            )
+        )
         suggestedEmbed1.set_footer(text=f"by: {ctx.author}")
         await ctx.author.send(embed=suggestedEmbed2)
         await ctx.author.send(embed=suggestedEmbed1)
@@ -731,13 +751,13 @@ async def suggest(ctx):
             description="Please continue the setup in dms.",
             color=0x0064ff,
             timestamp=datetime.datetime.now(tz=None)
-            )
+        )
         furstEmbed = discord.Embed(
             title="**SUGGESTION SETUP**",
             description="What would you like to name your suggestion?",
             color=0x0064ff,
             timestamp=datetime.datetime.now(tz=None)
-            )
+        )
         await ctx.send(embed=startedEmbed)
         await ctx.author.send(embed=furstEmbed)
         def check(m):
@@ -754,8 +774,8 @@ async def suggest(ctx):
             title="**SUGGESTION SETUP**",
             description="Please write down your suggestion in detail.",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         await ctx.author.send(embed=startEmbed)
         body_message = await client.wait_for('message', check=check, timeout=1000)
         body = body_message.content
@@ -763,8 +783,8 @@ async def suggest(ctx):
             title=f"**FINISHED PRODUCT**",
             description=f"""*Say `done` to post.*""",
             color=0x0064ff,
-            timestamp=datetime.datetime.now(tz=None)
-            )
+            set_footer=f"{datetime.datetime.now(tz=None)} Reply to this message within `16 minutes`. Say `cancel` to cancel this prompt."
+        )
         suggestedEmbed1 = discord.Embed(
             title=f"**{title}**",
             description=f"{body}",
@@ -1240,7 +1260,7 @@ async def whois(ctx, user: discord.Member = None):
         embed.add_field(name="Joined on", value=f"{user.joined_at.strftime(format)} ({delta_joined.days} days)", inline=True)
         embed.add_field(name="Account created on", value=f"{user.created_at.strftime(format)} ({delta_created.days} days)", inline=True)
         embed.add_field(name="Nickname", value=f"{user.nick}", inline=True)
-        embed.add_field(name="Guild Roles", value=", ".join([i.name for i in user.roles]), inline=False)
+        embed.add_field(name="Guild Roles", value=", ".join([i.mention for i in user.roles]), inline=False)
         embed.add_field(name="Guild Permissions", value=", ".join(list(i[0].title() for i in user.guild_permissions if i[1] == True)), inline=False)
         await ctx.send(embed=embed)
 
